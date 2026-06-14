@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kaveri Interiors</title>
+<meta name="description" content="Kaveri Interiors — warm, boho-modern interior design, 3D visualization and turnkey solutions by a civil engineer & interior designer in Hyderabad." />
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="loading">
+<!-- ===== PRELOADER ===== -->
+<div id="preloader">
+  <div class="pl-mark"><b>Kaveri</b><span>Interiors</span></div>
+  <div class="pl-bar"><i></i></div>
+</div>
+<script>window.addEventListener('load',function(){setTimeout(function(){document.body.classList.remove('loading');var p=document.getElementById('preloader');if(p)p.classList.add('done');},700);});setTimeout(function(){document.body.classList.remove('loading');var p=document.getElementById('preloader');if(p)p.classList.add('done');},4000);</script>
+<div id="progress"></div>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar" id="topbar">
+  <div class="tb-inner">
+    <div class="tb-left">
+      <a class="tb-item" href="tel:+910000000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+91 00000 00000</a>
+      <a class="tb-item" href="mailto:hello@kaveriinteriors.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>hello@kaveriinteriors.com</a>
+      <span class="tb-item tb-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Hyderabad, India</span>
+    </div>
+    <div class="tb-right">
+      <span class="tb-follow">Follow us</span>
+      <div class="topbar-social" data-socials></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <a href="index.html" class="brand">
+    <img data-brand-logo alt="Kaveri Interiors logo">
+    <span class="brand-name">Kaveri<small>Interiors</small></span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="workshop.html">Workshop</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
+    <a class="nav-cta" onclick="openQuote()">Get a Free Quote</a>
+  </div>
+  <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header id="top">
+  <div class="hero-bg" id="heroBg"><div class="hero-vignette"></div></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Civil Engineer &amp; Interior Designer</div>
+    <h1>Transform your space<br>into a <em>refined retreat</em></h1>
+    <p><span>Space Planning</span> • <span>Material Selection</span> • <span>3D Visualization</span></p>
+    <div class="hero-cues">
+      <a class="btn btn-primary" onclick="openQuote()">Get a Free Quote</a>
+      <a class="btn btn-ghost-light" href="gallery.html">View My Work</a>
+    </div>
+  </div>
+  <div class="scrolldown">Scroll</div>
+</header>
+
+<div class="marquee"><div class="marquee-track">
+  <span>Modular Kitchens</span><span>Bedrooms</span><span>3D Visualization</span><span>Living &amp; Hall</span><span>Space Planning</span><span>Wardrobes</span><span>Turnkey</span><span>Dining</span><span>Modern Minimal</span>
+  <span>Modular Kitchens</span><span>Bedrooms</span><span>3D Visualization</span><span>Living &amp; Hall</span><span>Space Planning</span><span>Wardrobes</span><span>Turnkey</span><span>Dining</span><span>Modern Minimal</span>
+</div></div>
+
+<!-- ===== EDITORIAL STATEMENT ===== -->
+<section class="statement">
+  <div class="wrap">
+    <div class="st-eyebrow reveal">Our philosophy</div>
+    <h2 class="statement-words reveal">Space<span class="dot">.</span> Light<span class="dot">.</span> <em>Living</em><span class="dot">.</span></h2>
+    <p class="reveal">Every home tells a story. We design with intention — balancing proportion, natural light and honest materials to create calm, characterful spaces that feel unmistakably yours.</p>
+    <div class="st-rule reveal"></div>
+  </div>
+</section>
+
+<!-- ===== MEET OUR FOUNDER ===== -->
+<section class="founder">
+  <div class="wrap founder-grid">
+    <div class="founder-photo reveal-l">
+      <div class="photo-shell"><img data-founder-photo alt="Kaveri — founder of Kaveri Interiors"></div>
+      <span class="founder-badge"><b>40+</b><small>Spaces designed</small></span>
+    </div>
+    <div class="founder-text stagger">
+      <h2>Meet our founder<span class="founder-line"></span></h2>
+      <div class="founder-name">Kaveri</div>
+      <div class="founder-role">Interior Designer &amp; Civil Engineer</div>
+      <p>I am a civil engineer and interior designer dedicated to crafting functional, aesthetically refined spaces — with expertise in space planning, material selection and 3D visualization, translating design concepts into practical, elegant solutions.</p>
+      <div class="founder-tags">
+        <span>Civil Engineer</span><span>Interior Designer</span><span>3D Visualization</span><span>Residential &amp; Commercial</span><span>Hyderabad, India</span>
+      </div>
+      <div class="founder-cta">
+        <a class="btn btn-primary" href="about.html">More about me</a>
+        <a class="btn btn-ghost-light" onclick="openQuote()">Work with us</a>
+      </div>
+      <div class="founder-social" data-socials aria-label="Follow Kaveri Interiors"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES TEASER ===== -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">What we do</div>
+      <h2>Our <em>services</em></h2>
+      <div class="sub">From first concept to the final styled handover — tailored to your lifestyle, space and budget. Tap any service to see what's included.</div>
+    </div>
+    <div class="serv-grid reveal stagger" id="servGrid"></div>
+    <div style="text-align:center;margin-top:46px" class="reveal">
+      <a class="btn btn-primary" href="services.html">Explore all services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY CHOOSE US + COUNTERS ===== -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Why choose us</div>
+      <h2>Excellence in <em>every corner</em></h2>
+      <div class="sub">A designer's eye, an engineer's precision, and a genuinely personal process.</div>
+    </div>
+    <div class="why-grid reveal stagger">
+      <div class="why-card"><div class="num" data-count="40" data-suffix="+">0</div><div class="lbl">Spaces designed</div></div>
+      <div class="why-card"><div class="num" data-count="5" data-suffix="+">0</div><div class="lbl">Years freelance</div></div>
+      <div class="why-card"><div class="num" data-count="6" data-suffix="">0</div><div class="lbl">Design tools mastered</div></div>
+      <div class="why-card"><div class="num" data-count="100" data-suffix="%">0</div><div class="lbl">Bespoke design</div></div>
+    </div>
+    <div class="why-feats reveal stagger">
+      <div class="why-feat"><b>Engineer + Designer</b><p>A civil-engineering background means designs are structurally sound and build-ready, not just beautiful renders.</p></div>
+      <div class="why-feat"><b>Photoreal 3D Visualization</b><p>See your space in lifelike 3D before any work begins, so every decision is made with confidence.</p></div>
+      <div class="why-feat"><b>Personal, hands-on process</b><p>You work directly with the designer at every stage — no handoffs, no templates, no copy-paste rooms.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS (startup-style how it works) ===== -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">How it works</div>
+      <h2>A simple, <em>guided process</em></h2>
+      <div class="sub">Four clear steps from first hello to a fully styled handover.</div>
+    </div>
+    <div class="steps-grid reveal stagger">
+      <div class="step"><span class="step-no"></span><b>Discovery</b><p>We talk through how you live, your style, your space and your budget.</p></div>
+      <div class="step"><span class="step-no"></span><b>Concept &amp; 3D</b><p>Mood boards and photoreal 3D views so you can see it before it's built.</p></div>
+      <div class="step"><span class="step-no"></span><b>Execution</b><p>Build-ready detailing, vendor coordination and on-site quality checks.</p></div>
+      <div class="step"><span class="step-no"></span><b>Styling &amp; handover</b><p>Final décor and styling, then a calm, finished space that's ready to live in.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Kind words</div>
+      <h2>What clients <em>say</em></h2>
+    </div>
+    <div class="tst-slider reveal-zoom" id="tstSlider">
+      <div class="tst-track" id="tstTrack">
+        <div class="tst-slide"><div class="tst"><div class="stars">★★★★★</div><p>Kaveri turned our flat into the calmest, warmest place we’ve ever lived. It finally feels like us.</p><div class="who"><b>[Client name]</b> · Homeowner</div></div></div>
+        <div class="tst-slide"><div class="tst"><div class="stars">★★★★★</div><p>The boho-pastel palette is exactly what I dreamed of but couldn’t put into words. Beautiful work.</p><div class="who"><b>[Client name]</b> · Apartment</div></div></div>
+        <div class="tst-slide"><div class="tst"><div class="stars">★★★★★</div><p>Hands-on from start to finish, on budget, and the styling at the end was the perfect finishing touch.</p><div class="who"><b>[Client name]</b> · Villa</div></div></div>
+      </div>
+      <div class="tst-arrows">
+        <button class="tst-arrow" onclick="tstGo(-1)" aria-label="Previous">‹</button>
+        <button class="tst-arrow" onclick="tstGo(1)" aria-label="Next">›</button>
+      </div>
+    </div>
+    <div class="tst-dots" id="tstDots"></div>
+  </div>
+</section>
+
+<!-- ===== REELS ===== -->
+<section id="reels">
+  <div class="wrap">
+    <div class="reels-head reveal">
+      <div>
+        <div class="rh-tag">Watch &amp; get inspired</div>
+        <h2>Reels from the <em>studio</em></h2>
+      </div>
+      <a class="rh-handle" href="https://www.instagram.com/interiorsbykaveri/" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        @interiorsbykaveri
+      </a>
+    </div>
+    <div class="reels-grid reveal stagger" id="reelsGrid"></div>
+  </div>
+</section>
+
+<!-- ===== CONNECT / SOCIAL ===== -->
+<section id="connect">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="sec-tag">Stay in touch</div>
+      <h2>Let's <em>connect</em></h2>
+      <div class="sub">Follow along for fresh designs, mood boards and behind-the-scenes from the studio.</div>
+    </div>
+    <div class="connect-grid reveal stagger" id="connectGrid"></div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section id="news">
+  <div class="wrap reveal">
+    <div class="sec-tag">Stay inspired</div>
+    <h2>Design tips, in your inbox</h2>
+    <p>Subscribe for boho-modern ideas, palettes and behind-the-scenes from the studio.</p>
+    <div class="news-form">
+      <input type="email" id="newsEmail" placeholder="Your email address">
+      <button class="btn btn-primary" onclick="subscribe()">Subscribe</button>
+    </div>
+    <div class="news-ok" id="newsOk"></div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band">
+  <div class="wrap reveal">
+    <div class="sec-tag">Ready when you are</div>
+    <h2>Let's design a space <em>you'll love</em></h2>
+    <p>Share a few details about your project and we'll get back within 24 hours with next steps.</p>
+    <div class="hero-cues">
+      <a class="btn btn-primary" onclick="openQuote()">Get a Free Quote</a>
+      <a class="btn btn-ghost-light" href="contact.html">Contact the studio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <img class="foot-logo" data-foot-logo alt="Kaveri Interiors">
+      <p>Civil engineer &amp; interior designer crafting functional, aesthetically refined spaces — space planning, material selection and 3D visualization.</p>
+      <div class="foot-soc" data-socials></div>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Interior Design</a></li>
+        <li><a href="services.html">Styling &amp; Décor</a></li>
+        <li><a href="services.html">Turnkey Projects</a></li>
+        <li><a href="services.html">Renovation</a></li>
+        <li><a href="services.html">Consultation</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@kaveriinteriors.com">hello@kaveriinteriors.com</a></li>
+        <li><a href="tel:+910000000000">+91 00000 00000</a></li>
+        <li><a href="https://www.instagram.com/interiorsbykaveri/" target="_blank" rel="noopener">@interiorsbykaveri</a></li>
+        <li><a onclick="openQuote()">Get a free quote</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">© <span id="yr"></span> <b>Kaveri Interiors</b> · All rights reserved.</div>
+</footer>
+
+<!-- floating buttons -->
+<a class="fab wa" href="https://wa.me/919XXXXXXXXX?text=Hi%20Kaveri%2C%20I%27d%20like%20to%20talk%20about%20an%20interior%20project" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg></a>
+<button class="fab totop" id="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<!-- SERVICE MODAL -->
+<div class="modal" id="servModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('servModal')">×</button>
+    <div class="m-tag">Service</div>
+    <h3 id="smTitle"></h3>
+    <p id="smBody"></p>
+    <div class="sm-feat-label">What's included</div>
+    <ul id="smFeatures" class="sm-features"></ul>
+    <button class="btn btn-dark" onclick="closeModal('servModal');openQuote()">Get a quote for this</button>
+  </div>
+</div>
+
+<!-- QUOTE MODAL -->
+<div class="modal" id="quoteModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('quoteModal')">×</button>
+    <h3>Get a free quote</h3>
+    <div class="small">Share a few details and we’ll get back within 24 hours.</div>
+    <div class="field"><input id="qName" placeholder="Your name"></div>
+    <div class="field"><input id="qPhone" placeholder="Phone number"></div>
+    <div class="field"><input id="qLoc" placeholder="Property location"></div>
+    <div class="field">
+      <select id="qType">
+        <option value="">Project type…</option>
+        <option>Full home interior</option>
+        <option>Single room</option>
+        <option>Renovation</option>
+        <option>Styling only</option>
+        <option>Consultation</option>
+      </select>
+    </div>
+    <label class="check"><input type="checkbox" id="qWa" checked> Send me updates on WhatsApp</label>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendQuote('quote')">Send my request</button>
+    <div class="form-msg" id="quoteResult"></div>
+  </div>
+</div>
+
+<script src="js/assets.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

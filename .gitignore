@@ -1,0 +1,25 @@
+# ---- dependencies ----
+node_modules/
+
+# ---- runtime / local data ----
+submissions.json
+*.log
+npm-debug.log*
+
+# ---- scratch / temp (image processing, screenshots) ----
+.thumbs/
+.shot/
+
+# ---- large source image masters ----
+# Only the optimized, web-ready images in assets/opt/ are committed & deployed.
+# The full-resolution originals stay local (re-run scripts to regenerate opt/).
+/assets/*
+!/assets/opt/
+
+# ---- legacy / archived (old single-page build, spreadsheets, unused SVGs) ----
+legacy/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
