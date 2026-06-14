@@ -496,12 +496,17 @@
     .wrap{padding:0 20px}
     .topbar{display:none}
     nav,nav.scrolled{padding:12px 20px;top:0}
-    .nav-links{position:fixed;inset:0;background:var(--cream);flex-direction:column;justify-content:center;gap:26px;transform:translateX(100%);transition:transform .4s}
+    /* a transform-animation & backdrop-filter make nav a "containing block",
+       which traps the fixed full-screen menu inside the bar — disable on mobile */
+    nav{animation:none}
+    nav.scrolled{backdrop-filter:none;-webkit-backdrop-filter:none}
+    .nav-links{position:fixed;inset:0;width:100vw;height:100dvh;background:var(--cream);flex-direction:column;justify-content:center;gap:26px;transform:translateX(100%);transition:transform .4s;z-index:140;overflow-y:auto}
     .nav-links.open{transform:none}
     .nav-links.open a{color:var(--black) !important;text-shadow:none;font-size:19px;font-family:var(--serif)}
     .nav-links.open .nav-cta{background:var(--gold);color:var(--black) !important;border-color:var(--gold)}
     .nav-links a{font-size:19px;font-family:var(--serif)}
     .burger{display:flex}
+    body:has(.nav-links.open) .fab{opacity:0;pointer-events:none}
     .about-panel,.des-grid,.contact-grid{grid-template-columns:1fr;gap:32px}
     .about-panel{padding:34px 24px}
     .about-panel::before{display:none}
