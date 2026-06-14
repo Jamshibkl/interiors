@@ -1,6 +1,43 @@
 /* Generates the inner pages from one shared shell so nav/footer/modals stay
    identical across the site. Run from the project root: node scripts/build-pages.js  */
 const fs = require('fs');
+const path = require('path');
+
+// Output directory for Vercel/static hosting
+const OUT_DIR = 'public';
+
+function ensureOutDir() {
+  if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
+}
+
+function copyFolderRecursiveSync(src, dest) {
+  const exists = fs.existsSync(src);
+  const stats = exists && fs.statSync(src);
+  const isDirectory = exists && stats.isDirectory();
+  if (isDirectory) {
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    fs.readdirSync(src).forEach(function(childItemName) {
+      copyFolderRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+    });
+  } else if (exists) {
+    // copy file
+    fs.copyFileSync(src, dest);
+  }
+}
+
+function copyStatics() {
+  // copy top-level static folders/files that the site expects
+  const statics = ['css', 'js', 'assets', 'favicon.png', 'apple-touch-icon.png', 'index.html'];
+  statics.forEach(s => {
+    const src = path.join(process.cwd(), s);
+    const dest = path.join(process.cwd(), OUT_DIR, path.basename(s));
+    if (fs.existsSync(src)) {
+      // remove any previous copy
+      try { fs.rmSync(dest, { recursive: true, force: true }); } catch (e) {}
+      copyFolderRecursiveSync(src, dest);
+    }
+  });
+}
 
 const NAV_ITEMS = [
   ['index.html', 'Home', 'home'],
@@ -187,9 +224,15 @@ ${quoteModal}${extraModals}
 </body>
 </html>
 `;
-  fs.writeFileSync(file, html, 'utf8');
-  console.log('wrote', file);
+  ensureOutDir();
+  const outPath = path.join(OUT_DIR, file);
+  fs.writeFileSync(outPath, html, 'utf8');
+  console.log('wrote', outPath);
 }
+
+// prepare output dir and copy statics so Vercel finds `public/`
+ensureOutDir();
+copyStatics();
 
 /* =========================== ABOUT =========================== */
 page({
