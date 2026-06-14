@@ -145,10 +145,12 @@ if(stage && gg){
 
   // ---- position every card in 3D space relative to the active one ----
   function place(){
+    const spread=Math.min(320, Math.max(150, innerWidth*0.34)); // responsive fan-out
+    const depth=Math.min(185, spread*0.6);
     cards.forEach((el,i)=>{
       let o=i-active; if(o>n/2) o-=n; if(o<-n/2) o+=n;
       const a=Math.abs(o);
-      const tx=o*320, tz=-a*185, ry=-o*43, sc=1-a*0.15;
+      const tx=o*spread, tz=-a*depth, ry=-o*43, sc=1-a*0.15;
       const op=a===0?1:a===1?0.92:a===2?0.42:0;
       el.style.transform=`translate(-50%,-50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
       el.style.opacity=op;
@@ -167,6 +169,7 @@ if(stage && gg){
   if($('r3Prev')) $('r3Prev').onclick=prev;
   room3d.addEventListener('mouseenter',()=>clearInterval(timer));
   room3d.addEventListener('mouseleave',restart);
+  addEventListener('resize',place); // keep the 3D fan-out responsive
   // keyboard + swipe
   const vp=room3d.querySelector('.room3d-viewport');
   let sx=0;
