@@ -5,9 +5,25 @@
    ====================================================================== */
 
 /* ====== CONFIG — edit these ====== */
-const WA_NUMBER = "919XXXXXXXXX";   // WhatsApp number, intl format, no +
+const WA_NUMBER = "919000470679";   // WhatsApp number, intl format, no +
 const YOUTUBE_ID = "YOUTUBE_ID";    // set to a specific video id to embed the tour inline
 const YOUTUBE_CHANNEL = "https://www.youtube.com/@kaveriinteriors";
+
+/* EmailJS — dashboard.emailjs.com.
+   PUBLIC_KEY ships to the browser by design and CANNOT be hidden. Locking it
+   to our domain (Account > Security > Allowed Origins) is a paid feature, so
+   on the free plan any origin may send using this key. The exposure is capped
+   by the 200/month quota — watch Email History for sends we didn't trigger,
+   and rotate the key in the dashboard if it's ever abused.
+   The recipient is NOT set here — it's hardcoded in each template's
+   "To Email" field on the dashboard, so it can't be tampered with client-side.
+   Template markup lives in scripts/emailjs-template-*.html */
+const EMAILJS = {
+  PUBLIC_KEY:       "xdZmDgnHUwnZYnRmy",     // Account > General > Public Key
+  SERVICE_ID:       "service_icwrh3t",     // Email Services > (your service)
+  TEMPLATE_QUOTE:   "template_cq6i7pi",    // "QUOTE" — free-quote modal
+  TEMPLATE_CONTACT: "template_mknsfbn"     // "Contact Us" — contact page form
+};
 /* ================================= */
 
 const ASSET = window.ASSET || {};
@@ -297,7 +313,7 @@ if(cg){
     el.className='career-card';
     el.style.borderTopColor=accent;
     el.innerHTML=`<b>${c.role}</b><span class="career-type">${c.type}</span><p>${c.desc}</p>
-      <a class="career-apply" href="mailto:hello@kaveriinteriors.com?subject=${encodeURIComponent('Application: '+c.role)}">Apply →</a>`;
+      <a class="career-apply" href="mailto:interiorsbykaveri@gmail.com?subject=${encodeURIComponent('Application: '+c.role)}">Apply →</a>`;
     cg.appendChild(el);
   });
 }
@@ -419,16 +435,32 @@ document.querySelectorAll('[data-socials]').forEach(box=>{
 })();
 
 /* ---------- enquiry / quote submission ---------- */
+/* Single send path for both forms. Swapping EmailJS for a real backend later
+   means rewriting only this function — callers stay untouched. */
 async function postSubmission(src, payload){
-  const endpoint = src === 'quote' ? '/api/quote' : '/api/contact';
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || 'Submission failed.');
-  return data;
+  if (typeof emailjs === 'undefined') throw new Error('EmailJS SDK not loaded.');
+  if (EMAILJS.PUBLIC_KEY.startsWith('YOUR_')) throw new Error('EmailJS not configured.');
+
+  const isQuote  = src === 'quote';
+  const template = isQuote ? EMAILJS.TEMPLATE_QUOTE : EMAILJS.TEMPLATE_CONTACT;
+  if (template.startsWith('YOUR_')) throw new Error('EmailJS template not configured for: ' + src);
+
+  emailjs.init({ publicKey: EMAILJS.PUBLIC_KEY });
+
+  // Keys here must match the {{placeholders}} in the matching template file.
+  const params = {
+    name:           payload.name,
+    phone:          payload.phone,
+    location:       payload.location    || '—',
+    project_type:   payload.projectType || '—',
+    whatsapp_optin: payload.whatsappOptIn ? 'Yes' : 'No',
+    page_url:       window.location.href,
+    submitted_at:   new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+  };
+  // Only the contact form has a message box; the quote template has no {{message}}.
+  if (!isQuote) params.message = payload.message || '—';
+
+  return emailjs.send(EMAILJS.SERVICE_ID, template, params);
 }
 function sendWhatsApp(name, phone, loc, type, msg){
   let text = `Hi Kaveri! I'd like a quote.%0A%0AName: ${name}%0APhone: ${phone}`;
@@ -445,14 +477,25 @@ async function sendQuote(src){
   if(!name||!phone){alert('Please add your name and phone number.');return;}
   const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa};
   const resultEl = $(src==='quote' ? 'quoteResult' : 'contactResult');
+  // The submit button always sits immediately before the message div in both forms.
+  const btn = resultEl ? resultEl.previousElementSibling : null;
+  const btnLabel = btn ? btn.textContent : '';
+  if(btn && btn.disabled) return;            // already in flight — ignore double-click
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  if(resultEl){resultEl.textContent='';resultEl.className='form-msg';}
+
   try{
     await postSubmission(src,payload);
     if(resultEl){resultEl.textContent='Thanks! Your request is received and will be responded to within 24 hours.';resultEl.className='form-msg success';}
-    if(src==='quote') closeModal('quoteModal');
     ['Name','Phone','Loc','Type'].forEach(k=>{const el=$((src==='quote'?'q':'c')+k);if(el)el.value='';});
     if(src==='contact' && $('cMsg')) $('cMsg').value='';
+    // Hold the modal open briefly so the success line is actually readable.
+    if(src==='quote') setTimeout(()=>closeModal('quoteModal'),1600);
   }catch(error){
-    if(resultEl){resultEl.textContent='Backend unavailable. Sending via WhatsApp instead.';resultEl.className='form-msg error';}
+    console.error('Enquiry send failed:',error);
+    if(resultEl){resultEl.textContent='Could not send just now — opening WhatsApp instead.';resultEl.className='form-msg error';}
     sendWhatsApp(name,phone,loc,type,msg);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=btnLabel;}
   }
 }

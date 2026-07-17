@@ -1,0 +1,87 @@
+<!--
+  ============================================================================
+  TEMPLATE 1 of 2 — QUOTE  ("Get a free quote" modal, every page)
+  Reference copy only. Not imported, not built, not deployed.
+
+  Paste the markup below into:
+    dashboard.emailjs.com > Email Templates > Create New Template > Content
+    (click the "Code Editor" / <> toggle first, or it will escape the HTML)
+
+  Then set these on the same screen:
+    To email    your own address, typed literally (NOT {{to_email}} — a
+                placeholder here would let anyone redirect your mail)
+    From name   Kaveri Interiors Website
+    Subject     New quote request — {{name}} ({{project_type}})
+    Reply To    your own address, or leave blank. Must be an email, never a name.
+
+  Copy the resulting Template ID into EMAILJS.TEMPLATE_QUOTE in js/app.js.
+
+  Placeholders available (sent by postSubmission() in js/app.js):
+    {{name}} {{phone}} {{location}} {{project_type}}
+    {{whatsapp_optin}} {{submitted_at}} {{page_url}}
+  NOTE: there is no {{message}} here — the quote modal has no message box.
+  ============================================================================
+-->
+<div style="margin:0;padding:24px;background:#f4efe9;font-family:'Segoe UI',Helvetica,Arial,sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e6ddd2;">
+
+    <tr>
+      <td style="background:#2e2620;padding:22px 28px;">
+        <div style="color:#c79a63;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Kaveri Interiors</div>
+        <div style="color:#ffffff;font-size:21px;font-weight:600;padding-top:4px;">New quote request</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:26px 28px 8px;">
+        <p style="margin:0 0 18px;color:#5c5149;font-size:14px;line-height:1.5;">
+          Someone requested a quote from the website. They are expecting a reply within 24 hours.
+        </p>
+
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="font-size:14px;color:#2e2620;">
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;width:38%;">Name</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;font-weight:600;">{{name}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Phone</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;font-weight:600;">
+              <a href="tel:{{phone}}" style="color:#a5763f;text-decoration:none;">{{phone}}</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Property location</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{location}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Project type</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{project_type}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">WhatsApp updates</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{whatsapp_optin}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;color:#8a7d70;">Submitted</td>
+            <td style="padding:9px 0;color:#8a7d70;">{{submitted_at}}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:8px 28px 30px;">
+        <a href="tel:{{phone}}" style="display:inline-block;background:#b5854a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 26px;border-radius:6px;">
+          Call {{name}}
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="background:#faf7f3;border-top:1px solid #eee5db;padding:14px 28px;color:#9b8f83;font-size:11px;">
+        Quote modal · sent automatically from {{page_url}}
+      </td>
+    </tr>
+
+  </table>
+</div>
