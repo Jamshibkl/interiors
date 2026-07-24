@@ -91,7 +91,7 @@ const footer = `
   <div class="wrap foot-grid">
     <div>
       <img class="foot-logo" data-foot-logo alt="Kaveri Interiors">
-      <p>Civil engineer &amp; interior designer crafting functional, aesthetically refined spaces — space planning, material selection and 3D visualization.</p>
+      <p>Civil engineer &amp; interior designer crafting functional, aesthetically refined spaces, space planning, material selection and 3D visualization.</p>
       <div class="foot-soc" data-socials></div>
     </div>
     <div>
@@ -188,7 +188,7 @@ function page({file, title, desc, active, hero, body, extraModals=''}) {
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="loading">
@@ -196,7 +196,7 @@ function page({file, title, desc, active, hero, body, extraModals=''}) {
   <div class="pl-mark"><b>Kaveri</b><span>Interiors</span></div>
   <div class="pl-bar"><i></i></div>
 </div>
-<script>window.addEventListener('load',function(){setTimeout(function(){document.body.classList.remove('loading');var p=document.getElementById('preloader');if(p)p.classList.add('done');},700);});setTimeout(function(){document.body.classList.remove('loading');var p=document.getElementById('preloader');if(p)p.classList.add('done');},4000);</script>
+<script>(function(){var p=document.getElementById('preloader');function done(){document.body.classList.remove('loading');if(p)p.classList.add('done');}var seen=false;try{seen=!!sessionStorage.getItem('kbIntroSeen');sessionStorage.setItem('kbIntroSeen','1');}catch(e){}if(seen){document.body.classList.remove('loading');if(p&&p.parentNode)p.parentNode.removeChild(p);return;}window.addEventListener('load',function(){setTimeout(done,700);});setTimeout(done,4000);})();</script>
 <div id="progress"></div>
 <div class="topbar" id="topbar">
   <div class="tb-inner">
@@ -238,26 +238,26 @@ copyStatics();
 /* =========================== ABOUT =========================== */
 page({
   file: 'about.html',
-  title: 'About — Kaveri Interiors',
-  desc: 'Meet Kaveri — civil engineer and interior designer behind a calm, boho-modern design studio in Hyderabad.',
+  title: 'About, Kaveri Interiors',
+  desc: 'Meet Kaveri, civil engineer and interior designer behind a calm, boho-modern design studio in Hyderabad.',
   active: 'about',
-  hero: { eyebrow: 'About the studio', h1: 'Where engineering meets <em>elegant design</em>', p: 'A hands-on, one-to-one design practice rooted in how you actually live.', bg: 'heroAbout', crumb: 'About' },
+  hero: { eyebrow: 'About the studio', h1: 'Engineering meets <em>design</em>', p: 'A hands-on, one-to-one design practice rooted in how you actually live.', bg: 'heroAbout', crumb: 'About' },
   body: `
 <section class="founder">
   <div class="wrap founder-grid">
-    <div class="founder-photo reveal-l">
-      <div class="photo-shell"><img data-founder-photo alt="Kaveri — founder of Kaveri Interiors"></div>
-      <span class="founder-badge"><b>40+</b><small>Spaces designed</small></span>
-    </div>
-    <div class="founder-text stagger">
-      <h2>Meet our founder<span class="founder-line"></span></h2>
+    <div class="founder-lead reveal-l">
+      <div class="founder-eyebrow">Meet the founder</div>
       <div class="founder-name">Kaveri</div>
-      <div class="founder-role">Interior Designer &amp; Civil Engineer</div>
-      <p>I am a civil engineer and interior designer dedicated to crafting functional, aesthetically refined spaces. With expertise in space planning, material selection, and 3D visualization, I translate design concepts into practical, elegant solutions.</p>
-      <p>My freelance experience has strengthened my ability to understand client needs, manage projects efficiently, and deliver high-quality designs that balance creativity and functionality — every project approached with the belief that a space should feel as good to live in as it looks.</p>
-      <div class="founder-tags">
-        <span>Civil Engineer</span><span>Interior Designer</span><span>3D Visualization</span><span>Residential &amp; Commercial</span><span>Hyderabad, India</span>
-      </div>
+      <div class="founder-role"><span class="founder-rule"></span>Interior Designer &amp; Architect</div>
+    </div>
+    <div class="founder-body reveal-r">
+      <p>I design homes and commercial spaces from the structure outward, planning how a room is used before deciding how it looks, then carrying that logic through materials, detailing and the drawings a contractor builds from.</p>
+      <dl class="founder-spec">
+        <div><dt>Trained in</dt><dd>Architecture &amp; interior design</dd></div>
+        <div><dt>Practice</dt><dd>Space planning &middot; Material selection &middot; 3D visualization</dd></div>
+        <div><dt>Projects</dt><dd>Residential &amp; commercial</dd></div>
+        <div><dt>Based in</dt><dd>Hyderabad, India</dd></div>
+      </dl>
       <div class="founder-quote">A well-designed space should feel as good to live in as it looks.</div>
       <div class="founder-cta">
         <a class="btn btn-primary" onclick="openQuote()">Work with us</a>
@@ -274,8 +274,8 @@ page({
       <div class="sec-tag">My approach</div>
       <h3>Design that works as well as it looks</h3>
       <div class="role">Space planning · Material selection · 3D visualization</div>
-      <p>Every project starts with how a space will actually be used — then layers in materials, light and proportion until it feels both refined and effortless to live in.</p>
-      <p>As a civil engineer, I bring structural understanding to the design, so concepts stay practical and build-ready — not just pretty pictures.</p>
+      <p>Every project starts with how a space will actually be used, then layers in materials, light and proportion until it feels both refined and effortless to live in.</p>
+      <p>As a civil engineer, I bring structural understanding to the design, so concepts stay practical and build-ready, not just pretty pictures.</p>
       <div class="des-social" data-socials aria-label="Follow Kaveri Interiors"></div>
     </div>
   </div>
@@ -295,12 +295,12 @@ page({
       <div class="why-card"><div class="num" data-count="100" data-suffix="%">0</div><div class="lbl">Bespoke design</div></div>
     </div>
     <div class="ws-grid reveal stagger">
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/8469988/pexels-photo-8469988.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Engineer + Designer</h3><p>A civil-engineering background means designs are structurally sound and build-ready, not just beautiful renders.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/10145678/pexels-photo-10145678.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Photoreal 3D Visualization</h3><p>See your space in lifelike 3D before any work begins, so every decision is made with confidence.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/4977410/pexels-photo-4977410.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Personal, hands-on process</h3><p>You work directly with the designer at every stage — no handoffs, no templates, no copy-paste rooms.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/33175667/pexels-photo-33175667.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Budget-honest design</h3><p>The scheme is shaped around your budget from day one, with clear choices and no surprises later.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/30754467/pexels-photo-30754467.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Residential &amp; commercial</h3><p>From homes and bedrooms to cafés and salons — versatile design across project types.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/7579192/pexels-photo-7579192.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>On-time turnkey delivery</h3><p>End-to-end coordination and quality checks through to a fully finished, styled handover.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/site.jpg')"></div></div><div class="ws-body"><h3>Engineer + Designer</h3><p>A civil-engineering background means designs are structurally sound and build-ready, not just beautiful renders.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/bedroomW.jpg')"></div></div><div class="ws-body"><h3>Photoreal 3D Visualization</h3><p>See your space in lifelike 3D before any work begins, so every decision is made with confidence.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/handover.jpg')"></div></div><div class="ws-body"><h3>Personal, hands-on process</h3><p>You work directly with the designer at every stage, no handoffs, no templates, no copy-paste rooms.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/initial-consultancy.jpg')"></div></div><div class="ws-body"><h3>Budget-honest design</h3><p>The scheme is shaped around your budget from day one, with clear choices and no surprises later.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/salon.jpg')"></div></div><div class="ws-body"><h3>Residential &amp; commercial</h3><p>From homes and bedrooms to cafés and salons, versatile design across project types.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/styling.jpg')"></div></div><div class="ws-body"><h3>On-time turnkey delivery</h3><p>End-to-end coordination and quality checks through to a fully finished, styled handover.</p></div></div>
     </div>
   </div>
 </section>
@@ -310,11 +310,11 @@ page({
     <div class="sec-head center reveal">
       <div class="sec-tag">Our footprint</div>
       <h2>Where we've <em>worked</em></h2>
-      <div class="sub">Projects and consultations across South India — based in Hyderabad, available beyond.</div>
+      <div class="sub">Projects and consultations across South India, based in Hyderabad, available beyond.</div>
     </div>
     <div class="worked-grid reveal">
       <div class="worked-map">
-        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Kaveri Interiors — Hyderabad" src="https://www.google.com/maps?q=Hyderabad,Telangana,India&z=11&output=embed"></iframe>
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Kaveri Interiors, Hyderabad" src="https://www.google.com/maps?q=Hyderabad,Telangana,India&z=11&output=embed"></iframe>
       </div>
     </div>
   </div>
@@ -325,10 +325,10 @@ page({
 /* =========================== SERVICES =========================== */
 page({
   file: 'services.html',
-  title: 'Services — Kaveri Interiors',
-  desc: 'Residential, commercial, architecture, construction, 3D visualization, renovation and consultation — full-service interior design.',
+  title: 'Services, Kaveri Interiors',
+  desc: 'Residential, commercial, architecture, construction, 3D visualization, renovation and consultation, full-service interior design.',
   active: 'services',
-  hero: { eyebrow: 'What we do', h1: 'Interior design, <em>end to end</em>', p: 'From first concept to the final styled handover — tap any service to see exactly what’s included.', bg: 'heroServices', crumb: 'Services' },
+  hero: { eyebrow: 'What we do', h1: 'Interior design, <em>end to end</em>', p: 'From first concept to the final styled handover, tap any service to see exactly what’s included.', bg: 'heroServices', crumb: 'Services' },
   extraModals: servModal,
   body: `
 <section id="services">
@@ -354,12 +354,12 @@ page({
       <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/site.jpg" alt="Site measurement and survey"></div><div class="ptl-card"><span class="ptl-no">02</span><h3>Site Measurement &amp; Survey</h3><p>Detailed on-site measurements and a study of the space so every plan is built on accurate data.</p></div></div>
       <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/moodboard.jpg" alt="Concept and mood boards" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">03</span><h3>Concept &amp; Mood Boards</h3><p>Themes, colour palettes and references that set a clear visual direction for your space.</p></div></div>
       <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/spaceplanning.jpg" alt="Space planning with floor plans" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">04</span><h3>Space Planning</h3><p>Functional layouts and furniture arrangement worked out for flow, comfort and everyday use.</p></div></div>
-      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/3dvisualization.jpg" alt="3D visualization render" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">05</span><h3>3D Visualization</h3><p>Photoreal 3D views so you can see, refine and approve the design before any work begins.</p></div></div>
-      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/materialselection.jpg" alt="Material and finish selection" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">06</span><h3>Material &amp; Finish Selection</h3><p>Finalising colours, materials, textures and finishes — balanced for beauty, durability and budget.</p></div></div>
+      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/bedroomW.jpg" alt="Photoreal 3D render of a finished bedroom" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">05</span><h3>3D Visualization</h3><p>Photoreal 3D views so you can see, refine and approve the design before any work begins.</p></div></div>
+      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/materialselection.jpg" alt="Material and finish selection" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">06</span><h3>Material &amp; Finish Selection</h3><p>Finalising colours, materials, textures and finishes, balanced for beauty, durability and budget.</p></div></div>
       <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/drawingsboq.jpg" alt="Detailed drawings and BOQ" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">07</span><h3>Detailed Drawings &amp; BOQ</h3><p>Working drawings, specifications and a clear bill of quantities so execution stays precise.</p></div></div>
       <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/execution.jpg" alt="Execution and on-site supervision" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">08</span><h3>Execution &amp; On-site Supervision</h3><p>Build-ready detailing, vendor coordination and quality checks on site through to completion.</p></div></div>
-      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/styling.jpg" alt="Styling and decor" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">09</span><h3>Styling &amp; Décor</h3><p>The final layering of furnishings, lighting and décor that brings the whole space to life.</p></div></div>
-      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/handover.jpg" alt="Handover" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">10</span><h3>Handover</h3><p>The final reveal — we hand over your transformed space, ready for you to move in.</p></div></div>
+      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/living2.jpg" alt="Styled living room with layered furnishings and decor" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">09</span><h3>Styling &amp; Décor</h3><p>The final layering of furnishings, lighting and décor that brings the whole space to life.</p></div></div>
+      <div class="ptl-step reveal"><div class="ptl-img"><img src="assets/opt/handover.jpg" alt="Handover" loading="lazy"></div><div class="ptl-card"><span class="ptl-no">10</span><h3>Handover</h3><p>The final reveal, we hand over your transformed space, ready for you to move in.</p></div></div>
     </div>
   </div>
 </section>
@@ -372,12 +372,12 @@ page({
       <div class="sub">A designer's eye, an engineer's precision, and a genuinely personal process.</div>
     </div>
     <div class="ws-grid reveal stagger">
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/8469988/pexels-photo-8469988.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Engineer + Designer</h3><p>A civil-engineering background means designs are structurally sound and build-ready, not just beautiful renders.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/10145678/pexels-photo-10145678.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Photoreal 3D Visualization</h3><p>See your space in lifelike 3D before any work begins, so every decision is made with confidence.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/4977410/pexels-photo-4977410.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Personal, hands-on process</h3><p>You work directly with the designer at every stage — no handoffs, no templates, no copy-paste rooms.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/33175667/pexels-photo-33175667.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Budget-honest design</h3><p>The scheme is shaped around your budget from day one, with clear choices and no surprises later.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/30754467/pexels-photo-30754467.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Residential &amp; commercial</h3><p>From homes and bedrooms to cafés and salons — versatile design across project types.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/7579192/pexels-photo-7579192.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>On-time turnkey delivery</h3><p>End-to-end coordination and quality checks through to a fully finished, styled handover.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/site.jpg')"></div></div><div class="ws-body"><h3>Engineer + Designer</h3><p>A civil-engineering background means designs are structurally sound and build-ready, not just beautiful renders.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/bedroomW.jpg')"></div></div><div class="ws-body"><h3>Photoreal 3D Visualization</h3><p>See your space in lifelike 3D before any work begins, so every decision is made with confidence.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/handover.jpg')"></div></div><div class="ws-body"><h3>Personal, hands-on process</h3><p>You work directly with the designer at every stage, no handoffs, no templates, no copy-paste rooms.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/initial-consultancy.jpg')"></div></div><div class="ws-body"><h3>Budget-honest design</h3><p>The scheme is shaped around your budget from day one, with clear choices and no surprises later.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/salon.jpg')"></div></div><div class="ws-body"><h3>Residential &amp; commercial</h3><p>From homes and bedrooms to cafés and salons, versatile design across project types.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/styling.jpg')"></div></div><div class="ws-body"><h3>On-time turnkey delivery</h3><p>End-to-end coordination and quality checks through to a fully finished, styled handover.</p></div></div>
     </div>
   </div>
 </section>`,
@@ -386,8 +386,8 @@ page({
 /* =========================== WORKSHOP =========================== */
 page({
   file: 'workshop.html',
-  title: 'Workshops & Training — Kaveri Interiors',
-  desc: 'Hands-on interior design & software workshops — SketchUp, AutoCAD, 3D visualization, project management and more, taught by a civil engineer & interior designer.',
+  title: 'Workshops & Training, Kaveri Interiors',
+  desc: 'Hands-on interior design & software workshops, SketchUp, AutoCAD, 3D visualization, project management and more, taught by a civil engineer & interior designer.',
   active: 'workshop',
   hero: { eyebrow: 'Learn & grow', h1: 'Workshops &amp; <em>Training</em>', p: 'Empowering the next generation with modern, build-ready design skills.', bg: 'heroWorkshop', crumb: 'Workshop' },
   body: `
@@ -396,15 +396,13 @@ page({
     <div class="sec-head center reveal">
       <div class="sec-tag">Learn with us</div>
       <h2>Hands-on <em>workshops</em></h2>
-      <div class="sub">From SketchUp basics to advanced project management, our sessions blend design creativity with real-world, build-ready skills — taught by a practicing civil engineer &amp; interior designer. Perfect for students, fresh graduates and professionals levelling up.</div>
+      <div class="sub">From SketchUp basics to advanced project management, our sessions blend design creativity with real-world, build-ready skills, taught by a practicing civil engineer &amp; interior designer. Perfect for students, fresh graduates and professionals levelling up.</div>
     </div>
     <div class="ws-grid reveal stagger">
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/7504599/pexels-photo-7504599.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">01</span></div><div class="ws-body"><h3>SketchUp Essentials</h3><div class="ws-meta">Beginner · Hands-on</div><p>Model rooms and furniture in 3D from scratch — navigation, components, layouts and clean, presentation-ready models.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/4458210/pexels-photo-4458210.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">02</span></div><div class="ws-body"><h3>AutoCAD for Interiors</h3><div class="ws-meta">Beginner → Intermediate</div><p>Accurate 2D floor plans, elevations and working drawings — the technical backbone of every interior project.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/10145678/pexels-photo-10145678.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">03</span></div><div class="ws-body"><h3>3D Visualization — V-Ray &amp; Enscape</h3><div class="ws-meta">Intermediate</div><p>Lighting, materials and cameras to turn models into photoreal renders and real-time walkthroughs clients love.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/6580566/pexels-photo-6580566.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">04</span></div><div class="ws-body"><h3>Interior Design Fundamentals</h3><div class="ws-meta">All levels</div><p>Space planning, colour theory, material selection and styling — the design thinking behind beautiful, liveable spaces.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/19915766/pexels-photo-19915766.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">05</span></div><div class="ws-body"><h3>Primavera P6 — Project Management</h3><div class="ws-meta">Intermediate → Advanced</div><p>Plan, schedule and track interior & construction projects like a pro — timelines, resources and on-site delivery.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/8470842/pexels-photo-8470842.jpeg?auto=compress&cs=tinysrgb&w=800')"></div><span class="ws-no">06</span></div><div class="ws-body"><h3>Estimation, BOQ &amp; Site</h3><div class="ws-meta">Practical</div><p>Quantities, costing and bills of quantities, plus site coordination basics — bridge the gap between design and execution.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/bedroom-sketchup.png')"></div><span class="ws-no">01</span></div><div class="ws-body"><h3>SketchUp Essentials</h3><div class="ws-meta">Beginner · Hands-on</div><p>Model rooms and furniture in 3D from scratch, navigation, components, layouts and clean, presentation-ready models.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/autocad-plan.jpg')"></div><span class="ws-no">02</span></div><div class="ws-body"><h3>AutoCAD for Interiors</h3><div class="ws-meta">Beginner → Intermediate</div><p>Accurate 2D floor plans, elevations and working drawings, the technical backbone of every interior project.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/bedroomF.jpg')"></div><span class="ws-no">03</span></div><div class="ws-body"><h3>3D Visualization, V-Ray &amp; Enscape</h3><div class="ws-meta">Intermediate</div><p>Lighting, materials and cameras to turn models into photoreal renders and real-time walkthroughs clients love.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('assets/opt/moodboard.jpg')"></div><span class="ws-no">04</span></div><div class="ws-body"><h3>Interior Design Fundamentals</h3><div class="ws-meta">All levels</div><p>Space planning, colour theory, material selection and styling, the design thinking behind beautiful, liveable spaces.</p></div></div>
     </div>
   </div>
 </section>
@@ -416,8 +414,8 @@ page({
       <h2>Skills that get you <em>hired</em></h2>
     </div>
     <div class="ws-grid reveal stagger">
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/32702849/pexels-photo-32702849.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Taught by a practitioner</h3><p>Learn from a working civil engineer &amp; interior designer — real projects, real tools, no fluff.</p></div></div>
-      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/7858841/pexels-photo-7858841.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Software + design together</h3><p>Not just buttons — you learn the design thinking behind every drawing, render and decision.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/32702849/pexels-photo-32702849.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Taught by a practitioner</h3><p>Learn from a working civil engineer &amp; interior designer, real projects, real tools, no fluff.</p></div></div>
+      <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/7858841/pexels-photo-7858841.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Software + design together</h3><p>Not just buttons, you learn the design thinking behind every drawing, render and decision.</p></div></div>
       <div class="ws-card"><div class="ws-img"><div class="ws-cover" style="background-image:url('https://images.pexels.com/photos/9849323/pexels-photo-9849323.jpeg?auto=compress&cs=tinysrgb&w=800')"></div></div><div class="ws-body"><h3>Portfolio-ready outcomes</h3><p>Walk away with finished pieces you can show clients or employers, plus guidance on next steps.</p></div></div>
     </div>
     <div style="text-align:center;margin-top:46px" class="reveal">
@@ -430,7 +428,7 @@ page({
 /* =========================== GALLERY =========================== */
 page({
   file: 'gallery.html',
-  title: 'Gallery — Kaveri Interiors',
+  title: 'Gallery, Kaveri Interiors',
   desc: 'Selected residential and commercial interior projects, 3D renders and a real-time walkthrough.',
   active: 'gallery',
   hero: { eyebrow: 'Selected work', h1: 'A look inside <em>recent projects</em>', p: 'Photoreal renders and finished spaces across homes, kitchens, bedrooms and more.', bg: 'heroGallery', crumb: 'Gallery' },
@@ -441,7 +439,7 @@ page({
     <div class="sec-head reveal">
       <div class="sec-tag">Selected work</div>
       <h2>Explore by <em>room</em></h2>
-      <div class="sub">Pick a room to see every design — then tap any image to view it larger.</div>
+      <div class="sub">Pick a room to see every design, then tap any image to view it larger.</div>
     </div>
     <div class="room3d reveal" id="room3d">
       <button class="room3d-arrow r3-prev" id="r3Prev" aria-label="Previous room">‹</button>
@@ -464,13 +462,39 @@ page({
     <div class="sec-head center reveal">
       <div class="sec-tag">From concept to render</div>
       <h2>3D model to <em>reality</em></h2>
-      <div class="sub">Drag the handle — from the working 3D model to the final photoreal render.</div>
+      <div class="sub">One bedroom, modelled in SketchUp and checked from every angle, drag across the render to watch geometry become a finished room.</div>
     </div>
-    <div class="ba-wrap reveal" id="baWrap">
-      <div class="ba-img ba-after ph"><span class="tag">Final render</span></div>
-      <div class="ba-img ba-before ph" id="baBefore"><span class="tag">3D model</span></div>
-      <div class="ba-handle" id="baHandle"></div>
+
+    <div class="cmp-stage reveal">
+      <div class="cmp" id="cmp">
+        <img class="cmp-layer" src="assets/opt/bedroom-render.jpg" alt="Photoreal render of the finished bedroom">
+        <img class="cmp-layer cmp-before" src="assets/opt/sketchup-model.png" alt="SketchUp model of the same bedroom">
+        <div class="cmp-grid" aria-hidden="true"></div>
+
+        <span class="cmp-tag cmp-tag-model">SketchUp model</span>
+        <span class="cmp-tag cmp-tag-real">Rendered reality</span>
+
+        <div class="cmp-divider" aria-hidden="true"></div>
+        <button class="cmp-handle" id="cmpHandle" type="button"
+                role="slider" aria-label="Reveal render"
+                aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 7 4 12l4 5M16 7l4 5-4 5"/>
+          </svg>
+        </button>
+
+        <span class="cmp-hint">Drag to reveal</span>
+      </div>
+
+      <div class="cmp-controls">
+        <p class="cmp-caption"><b>The model, with every view and finish.</b> Same camera, same light, the only thing that changes is how close we are to the real room.</p>
+        <div class="cmp-modes" role="tablist" aria-label="Comparison mode">
+          <button id="cmpSlide" class="active" role="tab" aria-selected="true">Slide</button>
+          <button id="cmpDissolve" role="tab" aria-selected="false">Dissolve</button>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -479,13 +503,13 @@ page({
     <div class="sec-head center reveal">
       <div class="sec-tag">Walkthrough</div>
       <h2>Project <em>video tour</em></h2>
-      <div class="sub">Step inside a finished project — a real-time 3D walkthrough of the space.</div>
+      <div class="sub">Step inside our finished projects. Swipe through and tap any video to play it.</div>
     </div>
-    <div class="tour-frame reveal" id="tourFrame">
-      <div class="tour-poster" id="tourPoster" onclick="loadTour()">
-        <div class="play">▶</div>
-        <span class="tour-hint">Play walkthrough</span>
-      </div>
+    <div class="room3d tour3d reveal" id="tour3d">
+      <button class="room3d-arrow r3-prev" id="tourPrev" aria-label="Previous video">‹</button>
+      <div class="room3d-viewport"><div class="room3d-stage" id="tour3dStage"></div></div>
+      <button class="room3d-arrow r3-next" id="tourNext" aria-label="Next video">›</button>
+      <div class="room3d-dots" id="tour3dDots"></div>
     </div>
   </div>
 </section>`,
@@ -494,26 +518,19 @@ page({
 /* =========================== CAREERS =========================== */
 page({
   file: 'careers.html',
-  title: 'Careers — Kaveri Interiors',
-  desc: 'Join Kaveri Interiors — roles for interior designers, 3D artists and design interns.',
+  title: 'Careers, Kaveri Interiors',
+  desc: 'Join Kaveri Interiors, roles for interior designers, 3D artists and design interns.',
   active: 'careers',
   hero: { eyebrow: 'Careers', h1: 'Build beautiful spaces <em>with us</em>', p: 'We’re always happy to hear from talented designers, 3D artists and interns.', bg: 'heroCareers', crumb: 'Careers' },
   body: `
-<section id="careers">
+<<section id="careers">
   <div class="wrap">
     <div class="sec-head center reveal">
       <div class="sec-tag">Careers</div>
-      <h2>No open roles <em>right now</em></h2>
-      <div class="sub">We're a small, hands-on studio and we open positions as our projects grow.</div>
+      <h2>Open roles <em>right now</em></h2>
+      <div class="sub">We’re currently hiring for two focused positions in our Hyderabad studio.</div>
     </div>
-    <div class="career-empty reveal">
-      <div class="career-empty-badge">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M3 13h18"/></svg>
-      </div>
-      <h3>All positions are currently filled</h3>
-      <p>There are no vacancies at the moment — but we're always glad to meet talented interior designers, 3D artists and interns. Send your portfolio and we'll keep you in mind for upcoming projects.</p>
-      <a class="btn btn-dark" href="mailto:interiorsbykaveri@gmail.com?subject=Portfolio%20%E2%80%93%20Kaveri%20Interiors">Send your portfolio</a>
-    </div>
+    <div class="career-grid reveal" id="careerGrid"></div>
   </div>
 </section>
 
@@ -531,10 +548,10 @@ page({
 /* =========================== CONTACT =========================== */
 page({
   file: 'contact.html',
-  title: 'Contact — Kaveri Interiors',
+  title: 'Contact, Kaveri Interiors',
   desc: 'Talk to the designer. Get a free, no-obligation quote for your interior project.',
   active: 'contact',
-  hero: { eyebrow: 'Get in touch', h1: 'Let’s design it <em>together</em>', p: 'Tell us about your space — we’ll reply within 24 hours.', bg: 'heroContact', crumb: 'Contact' },
+  hero: { eyebrow: 'Get in touch', h1: 'Let’s design it <em>together</em>', p: 'Tell us about your space, we’ll reply within 24 hours.', bg: 'heroContact', crumb: 'Contact' },
   body: `
 <section id="contact">
   <div class="wrap">
@@ -558,7 +575,7 @@ page({
       </div>
       <div class="form-card reveal">
         <h3>Talk to the designer</h3>
-        <div class="small">Tell us about your space — we’ll reply within 24 hours.</div>
+        <div class="small">Tell us about your space, we’ll reply within 24 hours.</div>
         <div class="field"><input id="cName" placeholder="Your name"></div>
         <div class="field"><input id="cPhone" placeholder="Phone number"></div>
         <div class="field"><input id="cLoc" placeholder="Property location"></div>
