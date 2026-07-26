@@ -1,29 +1,36 @@
 /* ======================================================================
-   KAVERI INTERIORS — shared site script (works across every page)
+   KAVERI INTERIORS, shared site script (works across every page)
    Every builder guards on its container, so a page only runs the parts
    that exist in its markup.
    ====================================================================== */
 
-/* ====== CONFIG — edit these ====== */
+/* ====== CONFIG, edit these ====== */
 const WA_NUMBER = "919000470679";   // WhatsApp number, intl format, no +
 const YOUTUBE_ID = "YOUTUBE_ID";    // set to a specific video id to embed the tour inline
 const YOUTUBE_CHANNEL = "https://www.youtube.com/@kaveriinteriors";
 
-/* EmailJS — dashboard.emailjs.com.
+/* EmailJS, dashboard.emailjs.com.
    PUBLIC_KEY ships to the browser by design and CANNOT be hidden. Locking it
    to our domain (Account > Security > Allowed Origins) is a paid feature, so
    on the free plan any origin may send using this key. The exposure is capped
-   by the 200/month quota — watch Email History for sends we didn't trigger,
+   by the 200/month quota, watch Email History for sends we didn't trigger,
    and rotate the key in the dashboard if it's ever abused.
-   The recipient is NOT set here — it's hardcoded in each template's
+   The recipient is NOT set here, it's hardcoded in each template's
    "To Email" field on the dashboard, so it can't be tampered with client-side.
    Template markup lives in scripts/emailjs-template-*.html */
 const EMAILJS = {
   PUBLIC_KEY:       "xdZmDgnHUwnZYnRmy",     // Account > General > Public Key
   SERVICE_ID:       "service_icwrh3t",     // Email Services > (your service)
-  TEMPLATE_QUOTE:   "template_cq6i7pi",    // "QUOTE" — free-quote modal
-  TEMPLATE_CONTACT: "template_mknsfbn"     // "Contact Us" — contact page form
+  TEMPLATE_QUOTE:   "template_cq6i7pi",    // "QUOTE", free-quote modal
+  TEMPLATE_CONTACT: "template_mknsfbn"     // "Contact Us", contact page form
 };
+
+/* Google Sheet lead log, the permanent record of every enquiry.
+   Email is only a notification and is capped at 200/month; the sheet has no
+   quota, so a lead survives even once EmailJS is exhausted.
+   Paste the Apps Script Web app URL here, setup steps are in
+   scripts/google-sheet-lead-logger.gs */
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbwnVtWUmTDKFu-wWc1BAaSLC-EDDAt6dlc68g28Q_sbpIN5tFL3C1yqIdkIc6e0kDRs/exec";
 /* ================================= */
 
 const ASSET = window.ASSET || {};
@@ -76,14 +83,14 @@ const ICO = {
   crane:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V5l13 2"/><path d="M6 5l4 3M6 8l3 2M6 11l3 2"/><path d="M19 7v3M19 10h-3v3M16 13v2"/><path d="M4 21h6"/></svg>'
 };
 const SERVICES = [
-  {c:'si1',i:ICO.sofa,t:'Residential',s:'Homes designed around how you live.',d:'Complete home interiors — bedrooms, living, dining, kitchens and wardrobes — planned into one cohesive, boho-modern scheme tailored to your family, lifestyle and budget, and kept calm and uncluttered.',f:['Space planning & furniture layout','Colour, material & finish palettes','Modular kitchen & wardrobe design','Lighting, décor & final styling']},
-  {c:'si2',i:ICO.building,t:'Commercial',s:'Spaces that work as hard as you do.',d:'Interiors for cafés, salons, retail and offices that balance brand identity, customer experience and day-to-day function — designed to look distinctive and run smoothly.',f:['Cafés, salons, retail & offices','Brand-led concept & theming','Customer-flow & seating planning','Durable, practical material choices']},
-  {c:'si3',i:ICO.blueprint,t:'Architecture',s:'Thoughtful spaces from the ground up.',d:'Architectural design and space planning for new builds and major layouts — sound proportions, natural light and circulation worked out before a single wall goes up.',f:['Floor plans & space planning','Elevations & 3D massing','Site & circulation studies','Coordinated working drawings']},
-  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As a civil engineer, I bridge design and site — turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
-  {c:'si5',i:ICO.cube,t:'3D Visualization',s:'See it before it’s built.',d:'Photo-realistic 3D views of your proposed design so you can experience the colours, textures and layout in advance — and make confident decisions before any work begins.',f:['Photoreal 3D renders (V-Ray / Enscape)','Multiple angles & view options','Real-time walkthroughs','Revisions before execution']},
+  {c:'si1',i:ICO.sofa,t:'Residential',s:'Homes designed around how you live.',d:'Complete home interiors, bedrooms, living, dining, kitchens and wardrobes, planned into one cohesive, boho-modern scheme tailored to your family, lifestyle and budget, and kept calm and uncluttered.',f:['Space planning & furniture layout','Colour, material & finish palettes','Modular kitchen & wardrobe design','Lighting, décor & final styling']},
+  {c:'si2',i:ICO.building,t:'Commercial',s:'Spaces that work as hard as you do.',d:'Interiors for cafés, salons, retail and offices that balance brand identity, customer experience and day-to-day function, designed to look distinctive and run smoothly.',f:['Cafés, salons, retail & offices','Brand-led concept & theming','Customer-flow & seating planning','Durable, practical material choices']},
+  {c:'si3',i:ICO.blueprint,t:'Architecture',s:'Thoughtful spaces from the ground up.',d:'Architectural design and space planning for new builds and major layouts, sound proportions, natural light and circulation worked out before a single wall goes up.',f:['Floor plans & space planning','Elevations & 3D massing','Site & circulation studies','Coordinated working drawings']},
+  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As a civil engineer, I bridge design and site, turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
+  {c:'si5',i:ICO.cube,t:'3D Visualization',s:'See it before it’s built.',d:'Photo-realistic 3D views of your proposed design so you can experience the colours, textures and layout in advance, and make confident decisions before any work begins.',f:['Photoreal 3D renders (V-Ray / Enscape)','Multiple angles & view options','Real-time walkthroughs','Revisions before execution']},
   {c:'si6',i:ICO.roller,t:'Renovation & Consultation',s:'Refresh, or just get direction.',d:'Reviving existing spaces with minimal fuss, or one-off consultations with mood boards, colour and material guidance for clients who want expert direction on their own project.',f:['Single-room or full renovation','Layout & flow improvements','One-off design consultation','Colour & material advice']}
 ];
-const SERV_IMG = ['kitchen1','cafe','balcony','partition','living1','wardrobe'];
+const SERV_IMG = ['serv1','serv2','serv3','serv4','serv5','serv6'];
 const ICO_BG = ['#a8826a','#97987f','#ab8f68','#b3998a','#8a7150','#8f8a7a'];
 
 const sg = $('servGrid');
@@ -93,9 +100,14 @@ if(sg){
     el.className='serv-card';
     el.onclick=()=>openServ(i);
     el.innerHTML=`<div class="img ph ${x.c}"></div>
-      <div class="body"><div class="serv-icon">${x.i}</div><h3>${x.t}</h3><p>${x.s}</p><button class="readmore">Read more →</button></div>`;
+      <span class="serv-no">${String(i+1).padStart(2,'0')}</span>
+      <div class="serv-inner">
+        <span class="serv-ico">${x.i}</span>
+        <h3>${x.t}</h3>
+        <p>${x.s}</p>
+        <span class="serv-link">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>`;
     el.querySelector('.img').style.background = RBG(SERV_IMG[i], GRAD[x.c]);
-    el.querySelector('.serv-icon').style.background = ICO_BG[i];
     sg.appendChild(el);
   });
 }
@@ -124,6 +136,10 @@ const GAL=[
   {t:'Wooden Foyer',         s:'Entrance · Foyer',    cat:'Foyer',      img:'foyer',    grad:'si5'},
   {t:'Jali Display Partition',s:'Foyer · Living',     cat:'Foyer',      img:'partition',grad:'si2'},
   {t:'Foyer Entrance',       s:'Entrance',            cat:'Foyer',      img:'foyer2',   grad:'si3'},
+  {t:'Lotus Pooja Door',     s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja1',   grad:'si3'},
+  {t:'Namam Pooja Doors',    s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja2',   grad:'si5'},
+  {t:'Star-Glass Pooja Room',s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja3',   grad:'si4'},
+  {t:'Kolam Pooja Doors',    s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja4',   grad:'si1'},
   {t:'Balcony Sit-out',      s:'Balcony',             cat:'Balcony',    img:'balcony',  grad:'si4'},
   {t:'Beauty Salon',         s:'Commercial · Retail', cat:'Commercial', img:'salon',    grad:'si5'},
   {t:'Café Interior',        s:'Commercial · Hospitality', cat:'Commercial', img:'cafe',grad:'si2'}
@@ -238,7 +254,7 @@ const setBg=(sel,key,grad)=>{const e=document.querySelector(sel);if(e)e.style.ba
 // home hero crossfade slideshow
 const heroBg=$('heroBg');
 if(heroBg){
-  const HERO=['heroHome1','heroHome2','heroHome3'];
+  const HERO=['heroHome1','heroHome2','heroHome3','heroHome4'];
   HERO.forEach((k,i)=>{
     const s=document.createElement('div');
     s.className='hero-slide';
@@ -257,21 +273,6 @@ setBg('.about-bg','bed_angled','linear-gradient(160deg,#c2bca8,#9d8467)');
 setBg('.des-img','salon','linear-gradient(160deg,#c2bca8,#9d8467)');
 const port=document.querySelector('.about-portrait'); if(port) port.style.backgroundImage=`url('${ASSET.portrait}')`;
 
-/* ---------- before / after (3D model -> render) ---------- */
-(function(){
-  const wrap=$('baWrap'); if(!wrap) return;
-  const a=document.querySelector('.ba-after'),b=$('baBefore'),handle=$('baHandle');
-  if(a)a.style.background=RBG('dining','linear-gradient(155deg,#c2bca8,#9d9784)');
-  if(b){b.style.background=RBG('wire','linear-gradient(155deg,#cbb89c,#7d6a52)');b.style.clipPath='inset(0 50% 0 0)';}
-  let drag=false;
-  function set(x){const r=wrap.getBoundingClientRect();let p=(x-r.left)/r.width*100;p=Math.max(2,Math.min(98,p));b.style.clipPath=`inset(0 ${100-p}% 0 0)`;handle.style.left=p+'%';}
-  const start=()=>drag=true,end=()=>drag=false;
-  handle.addEventListener('mousedown',start);window.addEventListener('mouseup',end);
-  window.addEventListener('mousemove',e=>{if(drag)set(e.clientX);});
-  handle.addEventListener('touchstart',start);window.addEventListener('touchend',end);
-  window.addEventListener('touchmove',e=>{if(drag)set(e.touches[0].clientX);});
-})();
-
 /* ---------- counters ---------- */
 (function(){
   const why=$('why'); if(!why) return;
@@ -282,10 +283,10 @@ const port=document.querySelector('.about-portrait'); if(port) port.style.backgr
 
 /* ---------- faq ---------- */
 const FAQ=[
-  ['Do you take on small projects or only full homes?','Both — from styling a single room to a full turnkey home. There’s no project too small if it’s a space you love.'],
+  ['Do you take on small projects or only full homes?','Both, from styling a single room to a full turnkey home. There’s no project too small if it’s a space you love.'],
   ['What does the design process look like?','Discovery → concept & mood boards → detailed design and 3D views → execution and final styling. You’re involved at every step.'],
-  ['Do you work outside your city?','Yes — projects are taken on across India, with remote consultation available for clients further away.'],
-  ['How are charges calculated?','It depends on scope — consultation, room-by-room, or full turnkey. Share your details for a free, no-obligation quote.'],
+  ['Do you work outside your city?','Yes, projects are taken on across India, with remote consultation available for clients further away.'],
+  ['How are charges calculated?','It depends on scope, consultation, room-by-room, or full turnkey. Share your details for a free, no-obligation quote.'],
   ['Can you work with my budget?','Absolutely. The design is shaped around your budget from day one, so there are no surprises later.']
 ];
 const fl=$('faqList');
@@ -335,16 +336,101 @@ if(cg){
   render();reset();
 })();
 
-/* ---------- video tour ---------- */
-(function(){const p=$('tourPoster'); if(p) p.style.background=RBG('bed_angled','linear-gradient(155deg,#9d8467,#2a2622)');})();
-function loadTour(){
-  const f=document.querySelector('.tour-frame');
-  if(YOUTUBE_ID && YOUTUBE_ID!=='YOUTUBE_ID'){
-    if(f)f.innerHTML=`<iframe src="https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
-  } else {
-    window.open(YOUTUBE_CHANNEL,'_blank','noopener'); // no specific video set yet — open the channel
+/* ---------- video tour: 3D coverflow, videos play inline on the site ----------
+   Drop .mp4 files into assets/video/ using the filenames below. Any entry whose
+   file is missing simply shows its poster with a "coming soon" note, the rest
+   keep working, so you can add videos one at a time. */
+const TOURS = [
+  {t:'Bedroom',  s:'Master bedroom walkthrough', src:'assets/video/bedroom.mp4', img:'bed_angled', grad:'si1'},
+  {t:'Kitchen',  s:'Modular kitchen walkthrough', src:'assets/video/kitchen.mp4', img:'kitchen1',  grad:'si4'},
+  {t:'Living',   s:'Living room walkthrough',     src:'assets/video/living.mp4',  img:'living1',   grad:'si2'},
+  {t:'Foyer',    s:'Entrance foyer walkthrough',  src:'assets/video/foyer.mp4',   img:'foyer',     grad:'si5'},
+  {t:'Dining',   s:'Dining area walkthrough',     src:'assets/video/dining.mp4',  img:'dining',    grad:'si3'},
+  {t:'Balcony',  s:'Balcony sit-out walkthrough', src:'assets/video/balcony.mp4', img:'balcony',   grad:'si6'}
+];
+(function(){
+  const stage=$('tour3dStage'), dots=$('tour3dDots'), root3=$('tour3d');
+  if(!stage||!dots||!root3) return;
+  const n=TOURS.length;
+  let active=0, timer=null;
+  const cards=[];
+
+  const playIcon='<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M8 5v14l11-7z"/></svg>';
+
+  TOURS.forEach((v,i)=>{
+    const el=document.createElement('article');
+    el.className='r3-card tour-card';
+    el.innerHTML=`<div class="r3-cover" style="background:${RBG(v.img,GRAD[v.grad])}"></div>
+      <span class="r3-count">Walkthrough</span>
+      <span class="tour-play">${playIcon}</span>
+      <div class="r3-meta"><b>${v.t}</b><span class="r3-see">${v.s}</span></div>`;
+    el.addEventListener('click',()=>{ i===active ? play(i) : go(i); });
+    stage.appendChild(el); cards.push(el);
+    const d=document.createElement('button'); d.className='r3-dot'; d.setAttribute('aria-label',v.t);
+    d.addEventListener('click',()=>go(i)); dots.appendChild(d);
+  });
+
+  // same 3D fan-out maths as the room coverflow, so both sections move alike
+  function place(){
+    const spread=Math.min(320,Math.max(150,innerWidth*0.34));
+    const depth=Math.min(185,spread*0.6);
+    cards.forEach((el,i)=>{
+      let o=i-active; if(o>n/2) o-=n; if(o<-n/2) o+=n;
+      const a=Math.abs(o);
+      el.style.transform=`translate(-50%,-50%) translateX(${o*spread}px) translateZ(${-a*depth}px) rotateY(${-o*43}deg) scale(${1-a*0.15})`;
+      el.style.opacity=a===0?1:a===1?0.92:a===2?0.42:0;
+      el.style.zIndex=String(100-a);
+      el.style.filter=`brightness(${a===0?1:a===1?0.72:0.45})`;
+      el.style.pointerEvents=a>2?'none':'auto';
+      el.classList.toggle('is-active',o===0);
+    });
+    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===active));
   }
-}
+
+  // stop and tear down any video that is not the active card
+  function stopAll(except){
+    cards.forEach((el,i)=>{
+      if(i===except) return;
+      const vid=el.querySelector('video');
+      if(vid){ vid.pause(); vid.remove(); }
+      el.classList.remove('is-playing');
+    });
+  }
+
+  function play(i){
+    const el=cards[i], v=TOURS[i];
+    stopAll(i);
+    if(el.querySelector('video')) return;          // already playing
+    clearInterval(timer);                          // never rotate away from a playing video
+    const vid=document.createElement('video');
+    vid.className='tour-video';
+    vid.src=v.src; vid.controls=true; vid.autoplay=true; vid.playsInline=true; vid.preload='none';
+    vid.setAttribute('controlsList','nodownload');
+    vid.addEventListener('error',()=>{           // file not added yet, fall back to the poster
+      vid.remove(); el.classList.remove('is-playing'); el.classList.add('tour-missing');
+    });
+    vid.addEventListener('ended',()=>{ vid.remove(); el.classList.remove('is-playing'); restart(); });
+    el.appendChild(vid); el.classList.add('is-playing');
+    const p=vid.play(); if(p&&p.catch) p.catch(()=>{});
+  }
+
+  function go(i){ active=((i%n)+n)%n; stopAll(-1); place(); restart(); }
+  const next=()=>go(active+1), prev=()=>go(active-1);
+  function restart(){ clearInterval(timer); timer=setInterval(()=>{ if(!stage.querySelector('video')) next(); },5200); }
+
+  if($('tourNext')) $('tourNext').onclick=next;
+  if($('tourPrev')) $('tourPrev').onclick=prev;
+  root3.addEventListener('mouseenter',()=>clearInterval(timer));
+  root3.addEventListener('mouseleave',()=>{ if(!stage.querySelector('video')) restart(); });
+  addEventListener('resize',place);
+
+  const vp=root3.querySelector('.room3d-viewport');
+  let sx=0;
+  vp.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  vp.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)(dx<0?next():prev());});
+
+  place(); restart();
+})();
 
 /* ---------- modals ---------- */
 function openModal(id){const m=$(id);if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
@@ -354,7 +440,7 @@ document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(m=>closeModal(m.id));});
 
 /* ---------- newsletter ---------- */
-function subscribe(){const e=$('newsEmail').value.trim();const ok=$('newsOk');if(!e||!e.includes('@')){ok.textContent='Please enter a valid email.';return;}ok.textContent='Thank you — you’re subscribed! ✦';$('newsEmail').value='';}
+function subscribe(){const e=$('newsEmail').value.trim();const ok=$('newsOk');if(!e||!e.includes('@')){ok.textContent='Please enter a valid email.';return;}ok.textContent='Thank you, you’re subscribed! ✦';$('newsEmail').value='';}
 
 /* ---------- intro preloader ---------- */
 (function(){
@@ -368,7 +454,7 @@ function subscribe(){const e=$('newsEmail').value.trim();const ok=$('newsOk');if
 /* ---------- social media (single source of truth) ---------- */
 const SOCIALS=[
   ['Instagram','@interiorsbykaveri','https://www.instagram.com/interiorsbykaveri/','M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.0556-1.2809.0691-1.6898.0628-4.948-.0062-3.2583-.0207-3.6668-.0815-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.0744.3214 18.2018.1196 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.0508-1.169.2463-1.8055.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.4232-.1651 1.0577-.3614 2.2272-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4216.4194.6816.8176.9005 1.3787.1655.4218.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.0608 4.848-.051 1.17-.2453 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4226.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0033a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0033'],
-  // Facebook — TODO: replace the '#' below with the real Facebook page URL when available
+  // Facebook, TODO: replace the '#' below with the real Facebook page URL when available
   ['Facebook','Kaveri Interiors','#','M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'],
   ['YouTube','@kaveriinteriors','https://www.youtube.com/@kaveriinteriors','M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'],
   ['Pinterest','interiorsbykaveri','https://www.pinterest.com/interiorsbykaveri/','M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z'],
@@ -378,7 +464,7 @@ const svgIcon=(d)=>`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="tr
 // placeholder-aware anchor attributes (Facebook link not provided yet → '#')
 const socialAttrs=(name,url)=> (url && url!=='#')
   ? `href="${url}" target="_blank" rel="noopener" aria-label="${name}" title="${name}"`
-  : `href="#" onclick="return false" aria-label="${name} (link coming soon)" title="${name} — link coming soon"`;
+  : `href="#" onclick="return false" aria-label="${name} (link coming soon)" title="${name}, link coming soon"`;
 // fill every [data-socials] container (footer, founder, about, contact)
 document.querySelectorAll('[data-socials]').forEach(box=>{
   box.innerHTML=SOCIALS.map(([name,,url,d])=>`<a ${socialAttrs(name,url)}>${svgIcon(d)}</a>`).join('');
@@ -393,6 +479,74 @@ document.querySelectorAll('[data-socials]').forEach(box=>{
        <span class="cc-meta"><b>${name}</b><small>${(url&&url!=='#')?handle:'Coming soon'}</small></span>
        <span class="cc-go" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
      </a>`).join('');
+})();
+
+/* ---------- model vs render comparison (slide + dissolve) ---------- */
+(function(){
+  const cmp=$('cmp'); if(!cmp) return;
+  const handle=$('cmpHandle'), mSlide=$('cmpSlide'), mDissolve=$('cmpDissolve');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let pos=50, dragging=false;
+
+  function set(p){
+    pos=Math.max(0,Math.min(100,p));
+    cmp.style.setProperty('--pos',pos);
+    handle.setAttribute('aria-valuenow',Math.round(pos));
+  }
+  function fromX(x){ const r=cmp.getBoundingClientRect(); set(((x-r.left)/r.width)*100); }
+
+  cmp.addEventListener('pointerdown',e=>{
+    if(cmp.classList.contains('dissolve')) return;
+    dragging=true; cmp.classList.add('touched');
+    if(cmp.setPointerCapture) cmp.setPointerCapture(e.pointerId);
+    fromX(e.clientX);
+  });
+  cmp.addEventListener('pointermove',e=>{ if(dragging) fromX(e.clientX); });
+  addEventListener('pointerup',()=>{ dragging=false; });
+
+  handle.addEventListener('keydown',e=>{
+    const step=e.shiftKey?10:2;
+    if(e.key==='ArrowLeft'||e.key==='ArrowDown'){ set(pos-step); e.preventDefault(); cmp.classList.add('touched'); }
+    else if(e.key==='ArrowRight'||e.key==='ArrowUp'){ set(pos+step); e.preventDefault(); cmp.classList.add('touched'); }
+    else if(e.key==='Home'){ set(0); e.preventDefault(); }
+    else if(e.key==='End'){ set(100); e.preventDefault(); }
+  });
+
+  function slideMode(){
+    cmp.classList.remove('dissolve');
+    mSlide.classList.add('active'); mDissolve.classList.remove('active');
+    mSlide.setAttribute('aria-selected','true'); mDissolve.setAttribute('aria-selected','false');
+    set(50);
+  }
+  function dissolveMode(){
+    cmp.classList.add('dissolve','touched');
+    mDissolve.classList.add('active'); mSlide.classList.remove('active');
+    mDissolve.setAttribute('aria-selected','true'); mSlide.setAttribute('aria-selected','false');
+  }
+  if(mSlide) mSlide.addEventListener('click',slideMode);
+  if(mDissolve) mDissolve.addEventListener('click',dissolveMode);
+
+  // one-time sweep on first view, so the interaction explains itself
+  function intro(){
+    if(reduce){ set(50); return; }
+    let start=null; const dur=1600;
+    set(88);
+    requestAnimationFrame(function step(t){
+      if(start===null) start=t;
+      const k=Math.min((t-start)/dur,1), e=1-Math.pow(1-k,3);
+      set(88-(88-50)*e);
+      if(k<1) requestAnimationFrame(step);
+    });
+  }
+
+  const io2=new IntersectionObserver(es=>{
+    es.forEach(en=>{
+      if(!en.isIntersecting) return;
+      intro();
+      io2.disconnect();
+    });
+  },{threshold:.35});
+  io2.observe(cmp);
 })();
 
 /* ---------- reels strip (links to Instagram) ---------- */
@@ -435,9 +589,23 @@ document.querySelectorAll('[data-socials]').forEach(box=>{
 })();
 
 /* ---------- enquiry / quote submission ---------- */
-/* Single send path for both forms. Swapping EmailJS for a real backend later
-   means rewriting only this function — callers stay untouched. */
-async function postSubmission(src, payload){
+/* One shape of the enquiry, shared by the email template and the sheet row. */
+function enquiryParams(src, payload){
+  return {
+    form_type:      src === 'quote' ? 'Quote request' : 'Contact enquiry',
+    name:           payload.name,
+    phone:          payload.phone,
+    location:       payload.location    || ', ',
+    project_type:   payload.projectType || ', ',
+    message:        payload.message     || ', ',
+    whatsapp_optin: payload.whatsappOptIn ? 'Yes' : 'No',
+    page_url:       window.location.href,
+    submitted_at:   new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+  };
+}
+
+/* Notification. Capped at 200/month on the free EmailJS plan. */
+async function sendEmail(src, params){
   if (typeof emailjs === 'undefined') throw new Error('EmailJS SDK not loaded.');
   if (EMAILJS.PUBLIC_KEY.startsWith('YOUR_')) throw new Error('EmailJS not configured.');
 
@@ -446,21 +614,43 @@ async function postSubmission(src, payload){
   if (template.startsWith('YOUR_')) throw new Error('EmailJS template not configured for: ' + src);
 
   emailjs.init({ publicKey: EMAILJS.PUBLIC_KEY });
+  // Keys must match the {{placeholders}} in the matching template file. The
+  // quote template has no {{message}}, so don't send one.
+  const p = Object.assign({}, params);
+  if (isQuote) delete p.message;
+  return emailjs.send(EMAILJS.SERVICE_ID, template, p);
+}
 
-  // Keys here must match the {{placeholders}} in the matching template file.
-  const params = {
-    name:           payload.name,
-    phone:          payload.phone,
-    location:       payload.location    || '—',
-    project_type:   payload.projectType || '—',
-    whatsapp_optin: payload.whatsappOptIn ? 'Yes' : 'No',
-    page_url:       window.location.href,
-    submitted_at:   new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
-  };
-  // Only the contact form has a message box; the quote template has no {{message}}.
-  if (!isQuote) params.message = payload.message || '—';
+/* Permanent record. No quota, this is what must not fail.
+   text/plain keeps it a "simple" request: application/json would trigger a
+   CORS preflight, which Apps Script does not answer. */
+async function saveToSheet(params){
+  if (SHEET_ENDPOINT.startsWith('YOUR_')) throw new Error('Sheet endpoint not configured.');
+  const res = await fetch(SHEET_ENDPOINT, {
+    method: 'POST',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(params)
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!data.ok) throw new Error(data.error || 'Sheet write failed.');
+  return data;
+}
 
-  return emailjs.send(EMAILJS.SERVICE_ID, template, params);
+/* Both destinations are attempted independently: a lead is only lost if BOTH
+   fail, and only then do we fall back to WhatsApp. */
+async function postSubmission(src, payload){
+  const params = enquiryParams(src, payload);
+  const [email, sheet] = await Promise.allSettled([
+    sendEmail(src, params),
+    saveToSheet(params)
+  ]);
+
+  if (email.status === 'rejected') console.error('Email notify failed:', email.reason);
+  if (sheet.status === 'rejected') console.error('Sheet log failed:', sheet.reason);
+  if (email.status === 'rejected' && sheet.status === 'rejected'){
+    throw new Error('Both email and sheet failed.');
+  }
+  return { emailed: email.status === 'fulfilled', logged: sheet.status === 'fulfilled' };
 }
 function sendWhatsApp(name, phone, loc, type, msg){
   let text = `Hi Kaveri! I'd like a quote.%0A%0AName: ${name}%0APhone: ${phone}`;
@@ -480,7 +670,7 @@ async function sendQuote(src){
   // The submit button always sits immediately before the message div in both forms.
   const btn = resultEl ? resultEl.previousElementSibling : null;
   const btnLabel = btn ? btn.textContent : '';
-  if(btn && btn.disabled) return;            // already in flight — ignore double-click
+  if(btn && btn.disabled) return;            // already in flight, ignore double-click
   if(btn){btn.disabled=true;btn.textContent='Sending…';}
   if(resultEl){resultEl.textContent='';resultEl.className='form-msg';}
 
@@ -493,7 +683,7 @@ async function sendQuote(src){
     if(src==='quote') setTimeout(()=>closeModal('quoteModal'),1600);
   }catch(error){
     console.error('Enquiry send failed:',error);
-    if(resultEl){resultEl.textContent='Could not send just now — opening WhatsApp instead.';resultEl.className='form-msg error';}
+    if(resultEl){resultEl.textContent='Could not send just now, opening WhatsApp instead.';resultEl.className='form-msg error';}
     sendWhatsApp(name,phone,loc,type,msg);
   }finally{
     if(btn){btn.disabled=false;btn.textContent=btnLabel;}
