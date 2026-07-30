@@ -17,9 +17,13 @@
   Copy the resulting Template ID into EMAILJS.TEMPLATE_QUOTE in js/app.js.
 
   Placeholders available (sent by postSubmission() in js/app.js):
-    {{name}} {{phone}} {{location}} {{project_type}}
+    {{name}} {{phone}} {{email}} {{location}} {{project_type}}
+    {{design_theme}} {{budget}} {{message}}
     {{whatsapp_optin}} {{submitted_at}} {{page_url}}
-  NOTE: there is no {{message}} here — the quote modal has no message box.
+  {{project_type}} arrives combined with its follow-up answer, e.g.
+    "Full home interior · 3 BHK"  or  "Only design service · 3D design".
+  {{message}} carries the visitor's free-text note. Any field they left blank
+  arrives as a comma, so a row is never empty-looking in the email.
   ============================================================================
 -->
 <div style="margin:0;padding:24px;background:#f4efe9;font-family:'Segoe UI',Helvetica,Arial,sans-serif;">
@@ -50,12 +54,26 @@
             </td>
           </tr>
           <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Email</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">
+              <a href="mailto:{{email}}" style="color:#a5763f;text-decoration:none;">{{email}}</a>
+            </td>
+          </tr>
+          <tr>
             <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Property location</td>
             <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{location}}</td>
           </tr>
           <tr>
             <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Project type</td>
-            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{project_type}}</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;font-weight:600;">{{project_type}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Design theme</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;">{{design_theme}}</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">Budget</td>
+            <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;font-weight:600;">{{budget}}</td>
           </tr>
           <tr>
             <td style="padding:9px 0;border-bottom:1px solid #f0e9e1;color:#8a7d70;">WhatsApp updates</td>
@@ -66,6 +84,9 @@
             <td style="padding:9px 0;color:#8a7d70;">{{submitted_at}}</td>
           </tr>
         </table>
+
+        <div style="margin:22px 0 6px;color:#8a7d70;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;">Their note</div>
+        <div style="background:#faf7f3;border-left:3px solid #c79a63;border-radius:0 6px 6px 0;padding:14px 16px;color:#2e2620;font-size:14px;line-height:1.6;white-space:pre-wrap;">{{message}}</div>
       </td>
     </tr>
 
