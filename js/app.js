@@ -86,7 +86,7 @@ const SERVICES = [
   {c:'si1',i:ICO.sofa,t:'Residential',s:'Homes designed around how you live.',d:'Complete home interiors, bedrooms, living, dining, kitchens and wardrobes, planned into one cohesive, boho-modern scheme tailored to your family, lifestyle and budget, and kept calm and uncluttered.',f:['Space planning & furniture layout','Colour, material & finish palettes','Modular kitchen & wardrobe design','Lighting, décor & final styling']},
   {c:'si2',i:ICO.building,t:'Commercial',s:'Spaces that work as hard as you do.',d:'Interiors for cafés, salons, retail and offices that balance brand identity, customer experience and day-to-day function, designed to look distinctive and run smoothly.',f:['Cafés, salons, retail & offices','Brand-led concept & theming','Customer-flow & seating planning','Durable, practical material choices']},
   {c:'si3',i:ICO.blueprint,t:'Architecture',s:'Thoughtful spaces from the ground up.',d:'Architectural design and space planning for new builds and major layouts, sound proportions, natural light and circulation worked out before a single wall goes up.',f:['Floor plans & space planning','Elevations & 3D massing','Site & circulation studies','Coordinated working drawings']},
-  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As a civil engineer, I bridge design and site, turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
+  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As an architect, I bridge design and site, turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
   {c:'si5',i:ICO.cube,t:'3D Visualization',s:'See it before it’s built.',d:'Photo-realistic 3D views of your proposed design so you can experience the colours, textures and layout in advance, and make confident decisions before any work begins.',f:['Photoreal 3D renders (V-Ray / Enscape)','Multiple angles & view options','Real-time walkthroughs','Revisions before execution']},
   {c:'si6',i:ICO.roller,t:'Renovation & Consultation',s:'Refresh, or just get direction.',d:'Reviving existing spaces with minimal fuss, or one-off consultations with mood boards, colour and material guidance for clients who want expert direction on their own project.',f:['Single-room or full renovation','Layout & flow improvements','One-off design consultation','Colour & material advice']}
 ];
@@ -124,25 +124,82 @@ const GAL=[
   {t:'Mint Modular Kitchen', s:'Modular · 3D Render', cat:'Kitchen',    img:'kitchen1', grad:'si1'},
   {t:'Green & Wood Kitchen', s:'Modular Kitchen',     cat:'Kitchen',    img:'kitchen2', grad:'si3'},
   {t:'Grey Modular Kitchen', s:'Modular Kitchen',     cat:'Kitchen',    img:'kitchen3', grad:'si4'},
+  {t:'Ivory & Wood L-Kitchen',s:'Modular Kitchen',    cat:'Kitchen',    img:'kitchen5', grad:'si4'},
+  {t:'Chevron Gloss Kitchen', s:'Kitchen · Dining',   cat:'Kitchen',    img:'kitchen6', grad:'si1'},
+  {t:'Navy & Walnut Kitchen', s:'Kitchen · Breakfast Counter',cat:'Kitchen',img:'kitchen7',grad:'si6'},
+  {t:'Aubergine Gloss Kitchen',s:'Kitchen · Dining',  cat:'Kitchen',    img:'kitchen8', grad:'si5'},
+  {t:'Sage Parallel Kitchen', s:'Modular Kitchen',    cat:'Kitchen',    img:'kitchen9', grad:'si2'},
+  {t:'Sky Breakfast Kitchen', s:'Kitchen · Breakfast Bar',cat:'Kitchen',img:'kitchen10',grad:'si4'},
+  {t:'Blush Gloss Kitchen',  s:'Modular Kitchen',      cat:'Kitchen',    img:'g2Kitchen1',grad:'si1'},
+  {t:'Grey Gloss L-Kitchen', s:'Modular Kitchen',      cat:'Kitchen',    img:'g2Kitchen2',grad:'si6'},
+  {t:'Blush Parallel Kitchen',s:'Modular Kitchen',     cat:'Kitchen',    img:'g2Kitchen3',grad:'si4'},
+  {t:'Pichwai Master Suite', s:'Master Bedroom',      cat:'Bedroom',    img:'bedPichwai',grad:'si4'},
   {t:'World-Map Bedroom',    s:'Bedroom',             cat:'Bedroom',    img:'bed_front',grad:'si2'},
   {t:'Tropical Headboard Suite', s:'Master Bedroom',  cat:'Bedroom',    img:'bed_angled',grad:'si4'},
   {t:'Arch Headboard Suite', s:'Master Bedroom',      cat:'Bedroom',    img:'bedroomF', grad:'si4'},
   {t:'Master Suite Lounge',  s:'Bedroom',             cat:'Bedroom',    img:'bedroomW', grad:'si5'},
   {t:'Wardrobe & Storage',   s:'Bedroom Storage',     cat:'Bedroom',    img:'wardrobe', grad:'si2'},
+  {t:'Magenta Wardrobe Suite',s:'Bedroom · Wardrobe', cat:'Bedroom',    img:'bedMagenta',grad:'si5'},
+  {t:'Blush Sliding Wardrobe',s:'Bedroom Storage',    cat:'Bedroom',    img:'wardrobe2',grad:'si1'},
+  {t:'World-Map Kids Room',  s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed1',   grad:'si2'},
+  {t:'Nursery Suite',        s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed2',   grad:'si3'},
+  {t:'Pastel Cloud Kids Room',s:'Kids Bedroom',       cat:'Bedroom',    img:'g2Bed3',   grad:'si1'},
+  {t:'Tropical Arch Bedroom',s:'Master Bedroom',      cat:'Bedroom',    img:'g2Bed4',   grad:'si4'},
+  {t:'Cane Wardrobe Bedroom',s:'Bedroom · Study',     cat:'Bedroom',    img:'g2Bed5',   grad:'si3'},
+  {t:'Jaali Study Bedroom',  s:'Bedroom · Study',     cat:'Bedroom',    img:'g2Bed6',   grad:'si2'},
+  {t:'Lotus Panel Wardrobe', s:'Bedroom · Wardrobe',  cat:'Bedroom',    img:'g2Bed7',   grad:'si6'},
+  {t:'Space Theme Kids Room',s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed8',   grad:'si2'},
+  {t:'Crane Art Master Suite',s:'Master Bedroom',     cat:'Bedroom',    img:'g2Bed9',   grad:'si5'},
+  {t:'Fluted Wall Bedroom', s:'Master Bedroom',       cat:'Bedroom',    img:'g2Bed10',  grad:'si1'},
+  {t:'Green Shelf Bedroom', s:'Bedroom · TV Unit',     cat:'Bedroom',    img:'g2Bed11',  grad:'si3'},
+  {t:'Pichwai TV Wall',      s:'Living · Décor',      cat:'Living',     img:'living6',  grad:'si3'},
   {t:'Living Room & TV Unit',s:'Living Room',         cat:'Living',     img:'living1',  grad:'si1'},
   {t:'Open Living & Dining', s:'Living · Dining',     cat:'Living',     img:'living2',  grad:'si6'},
+  {t:'Panelled TV Wall',     s:'Living Room',         cat:'Living',     img:'living4',  grad:'si4'},
+  {t:'Fluted Cane TV Unit',  s:'Living Room',         cat:'Living',     img:'living5',  grad:'si1'},
+  {t:'Sage Arch TV Unit',    s:'Living Room',         cat:'Living',     img:'living7',  grad:'si2'},
+  {t:'Stone & Halo TV Wall', s:'Living Room',         cat:'Living',     img:'living8',  grad:'si6'},
+  {t:'Garden-View Living',   s:'Living Room',         cat:'Living',     img:'living9',  grad:'si4'},
+  {t:'Heritage Art Living',  s:'Living · Décor',      cat:'Living',     img:'g2Living1',grad:'si3'},
+  {t:'Floral Marble TV Wall',s:'Living Room',         cat:'Living',     img:'g2Living2',grad:'si1'},
+  {t:'Fluted Wood TV Wall',  s:'Living · Pooja',      cat:'Living',     img:'g2Living3',grad:'si5'},
+  {t:'Bengali Art Living',   s:'Living · Décor',      cat:'Living',     img:'g2Living4',grad:'si3'},
+  {t:'Arched Panel Living',  s:'Living · Dining',     cat:'Living',     img:'g2Living5',grad:'si2'},
+  {t:'Swing & Pichwai Dining',s:'Dining · Décor',     cat:'Dining',     img:'dining3',  grad:'si2'},
+  {t:'Wood-Ceiling Dining',  s:'Dining · Kitchen',    cat:'Dining',     img:'g2Dining1',grad:'si3'},
+  {t:'Cane Pendant Dining',  s:'Dining Room',         cat:'Dining',     img:'g2Dining2',grad:'si1'},
+  {t:'Crockery & Display Unit',s:'Dining Storage',    cat:'Dining',     img:'g2Dining3',grad:'si4'},
+  {t:'Chandelier Dining',    s:'Dining · Stairwell',  cat:'Dining',     img:'g2Dining4',grad:'si6'},
+  {t:'Bar & Crockery Unit',  s:'Dining · Bar',        cat:'Dining',     img:'g2Dining5',grad:'si3'},
   {t:'Dining & Crockery Wall',s:'Dining Room',        cat:'Dining',     img:'dining',   grad:'si3'},
   {t:'Slat-Wall Dining',     s:'Dining Room',         cat:'Dining',     img:'dining2',  grad:'si1'},
-  {t:'Wooden Foyer',         s:'Entrance · Foyer',    cat:'Foyer',      img:'foyer',    grad:'si5'},
-  {t:'Jali Display Partition',s:'Foyer · Living',     cat:'Foyer',      img:'partition',grad:'si2'},
-  {t:'Foyer Entrance',       s:'Entrance',            cat:'Foyer',      img:'foyer2',   grad:'si3'},
+  {t:'Pichwai & Cane Partition',s:'Foyer · Entrance', cat:'Partitions',      img:'partition4',grad:'si5'},
+  {t:'Wooden Foyer',         s:'Entrance · Foyer',    cat:'Partitions',      img:'foyer',    grad:'si5'},
+  {t:'Jali Display Partition',s:'Foyer · Living',     cat:'Partitions',      img:'partition',grad:'si2'},
+  {t:'Lotus Jaali Partition', s:'Foyer · Living',     cat:'Partitions',      img:'partition2',grad:'si3'},
+  {t:'Pichwai Screen Divider',s:'Foyer · Living',     cat:'Partitions',      img:'partition3',grad:'si2'},
+  {t:'Lotus & Cow Medallion Screen',s:'Foyer · Décor',cat:'Partitions',      img:'partition5',grad:'si1'},
+  {t:'Foyer Entrance',       s:'Entrance',            cat:'Partitions',      img:'foyer2',   grad:'si3'},
+  {t:'Temple Mural Pooja Unit',s:'Pooja Room · Mandir',cat:'Pooja Room', img:'pooja5',   grad:'si3'},
   {t:'Lotus Pooja Door',     s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja1',   grad:'si3'},
   {t:'Namam Pooja Doors',    s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja2',   grad:'si5'},
   {t:'Star-Glass Pooja Room',s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja3',   grad:'si4'},
   {t:'Kolam Pooja Doors',    s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja4',   grad:'si1'},
+  {t:'Brass Lotus Pooja Doors',s:'Pooja Room · Mandir',cat:'Pooja Room', img:'pooja6',   grad:'si4'},
+  {t:'Indigo Pichwai Mandir',s:'Pooja Room · Mandir',  cat:'Pooja Room', img:'pooja7',   grad:'si6'},
+  {t:'Oak Medallion Pooja Doors',s:'Pooja Room · Mandir',cat:'Pooja Room',img:'pooja8',  grad:'si1'},
   {t:'Balcony Sit-out',      s:'Balcony',             cat:'Balcony',    img:'balcony',  grad:'si4'},
+  {t:'Sunset Balcony Deck',  s:'Balcony · Utility',   cat:'Balcony',    img:'balcony2', grad:'si5'},
+  {t:'Dusk Balcony Garden',  s:'Balcony · Sit-out',   cat:'Balcony',    img:'g2Balcony1',grad:'si2'},
+  {t:'Art Plate Niche',      s:'Foyer · Décor',       cat:'Partitions',      img:'decor1',   grad:'si2'},
   {t:'Beauty Salon',         s:'Commercial · Retail', cat:'Commercial', img:'salon',    grad:'si5'},
-  {t:'Café Interior',        s:'Commercial · Hospitality', cat:'Commercial', img:'cafe',grad:'si2'}
+  {t:'Café Interior',        s:'Commercial · Hospitality', cat:'Commercial', img:'cafe',grad:'si2'},
+  {t:'Coastal Organic Café', s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe1',grad:'si2'},
+  {t:'Café Rattan Booths',   s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe2',grad:'si4'},
+  {t:'Coastal Café Bar',     s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe3',grad:'si2'},
+  {t:'Coastal Café Booths',  s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe4',grad:'si4'},
+  {t:'Coastal Café Palm Court',s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe5',grad:'si1'},
+  {t:'Coastal Café Plate Wall',s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe6',grad:'si3'}
 ];
 const gg=$('galGrid');
 const stage=$('room3dStage');
@@ -270,15 +327,51 @@ document.querySelectorAll('.page-hero-bg[data-bg]').forEach(el=>{
 });
 
 setBg('.about-bg','bed_angled','linear-gradient(160deg,#c2bca8,#9d8467)');
-setBg('.des-img','salon','linear-gradient(160deg,#c2bca8,#9d8467)');
+setBg('.des-img','approach','linear-gradient(160deg,#c2bca8,#9d8467)');
 const port=document.querySelector('.about-portrait'); if(port) port.style.backgroundImage=`url('${ASSET.portrait}')`;
 
 /* ---------- counters ---------- */
+/* each stat counts itself up when it scrolls in, eased so the number decelerates
+   into place instead of ticking at a flat rate */
 (function(){
-  const why=$('why'); if(!why) return;
-  let counted=false;
-  const cio=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting&&!counted){counted=true;document.querySelectorAll('.num').forEach(n=>{const tgt=+n.dataset.count,suf=n.dataset.suffix||'';let c=0;const step=Math.max(1,tgt/60);const t=setInterval(()=>{c+=step;if(c>=tgt){c=tgt;clearInterval(t);}n.textContent=Math.floor(c)+suf;},20);});}});},{threshold:.4});
-  cio.observe(why);
+  const nums=document.querySelectorAll('.num[data-count]'); if(!nums.length) return;
+  const still=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const ease=t=>1-Math.pow(1-t,4);   // easeOutQuart
+  function paint(n,v){
+    const suf=n.dataset.suffix||'';
+    n.innerHTML=v+(suf?'<span class="sfx">'+suf+'</span>':'');
+  }
+  function run(n){
+    const tgt=+n.dataset.count||0, dur=1500, t0=performance.now();
+    const cell=n.closest('.stat'); if(cell) cell.classList.add('counted');
+    if(still){ paint(n,tgt); return; }
+    (function tick(now){
+      const p=Math.min(1,(now-t0)/dur);
+      paint(n,Math.round(tgt*ease(p)));
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  const cio=new IntersectionObserver((es)=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    cio.unobserve(e.target);
+    // hold back so the number starts just after its cell has faded in
+    const cell=e.target.closest('.stat');
+    const idx=cell&&cell.parentNode?[].indexOf.call(cell.parentNode.children,cell):0;
+    setTimeout(()=>run(e.target),still?0:180+idx*90);
+  }),{threshold:.5});
+  nums.forEach(n=>cio.observe(n));
+})();
+
+/* ---------- stat band: spotlight follows the cursor ---------- */
+(function(){
+  if(!window.matchMedia('(pointer:fine)').matches) return;
+  document.querySelectorAll('.stat').forEach(cell=>{
+    cell.addEventListener('pointermove',e=>{
+      const r=cell.getBoundingClientRect();
+      cell.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+      cell.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    });
+  });
 })();
 
 /* ---------- faq ---------- */
@@ -302,9 +395,8 @@ if(fl){
 
 /* ---------- careers ---------- */
 const CAREERS=[
-  {role:'Interior Designer',type:'Full-time · Hyderabad',desc:'Lead residential & commercial projects from concept to handover. 2+ years experience and a strong portfolio preferred.'},
-  {role:'3D Visualization Artist',type:'Full-time / Freelance',desc:'Create photoreal renders and walkthroughs in SketchUp + V-Ray / Enscape. An eye for lighting and materials is a must.'},
-  {role:'Design Intern',type:'Internship · 3–6 months',desc:'Support mood boards, drawings and site visits while learning the full design process hands-on. For students & fresh graduates.'}
+  {role:'Site Engineer',type:'Full-time · Hyderabad',desc:'Coordinate site execution, client coordination, material follow-up and progress tracking for residential and commercial interiors. Civil/site experience preferred.'},
+  {role:'Interior Design Intern',type:'Internship · 3–6 months',desc:'Assist with concept development, mood boards, space planning, material research and client presentations while learning the studio workflow hands-on.'}
 ];
 const cg=$('careerGrid');
 if(cg){
@@ -313,8 +405,11 @@ if(cg){
     const el=document.createElement('div');
     el.className='career-card';
     el.style.borderTopColor=accent;
+    // a plain mailto silently does nothing on desktops with no mail client set up,
+    // so Apply opens a form that posts to the same inbox the enquiry forms use
     el.innerHTML=`<b>${c.role}</b><span class="career-type">${c.type}</span><p>${c.desc}</p>
-      <a class="career-apply" href="mailto:interiorsbykaveri@gmail.com?subject=${encodeURIComponent('Application: '+c.role)}">Apply →</a>`;
+      <button class="career-apply" type="button">Apply →</button>`;
+    el.querySelector('.career-apply').addEventListener('click',()=>openApply(c.role));
     cg.appendChild(el);
   });
 }
@@ -341,12 +436,16 @@ if(cg){
    file is missing simply shows its poster with a "coming soon" note, the rest
    keep working, so you can add videos one at a time. */
 const TOURS = [
-  {t:'Bedroom',  s:'Master bedroom walkthrough', src:'assets/video/bedroom.mp4', img:'bed_angled', grad:'si1'},
-  {t:'Kitchen',  s:'Modular kitchen walkthrough', src:'assets/video/kitchen.mp4', img:'kitchen1',  grad:'si4'},
-  {t:'Living',   s:'Living room walkthrough',     src:'assets/video/living.mp4',  img:'living1',   grad:'si2'},
-  {t:'Foyer',    s:'Entrance foyer walkthrough',  src:'assets/video/foyer.mp4',   img:'foyer',     grad:'si5'},
-  {t:'Dining',   s:'Dining area walkthrough',     src:'assets/video/dining.mp4',  img:'dining',    grad:'si3'},
-  {t:'Balcony',  s:'Balcony sit-out walkthrough', src:'assets/video/balcony.mp4', img:'balcony',   grad:'si6'}
+  {t:'Walkthrough 01', s:'Tap to play', src:'assets/video/tour-01.mp4', img:'bedPichwai',   grad:'si1'},
+  {t:'Walkthrough 02', s:'Tap to play', src:'assets/video/tour-02.mp4', img:'living6',      grad:'si4'},
+  {t:'Walkthrough 03', s:'Tap to play', src:'assets/video/tour-03.mp4', img:'kitchen5',     grad:'si2'},
+  {t:'Walkthrough 04', s:'Tap to play', src:'assets/video/tour-04.mp4', img:'partition4',   grad:'si5'},
+  {t:'Walkthrough 05', s:'Tap to play', src:'assets/video/tour-05.mp4', img:'dining3',      grad:'si3'},
+  {t:'Walkthrough 06', s:'Tap to play', src:'assets/video/tour-06.mp4', img:'pooja5',       grad:'si6'},
+  {t:'Walkthrough 07', s:'Tap to play', src:'assets/video/tour-07.mp4', img:'living7',      grad:'si1'},
+  {t:'Walkthrough 08', s:'Tap to play', src:'assets/video/tour-08.mp4', img:'kitchen7',     grad:'si4'},
+  {t:'Walkthrough 09', s:'Tap to play', src:'assets/video/tour-09.mp4', img:'bedMagenta',   grad:'si5'},
+  {t:'Walkthrough 10', s:'Tap to play', src:'assets/video/tour-10.mp4', img:'balcony2',     grad:'si2'}
 ];
 (function(){
   const stage=$('tour3dStage'), dots=$('tour3dDots'), root3=$('tour3d');
@@ -454,14 +553,14 @@ function subscribe(){const e=$('newsEmail').value.trim();const ok=$('newsOk');if
 /* ---------- social media (single source of truth) ---------- */
 const SOCIALS=[
   ['Instagram','@interiorsbykaveri','https://www.instagram.com/interiorsbykaveri/','M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.0556-1.2809.0691-1.6898.0628-4.948-.0062-3.2583-.0207-3.6668-.0815-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.0744.3214 18.2018.1196 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.0508-1.169.2463-1.8055.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.4232-.1651 1.0577-.3614 2.2272-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4216.4194.6816.8176.9005 1.3787.1655.4218.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.0608 4.848-.051 1.17-.2453 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4226.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0033a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0033'],
-  // Facebook, TODO: replace the '#' below with the real Facebook page URL when available
-  ['Facebook','Kaveri Interiors','#','M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'],
+  ['Facebook','Kaveri Interiors','https://www.facebook.com/people/Kaveri-Interiors/61567068665464/','M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'],
   ['YouTube','@kaveriinteriors','https://www.youtube.com/@kaveriinteriors','M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'],
   ['Pinterest','interiorsbykaveri','https://www.pinterest.com/interiorsbykaveri/','M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z'],
   ['Threads','@interiorsbykaveri','https://www.threads.com/@interiorsbykaveri','M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.475 7.176c.98-1.452 2.568-2.252 4.601-2.252h.043c3.393.024 5.414 2.078 5.711 5.652.169.069.339.143.504.224 1.39.654 2.408 1.642 2.946 2.864.751 1.701.82 4.474-1.43 6.726-1.719 1.717-3.939 2.483-6.946 2.503Z']
 ];
 const svgIcon=(d)=>`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
-// placeholder-aware anchor attributes (Facebook link not provided yet → '#')
+// placeholder-aware anchor attributes: any entry whose url is '#' renders as a
+// dead, clearly-labelled link rather than a broken one. All are live right now.
 const socialAttrs=(name,url)=> (url && url!=='#')
   ? `href="${url}" target="_blank" rel="noopener" aria-label="${name}" title="${name}"`
   : `href="#" onclick="return false" aria-label="${name} (link coming soon)" title="${name}, link coming soon"`;
@@ -549,55 +648,102 @@ document.querySelectorAll('[data-socials]').forEach(box=>{
   io2.observe(cmp);
 })();
 
-/* ---------- reels strip (links to Instagram) ---------- */
+/* ---------- reels strip ----------------------------------------------------
+   REELS is the list shown in "Reels from the studio". To feature a reel, open it
+   on Instagram, hit ⋯ → "Copy link", and take the shortcode out of the URL:
+
+       https://www.instagram.com/reel/DK4pQrXyz12/   ->   code:'DK4pQrXyz12'
+
+   With a code set, the card shows that reel's real Instagram cover (fetched by
+   /api/reel-thumb) and plays the reel in a lightbox on this site. `cover` is the
+   local image shown until the Instagram cover arrives, and if it can't be reached
+   at all. An entry with no code just links out to the profile, as before.        */
+const IG_URL='https://www.instagram.com/interiorsbykaveri/';
+const REELS=[
+  {code:'DbK6-1bTBem', cover:'living1'},     // 23 Jul 2026
+  {code:'DbDSkf_TeHA', cover:'foyer'},       // 21 Jul 2026
+  {code:'DbAvJtpznYy', cover:'balcony'},     // 20 Jul 2026
+  {code:'Da2pTcfzXqE', cover:'dining'},      // 15 Jul 2026
+  {code:'DanMgrazBzX', cover:'bed_angled'},  // 10 Jul 2026
+  {code:'DakoB6UTQUI', cover:'living1'},     //  9 Jul 2026
+  {code:'DaiDEy5TPrF', cover:'kitchen1'},    //  8 Jul 2026
+  {code:'DaSmMlXzOid', cover:'bed_angled'}   //  2 Jul 2026
+];
+const reelUrl=code=>'https://www.instagram.com/reel/'+code+'/';
+
+/* Newest reel first. A shortcode is base64 of the media id, which climbs with
+   every post, so comparing codes puts them in posting order — meaning a new link
+   can be pasted anywhere in the list above and still lands in the right place. */
+const IG64='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+function newestFirst(a,b){
+  const x=a.code||'',y=b.code||'';
+  if(!x||!y) return (x?0:1)-(y?0:1);            // entries with no code sink to the end
+  if(x.length!==y.length) return y.length-x.length;
+  for(let i=0;i<x.length;i++){
+    const d=IG64.indexOf(y[i])-IG64.indexOf(x[i]);
+    if(d) return d;
+  }
+  return 0;
+}
+
+function openReel(code){
+  const frame=$('reelFrame'); if(!frame) return;
+  frame.innerHTML='<iframe src="'+reelUrl(code)+'embed/" title="Instagram reel" '+
+    'frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen '+
+    'allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"></iframe>';
+  const out=$('reelOpen'); if(out) out.href=reelUrl(code);
+  openModal('reelModal');
+}
+
 (function(){
   const rg=$('reelsGrid'); if(!rg) return;
-  const R=['bed_angled','kitchen1','living1','foyer','dining','balcony'];
   const play='<span class="reel-play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>';
   const tag='<span class="reel-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>Reel</span>';
-  R.forEach((k,i)=>{
+  REELS.slice().sort(newestFirst).forEach((r,i)=>{
     const a=document.createElement('a');
     a.className='reel';
-    a.href='https://www.instagram.com/interiorsbykaveri/';
-    a.target='_blank'; a.rel='noopener';
-    a.setAttribute('aria-label','Watch on Instagram');
-    a.style.background=RBG(k,GRAD['si'+((i%6)+1)]);
-    a.innerHTML=tag+play;
+    a.style.background=RBG(r.cover,GRAD['si'+((i%6)+1)]);
+    if(r.code){
+      // real reel: Instagram's own cover, and playback stays on this site
+      a.href=reelUrl(r.code);
+      a.setAttribute('aria-label','Play this reel');
+      a.innerHTML='<img class="reel-thumb" src="/api/reel-thumb?code='+encodeURIComponent(r.code)+
+        '" alt="" loading="lazy" decoding="async">'+tag+play;
+      const im=a.querySelector('.reel-thumb');
+      im.addEventListener('load',()=>im.classList.add('on'));
+      im.addEventListener('error',()=>im.remove());   // keep the local cover
+      a.addEventListener('click',e=>{e.preventDefault();openReel(r.code);});
+    }else{
+      a.href=IG_URL;
+      a.target='_blank'; a.rel='noopener';
+      a.setAttribute('aria-label','Watch on Instagram');
+      a.innerHTML=tag+play;
+    }
     rg.appendChild(a);
   });
-})();
 
-/* ---------- custom cursor (desktop only) ---------- */
-(function(){
-  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
-  const dot=document.createElement('div'); dot.id='cdot';
-  const ring=document.createElement('div'); ring.id='cring';
-  document.body.appendChild(dot); document.body.appendChild(ring);
-  document.body.classList.add('has-cursor');
-  const HOT='a,button,input,select,textarea,.gal,.gal-cat,.reel,.connect-card,.serv-card,.insp,.tst-arrow,.faq-q,.btn,.fab,[onclick]';
-  let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;
-  addEventListener('mousemove',e=>{
-    x=e.clientX;y=e.clientY;
-    dot.style.left=x+'px';dot.style.top=y+'px';
-    ring.classList.toggle('hot', !!(e.target.closest&&e.target.closest(HOT)));
-  },{passive:true});
-  (function loop(){rx+=(x-rx)*0.2;ry+=(y-ry)*0.2;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-  addEventListener('mousedown',()=>ring.classList.add('click'));
-  addEventListener('mouseup',()=>ring.classList.remove('click'));
-  document.addEventListener('mouseleave',()=>{dot.style.opacity=0;ring.style.opacity=0;});
-  document.addEventListener('mouseenter',()=>{dot.style.opacity=1;ring.style.opacity=1;});
+  // drop the iframe whenever the modal closes, however it was closed, so the
+  // reel stops playing instead of carrying on behind the page
+  const modal=$('reelModal'), frame=$('reelFrame');
+  if(modal&&frame){
+    new MutationObserver(()=>{ if(!modal.classList.contains('open')) frame.innerHTML=''; })
+      .observe(modal,{attributes:true,attributeFilter:['class']});
+  }
 })();
 
 /* ---------- enquiry / quote submission ---------- */
 /* One shape of the enquiry, shared by the email template and the sheet row. */
 function enquiryParams(src, payload){
   return {
-    form_type:      src === 'quote' ? 'Quote request' : 'Contact enquiry',
+    form_type:      payload.formLabel || (src === 'quote' ? 'Quote request' : 'Contact enquiry'),
     name:           payload.name,
     phone:          payload.phone,
     location:       payload.location    || ', ',
     project_type:   payload.projectType || ', ',
     message:        payload.message     || ', ',
+    email:          payload.email       || ', ',
+    budget:         payload.budget      || ', ',
+    design_theme:   payload.designTheme  || ', ',
     whatsapp_optin: payload.whatsappOptIn ? 'Yes' : 'No',
     page_url:       window.location.href,
     submitted_at:   new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
@@ -614,11 +760,10 @@ async function sendEmail(src, params){
   if (template.startsWith('YOUR_')) throw new Error('EmailJS template not configured for: ' + src);
 
   emailjs.init({ publicKey: EMAILJS.PUBLIC_KEY });
-  // Keys must match the {{placeholders}} in the matching template file. The
-  // quote template has no {{message}}, so don't send one.
-  const p = Object.assign({}, params);
-  if (isQuote) delete p.message;
-  return emailjs.send(EMAILJS.SERVICE_ID, template, p);
+  // Keys must match the {{placeholders}} in the matching template file. The quote
+  // form now folds design theme, budget, email and notes into {{message}}, so it
+  // is sent for both forms — the quote template renders {{message}} too.
+  return emailjs.send(EMAILJS.SERVICE_ID, template, params);
 }
 
 /* Permanent record. No quota, this is what must not fail.
@@ -652,6 +797,71 @@ async function postSubmission(src, payload){
   }
   return { emailed: email.status === 'fulfilled', logged: sheet.status === 'fulfilled' };
 }
+/* ---------- careers: application form ----------------------------------------
+   Applications ride the same two rails as every other enquiry — an EmailJS
+   notification to the studio inbox plus a row in the Google Sheet — so one
+   failing never loses the candidate. A prefilled mailto stays on screen as a
+   manual fallback.                                                             */
+const CAREERS_EMAIL = 'interiorsbykaveri@gmail.com';
+
+function applyMailto(role, name, phone, email, folio, note){
+  const lines = ['Hi Kaveri Interiors,', '', `I'd like to apply for the ${role} role.`, ''];
+  if(name)  lines.push('Name: ' + name);
+  if(phone) lines.push('Phone: ' + phone);
+  if(email) lines.push('Email: ' + email);
+  if(folio) lines.push('Portfolio: ' + folio);
+  if(note)  lines.push('', note);
+  lines.push('', 'Thank you.');
+  return 'mailto:' + CAREERS_EMAIL +
+    '?subject=' + encodeURIComponent('Application: ' + role) +
+    '&body='    + encodeURIComponent(lines.join('\n'));
+}
+
+function openApply(role){
+  const label=$('applyRole'), hidden=$('applyRoleValue'), mail=$('applyMail'), res=$('applyResult');
+  if(label)  label.textContent = role;
+  if(hidden) hidden.value = role;
+  if(mail)   mail.href = applyMailto(role);
+  if(res){ res.textContent=''; res.className='form-msg'; }
+  openModal('applyModal');
+}
+
+async function sendApply(){
+  const g=id=>{const el=$(id);return el?el.value.trim():'';};
+  const role=g('applyRoleValue')||'General application';
+  const name=g('aName'), phone=g('aPhone'), email=g('aEmail'), folio=g('aFolio'), note=g('aMsg');
+  if(!name||!phone){ alert('Please add your name and phone number.'); return; }
+
+  // fold the extra fields into `message` so the existing template + sheet columns fit
+  const message=[`Applying for: ${role}`, email&&`Email: ${email}`, folio&&`Portfolio: ${folio}`,
+                 note&&`Note: ${note}`].filter(Boolean).join('\n');
+  const payload={name, phone, location:'', projectType:'Career · '+role, message,
+                 whatsappOptIn:false, formLabel:'Job application'};
+
+  const res=$('applyResult'), btn=res?res.previousElementSibling:null;
+  const label=btn?btn.textContent:'';
+  if(btn&&btn.disabled) return;                 // ignore double-taps while in flight
+  if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
+  if(res){ res.textContent=''; res.className='form-msg'; }
+
+  try{
+    await postSubmission('contact', payload);
+    if(res){ res.textContent='Thanks! Your application is with the studio, we’ll be in touch soon.';
+             res.className='form-msg success'; }
+    ['aName','aPhone','aEmail','aFolio','aMsg'].forEach(id=>{const el=$(id); if(el) el.value='';});
+    setTimeout(()=>closeModal('applyModal'), 1900);
+  }catch(error){
+    console.error('Application send failed:', error);
+    // hand them a fully prefilled email instead of losing the application
+    const mail=$('applyMail');
+    if(mail) mail.href=applyMailto(role, name, phone, email, folio, note);
+    if(res){ res.textContent='Could not send just now — use the email link below and it will arrive prefilled.';
+             res.className='form-msg error'; }
+  }finally{
+    if(btn){ btn.disabled=false; btn.textContent=label; }
+  }
+}
+
 function sendWhatsApp(name, phone, loc, type, msg){
   let text = `Hi Kaveri! I'd like a quote.%0A%0AName: ${name}%0APhone: ${phone}`;
   if(loc) text += `%0ALocation: ${loc}`;
@@ -659,13 +869,38 @@ function sendWhatsApp(name, phone, loc, type, msg){
   if(msg) text += `%0ADetails: ${msg}`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
 }
+/* Project type drives a follow-up dropdown: home size for a full interior,
+   which drawing set for a design-only job. Hidden until the parent is chosen. */
+function quoteTypeChanged(){
+  const t=$('qType')?$('qType').value:'';
+  const pairs=[['qHomeWrap','qHome','Full home interior'],
+               ['qServiceWrap','qService','Only design service']];
+  pairs.forEach(([wrapId,selId,match])=>{
+    const wrap=$(wrapId), sel=$(selId);
+    if(!wrap) return;
+    wrap.hidden = (t!==match);
+    if(wrap.hidden && sel) sel.value='';   // don't submit a stale sub-answer
+  });
+}
+
 async function sendQuote(src){
   const g=id=>{const el=$(id);return el?el.value.trim():'';};
-  let name,phone,loc,type,msg,wa;
-  if(src==='quote'){name=g('qName');phone=g('qPhone');loc=g('qLoc');type=g('qType');msg='';wa=$('qWa')?$('qWa').checked:false;}
+  let name,phone,loc,type,msg,wa,email='',budget='',theme='';
+  if(src==='quote'){
+    name=g('qName');phone=g('qPhone');loc=g('qLoc');
+    // fold the sub-answer into the project type: "Full home interior · 3 BHK"
+    const base=g('qType'), sub=g('qHome')||g('qService');
+    type = base + (sub ? ' · ' + sub : '');
+    email=g('qEmail'); budget=g('qBudget'); theme=g('qTheme');
+    msg=[theme  && 'Design theme: '+theme,
+         budget && 'Budget: '+budget,
+         email  && 'Email: '+email,
+         g('qNotes')].filter(Boolean).join('\n');
+    wa=$('qWa')?$('qWa').checked:false;
+  }
   else{name=g('cName');phone=g('cPhone');loc=g('cLoc');type=g('cType');msg=g('cMsg');wa=$('cWa')?$('cWa').checked:false;}
   if(!name||!phone){alert('Please add your name and phone number.');return;}
-  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa};
+  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa,email,budget,designTheme:theme};
   const resultEl = $(src==='quote' ? 'quoteResult' : 'contactResult');
   // The submit button always sits immediately before the message div in both forms.
   const btn = resultEl ? resultEl.previousElementSibling : null;
@@ -677,8 +912,11 @@ async function sendQuote(src){
   try{
     await postSubmission(src,payload);
     if(resultEl){resultEl.textContent='Thanks! Your request is received and will be responded to within 24 hours.';resultEl.className='form-msg success';}
-    ['Name','Phone','Loc','Type'].forEach(k=>{const el=$((src==='quote'?'q':'c')+k);if(el)el.value='';});
-    if(src==='contact' && $('cMsg')) $('cMsg').value='';
+    const fields = src==='quote'
+      ? ['qName','qPhone','qEmail','qLoc','qType','qHome','qService','qTheme','qBudget','qNotes']
+      : ['cName','cPhone','cLoc','cType','cMsg'];
+    fields.forEach(id=>{const el=$(id); if(el) el.value='';});
+    if(src==='quote') quoteTypeChanged();      // re-hide the follow-up dropdowns
     // Hold the modal open briefly so the success line is actually readable.
     if(src==='quote') setTimeout(()=>closeModal('quoteModal'),1600);
   }catch(error){

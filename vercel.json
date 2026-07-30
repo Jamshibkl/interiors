@@ -1,4 +1,4 @@
 {
-  "builds": [],
+  "buildCommand": "node scripts/build-pages.js",
   "outputDirectory": "public"
 }

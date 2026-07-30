@@ -8,9 +8,9 @@
     --rose:#dec8b8;--rose-d:#c19f88;
     --terra:#cb9d70;--terra-d:#a56b41;
     --line:#e0d3bf;
-    /* Single typeface site-wide: Inter. --serif is kept as a variable so the
-       many existing var(--serif) references all resolve to Inter too. */
-    --serif:"Inter",-apple-system,"Segoe UI",sans-serif;
+    /* Two typefaces: Playfair Display carries the headlines (high-contrast
+       display serif), Inter handles UI, body copy and all the small caps. */
+    --serif:"Playfair Display",Georgia,"Times New Roman",serif;
     --sans:"Inter",-apple-system,"Segoe UI",sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -195,7 +195,7 @@
   .serv-ico{display:inline-flex;color:var(--gold-light);margin-bottom:16px;transition:transform .5s cubic-bezier(.16,1,.3,1)}
   .serv-ico svg{width:30px;height:30px}
   .serv-card:hover .serv-ico{transform:translateY(-2px)}
-  .serv-card h3{font-family:var(--sans);font-weight:500;text-transform:uppercase;letter-spacing:.04em;font-size:21px;color:#fff;margin-bottom:9px;line-height:1.1}
+  .serv-card h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;font-size:24px;color:#fff;margin-bottom:9px;line-height:1.1}
   .serv-card p{font-size:14.5px;color:rgba(248,242,231,.78);line-height:1.55;margin:0;max-width:94%}
   /* the Explore link reveals on hover */
   .serv-link{display:inline-flex;align-items:center;gap:9px;margin-top:18px;font-size:11px;font-weight:600;letter-spacing:2px;
@@ -215,18 +215,70 @@
   .si5{background:linear-gradient(155deg,var(--rose),var(--terra-d))}
   .si6{background:linear-gradient(155deg,var(--sage-d),var(--black-2))}
 
-  /* why choose us / counters */
+  /* why choose us / counters — one unified band instead of four loose boxes */
   #why{background:linear-gradient(180deg,#f6f2ea 0%,#eee7db 100%)}
-  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-  .why-card{position:relative;text-align:center;padding:40px 22px 34px;background:#fff;border:1px solid rgba(171,143,104,.14);border-radius:18px;overflow:hidden;
-    box-shadow:0 12px 34px -26px rgba(80,55,30,.5);transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s ease}
-  /* gold bar sweeps across the top on hover */
-  .why-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));
-    transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.16,1,.3,1)}
-  .why-card:hover::before{transform:scaleX(1)}
-  .why-card .num{font-family:var(--sans);font-size:clamp(44px,4.6vw,58px);font-weight:700;line-height:1;letter-spacing:-.02em;
-    background:linear-gradient(135deg,var(--gold-deep) 0%,#c9a267 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold-deep)}
-  .why-card .lbl{font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-soft);margin-top:14px;font-weight:600}
+  .stat-band{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    /* the 1px grid gap IS the hairline divider — works at every breakpoint */
+    background:rgba(171,143,104,.24);border:1px solid rgba(171,143,104,.26);border-radius:26px;overflow:hidden;
+    box-shadow:0 46px 84px -56px rgba(80,55,30,.7),inset 0 1px 0 rgba(255,255,255,.85)}
+  /* gold hairline draws across the top once the band scrolls into view */
+  .stat-band::after{content:"";position:absolute;left:0;top:0;height:2px;width:100%;z-index:4;pointer-events:none;
+    background:linear-gradient(90deg,transparent,var(--gold-light),var(--gold),var(--gold-light),transparent);
+    transform:scaleX(0);transform-origin:left;transition:transform 1.5s cubic-bezier(.16,1,.3,1) .2s}
+  .stat-band.in::after{transform:scaleX(1)}
+  .stat{--mx:50%;--my:0%;--d:0s;position:relative;isolation:isolate;overflow:hidden;text-align:center;
+    padding:46px 24px 40px;background:linear-gradient(180deg,#fffdfa 0%,#fbf6ee 100%);
+    transition:background .5s ease}
+  /* spotlight follows the cursor across the cell (coords set in app.js) */
+  .stat::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .45s ease;
+    background:radial-gradient(300px circle at var(--mx) var(--my),rgba(182,133,79,.18),transparent 70%)}
+  .stat:hover::before{opacity:1}
+  .stat-ico{width:48px;height:48px;margin:0 auto 20px;display:grid;place-items:center;border-radius:15px;
+    color:var(--gold-deep);background:linear-gradient(155deg,#f4ead9,#e8d9c1);border:1px solid rgba(171,143,104,.32);
+    transition:background .45s ease,color .45s ease,box-shadow .45s ease,border-color .45s ease}
+  .stat-ico svg{width:22px;height:22px;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+  .stat:hover .stat-ico{color:#fff;border-color:transparent;background:linear-gradient(155deg,var(--gold),var(--gold-deep));
+    box-shadow:0 16px 28px -14px rgba(149,100,56,.95)}
+  .stat:hover .stat-ico svg{transform:rotate(-8deg) scale(1.12)}
+  .stat-num{font-family:var(--serif);font-size:clamp(42px,4.4vw,58px);font-weight:700;line-height:1;letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums;   /* stops the digits jittering mid count-up */
+    background:linear-gradient(135deg,var(--gold-deep) 0%,#c9a267 100%);-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:var(--gold-deep)}
+  .stat-num .sfx{font-size:.48em;font-weight:600;vertical-align:.6em;margin-left:3px;letter-spacing:0}
+  .stat-lbl{font-size:11.5px;letter-spacing:1.7px;text-transform:uppercase;color:var(--ink-soft);margin-top:15px;font-weight:600;line-height:1.5}
+  /* rule fills as the number lands, and stretches on hover */
+  .stat-rule{display:block;width:44px;height:2px;margin:18px auto 0;border-radius:2px;background:rgba(171,143,104,.24);
+    overflow:hidden;transition:width .5s cubic-bezier(.16,1,.3,1)}
+  .stat-rule i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));
+    transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+  .stat.counted .stat-rule i{transform:scaleX(1)}
+  .stat:hover .stat-rule{width:76px}
+  /* staggered entrance, cell by cell then element by element inside each cell */
+  .stat:nth-child(2){--d:.09s}
+  .stat:nth-child(3){--d:.18s}
+  .stat:nth-child(4){--d:.27s}
+  .stat-ico,.stat-num,.stat-lbl,.stat-rule{opacity:0}
+  @keyframes statIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .stat-band.in .stat-ico{animation:statIn .85s cubic-bezier(.16,1,.3,1) var(--d) both}
+  .stat-band.in .stat-num{animation:statIn .85s cubic-bezier(.16,1,.3,1) calc(var(--d) + .07s) both}
+  .stat-band.in .stat-lbl{animation:statIn .85s cubic-bezier(.16,1,.3,1) calc(var(--d) + .14s) both}
+  .stat-band.in .stat-rule{animation:statIn .85s cubic-bezier(.16,1,.3,1) calc(var(--d) + .2s) both}
+  @media(prefers-reduced-motion:reduce){
+    .stat-ico,.stat-num,.stat-lbl,.stat-rule{opacity:1}
+    .stat-band.in .stat-ico,.stat-band.in .stat-num,.stat-band.in .stat-lbl,.stat-band.in .stat-rule{animation:none}
+    .stat-band::after{transition:none;transform:scaleX(1)}
+    .stat::before{display:none}
+  }
+  /* breathing room between the band and whatever cards follow it */
+  .stat-band + .ws-grid,.stat-band + .why-feats{margin-top:clamp(34px,4.4vw,58px)}
+  @media(max-width:980px){ .stat-band{grid-template-columns:1fr 1fr;border-radius:22px} }
+  @media(max-width:480px){
+    .stat{padding:34px 14px 30px}
+    .stat-ico{width:40px;height:40px;margin-bottom:14px;border-radius:12px}
+    .stat-ico svg{width:19px;height:19px}
+    .stat-lbl{font-size:10px;letter-spacing:1.2px;margin-top:12px}
+    .stat-rule{margin-top:14px}
+  }
 
   /* inspiration categories */
   #inspiration{background:#efe1d1}
@@ -538,7 +590,7 @@
     transform:scaleY(0);transform-origin:top;transition:transform .55s cubic-bezier(.16,1,.3,1)}
   .why-feat:hover{transform:translateY(-6px);box-shadow:0 34px 60px -32px rgba(80,55,30,.55)}
   .why-feat:hover::before{transform:scaleY(1)}
-  .why-feat b{font-family:var(--sans);font-size:18.5px;font-weight:600;display:block;margin-bottom:10px;color:var(--black);transition:color .35s ease}
+  .why-feat b{font-family:var(--serif);font-size:21.5px;font-weight:700;display:block;margin-bottom:10px;color:var(--black);transition:color .35s ease}
   .why-feat:hover b{color:var(--gold-deep)}
   .why-feat p{font-size:14.5px;color:var(--ink-soft);line-height:1.68}
 
@@ -564,14 +616,22 @@
 
   /* careers */
   #careers{background:#efe1d1}
-  .career-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .career-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:760px;margin:0 auto}
   .career-card{background:var(--cream);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:16px;padding:28px 26px;transition:transform .35s,box-shadow .35s}
   .career-card:hover{transform:translateY(-5px);box-shadow:0 22px 44px -28px rgba(80,55,30,.5)}
   .career-card b{font-family:var(--serif);font-size:24px;font-weight:700;display:block}
   .career-type{display:inline-block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-deep);margin:6px 0 14px}
   .career-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px}
-  .career-apply{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-deep);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px;transition:color .3s,border-color .3s}
+  /* a <button> so it opens the application form — reset the browser chrome */
+  .career-apply{display:inline-block;background:none;border:0;cursor:pointer;font-family:var(--sans);font-weight:600;
+    font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-deep);text-decoration:none;
+    border-bottom:1px solid var(--gold);padding:0 0 3px;transition:color .3s,border-color .3s}
   .career-apply:hover{color:var(--black);border-color:var(--black)}
+  .career-apply:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+  /* fallback link under the application form */
+  .apply-mail{display:block;margin-top:16px;text-align:center;font-size:12.5px;color:var(--ink-soft);
+    text-decoration:underline;text-underline-offset:3px;transition:color .3s}
+  .apply-mail:hover{color:var(--gold-deep)}
   .career-cta{text-align:center;margin-top:40px;max-width:640px;margin-left:auto;margin-right:auto}
   .career-cta p{color:var(--ink-soft);margin-bottom:20px}
   /* empty state — no current vacancies */
@@ -581,12 +641,15 @@
   .career-empty p{color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin-bottom:26px}
 
   @media(max-width:980px){
-    .why-feats,.career-grid{grid-template-columns:1fr 1fr}
+    .why-feats{grid-template-columns:1fr 1fr}
+    .career-grid{grid-template-columns:1fr 1fr}
     .serv-grid,.insp-grid,.tst-grid,.tools-grid{grid-template-columns:1fr 1fr}
-    .why-grid{grid-template-columns:1fr 1fr}
     .gal-grid{grid-template-columns:1fr 1fr}
     .tb-follow,.tb-item.tb-loc{display:none}
     .tb-inner{padding:0 20px}
+  }
+  @media(max-width:640px){
+    .career-grid{grid-template-columns:1fr}
   }
   @media(max-width:760px){
     .wrap{padding:0 20px}
@@ -608,7 +671,7 @@
     .about-panel::before{display:none}
     .about-portrait{max-width:230px;margin:0 auto}
     .des-img{height:340px}
-    .serv-grid,.insp-grid,.tst-grid,.why-grid,.tools-grid,.why-feats,.career-grid{grid-template-columns:1fr}
+    .serv-grid,.insp-grid,.tst-grid,.tools-grid,.why-feats,.career-grid{grid-template-columns:1fr}
     .gal-grid{grid-template-columns:1fr}
     .gal{aspect-ratio:16/10}
     .room3d-viewport{height:380px}
@@ -634,7 +697,6 @@
     .foot-soc{justify-content:center}
     footer{padding-top:58px}
     footer h4{margin-bottom:14px}
-    .why-grid{grid-template-columns:1fr 1fr}
     .hero-inner h1{font-size:clamp(34px,10vw,46px);margin-bottom:18px}
     .hero-inner .eyebrow{font-size:10px;letter-spacing:2.5px}
     .eyebrow::before,.hero-inner .eyebrow::after{width:24px}
@@ -715,10 +777,10 @@
   .step::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));
     transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.16,1,.3,1)}
   .step:hover::before{transform:scaleX(1)}
-  .step .step-no{counter-increment:step;font-family:var(--sans);font-weight:700;font-size:44px;line-height:1;display:block;margin-bottom:16px;letter-spacing:-.02em;
+  .step .step-no{counter-increment:step;font-family:var(--serif);font-weight:700;font-size:44px;line-height:1;display:block;margin-bottom:16px;letter-spacing:-.02em;
     background:linear-gradient(135deg,var(--gold-light) 0%,var(--gold-deep) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold-light)}
   .step .step-no::before{content:"0" counter(step)}
-  .step b{font-family:var(--sans);font-size:19px;font-weight:600;display:block;margin-bottom:9px;color:#fff}
+  .step b{font-family:var(--serif);font-size:21.5px;font-weight:700;display:block;margin-bottom:9px;color:#fff}
   .step p{font-size:14.5px;color:rgba(248,242,231,.72);line-height:1.66}
 
   /* home teaser cards (services preview that link to the services page) */
@@ -757,7 +819,6 @@
   .insp:hover{transform:translateY(-8px) scale(1.025)}
   .gal:hover{transform:translateY(-7px) scale(1.012);z-index:3}
   .tool:hover{transform:translateY(-8px) scale(1.03)}
-  .why-card:hover{transform:translateY(-8px);box-shadow:0 34px 64px -30px rgba(80,55,30,.55)}
   .career-card:hover{transform:translateY(-8px) scale(1.02)}
   .about-portrait{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
   .about-panel:hover .about-portrait{transform:rotate(2deg) scale(1.03)}
@@ -785,7 +846,7 @@
   .founder .founder-grid{position:relative;z-index:2;max-width:1120px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;align-items:start}
   /* left: title block */
   .founder-eyebrow{font-size:12px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold-light);margin-bottom:26px}
-  .founder-name{font-family:var(--sans);font-weight:300;font-size:clamp(48px,6vw,88px);line-height:.95;letter-spacing:-.02em;color:#fff}
+  .founder-name{font-family:var(--serif);font-weight:500;font-size:clamp(48px,6vw,88px);line-height:.95;letter-spacing:-.02em;color:#fff}
   .founder-role{display:flex;align-items:center;gap:16px;margin-top:26px;color:rgba(248,242,231,.65);text-transform:uppercase;letter-spacing:2px;font-size:12.5px;font-weight:500}
   .founder-rule{display:block;width:44px;height:1px;background:rgba(202,180,143,.6);flex:none}
   /* right: bio + spec list */
@@ -881,7 +942,7 @@
   .philosophy .wrap{position:relative;z-index:2;max-width:1120px}
   .ph-head{text-align:center;margin-bottom:52px}
   .ph-eyebrow{font-size:11.5px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold-light);margin-bottom:14px}
-  .ph-title{font-family:var(--sans);font-weight:400;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(26px,3.2vw,42px);line-height:1.1;color:#fff}
+  .ph-title{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;font-size:clamp(26px,3.2vw,42px);line-height:1.1;color:#fff}
   /* single row of four numbered beliefs, thin gold divider between */
   .ph-grid{display:grid;grid-template-columns:repeat(4,1fr)}
   .ph-item{padding:6px 30px;position:relative;display:flex;flex-direction:column;gap:10px}
@@ -904,16 +965,6 @@
   .insta-cell:hover{transform:translateY(-5px);box-shadow:0 22px 44px -26px rgba(42,38,34,.6);z-index:2}
   .insta-cell:hover::after,.insta-cell:hover .ig-ico{opacity:1}
   .insta-cell:hover .ig-ico{transform:translate(-50%,-50%) scale(1)}
-
-  /* ---- custom cursor (desktop, fine pointer only) ---- */
-  @media(hover:hover) and (pointer:fine){
-    .has-cursor,.has-cursor *{cursor:none !important}
-    #cdot,#cring{position:fixed;top:0;left:0;z-index:10001;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-    #cdot{width:7px;height:7px;background:#fff;transform:translate(-50%,-50%)}
-    #cring{width:38px;height:38px;border:1.5px solid #fff;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,opacity .25s}
-    #cring.hot{width:60px;height:60px;background:rgba(255,255,255,.12)}
-    #cring.click{width:26px;height:26px}
-  }
 
   @media(max-width:760px){
     .insta-grid{grid-template-columns:repeat(3,1fr)}
@@ -957,40 +1008,95 @@
   .reels-head h2 em{font-style:italic;color:var(--gold-deep)}
   .reels-head a.rh-handle{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:var(--black);border:1px solid var(--black);padding:12px 22px;border-radius:30px;transition:background .3s,color .3s,transform .3s}
   .reels-head a.rh-handle:hover{background:var(--black);color:var(--cream);transform:translateY(-3px)}
-  .reels-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-  .reel{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background-size:cover;background-position:center;cursor:pointer;box-shadow:0 12px 30px -20px rgba(42,38,34,.6);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
-  .reel::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,12,.55) 0%,rgba(20,15,12,0) 45%);transition:opacity .4s}
-  .reel:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 28px 50px -26px rgba(42,38,34,.7);z-index:2}
-  .reel-tag{position:absolute;top:12px;left:12px;z-index:2;display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#fff;background:rgba(22,17,14,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);padding:5px 10px;border-radius:30px}
-  .reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);z-index:2;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(22,17,14,.32);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.65);transition:transform .4s,background .4s}
-  .reel:hover .reel-play{transform:translate(-50%,-50%) scale(1);background:var(--gold)}
+  .reels-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .reel{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background-size:cover;background-position:center;cursor:pointer;
+    box-shadow:0 18px 40px -26px rgba(42,38,34,.55),0 0 0 1px rgba(171,143,104,.16);
+    transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .6s ease}
+  .reel::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(to top,rgba(20,15,12,.5) 0%,rgba(20,15,12,.08) 42%,rgba(20,15,12,0) 70%);transition:opacity .4s}
+  .reel:hover{transform:translateY(-8px);z-index:2;
+    box-shadow:0 38px 64px -30px rgba(42,38,34,.6),0 0 0 1px rgba(171,143,104,.42)}
+  .reel-tag{position:absolute;top:13px;left:13px;z-index:3;display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#fff;background:rgba(22,17,14,.34);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);padding:5px 10px;border-radius:30px;transition:background .4s,border-color .4s}
+  .reel:hover .reel-tag{background:rgba(22,17,14,.5);border-color:rgba(216,180,131,.5)}
+  .reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.88);z-index:3;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(22,17,14,.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.6);transition:transform .45s cubic-bezier(.16,1,.3,1),background .4s,border-color .4s}
+  .reel-play svg{transition:transform .45s cubic-bezier(.16,1,.3,1)}
+  .reel:hover .reel-play{transform:translate(-50%,-50%) scale(1.06);background:var(--gold);border-color:rgba(255,255,255,.9)}
+  .reel:hover .reel-play svg{transform:scale(1.08)}
+  /* Instagram's own cover fades in over the local placeholder once it loads */
+  .reel-thumb{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .6s ease,transform .9s cubic-bezier(.16,1,.3,1)}
+  .reel-thumb.on{opacity:1}
+  .reel:hover .reel-thumb{transform:scale(1.06)}
+  /* reel lightbox — the embed plays here rather than sending anyone to Instagram */
+  #reelModal .reel-box{position:relative;width:min(420px,94vw);display:flex;flex-direction:column;align-items:center}
+  #reelModal .reel-frame{position:relative;width:100%;height:min(80vh,760px);border-radius:16px;overflow:hidden;
+    background:#000;box-shadow:0 50px 90px -40px rgba(0,0,0,.9)}
+  #reelModal .reel-frame iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  #reelModal .modal-close{top:-46px;right:-4px;color:#fff;font-size:34px}
+  #reelModal .reel-open{margin-top:14px;font-size:11.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
+    color:rgba(255,255,255,.82);text-decoration:none;transition:color .3s}
+  #reelModal .reel-open:hover{color:var(--gold-light)}
+  @media(max-width:520px){
+    #reelModal .reel-frame{height:min(74vh,680px)}
+    #reelModal .modal-close{top:-42px;right:0}
+  }
 
   @media(max-width:980px){
     .connect-grid{grid-template-columns:1fr 1fr}
-    .reels-grid{grid-template-columns:repeat(3,1fr)}
+    .reels-grid{grid-template-columns:repeat(3,1fr);gap:20px}
   }
   @media(max-width:600px){
     .connect-grid{grid-template-columns:1fr}
-    .reels-grid{grid-template-columns:repeat(2,1fr)}
+    .reels-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+    .reel{border-radius:16px}
+    .reel-play{width:44px;height:44px}
   }
 
   /* ---- Workshop page ---- */
   #workshop-intro{background:var(--cream)}
   #ws-why{background:#e6e8d6}
-  .ws-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .ws-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
-  .ws-card:hover{transform:translateY(-6px);box-shadow:0 28px 52px -30px rgba(80,55,30,.45);border-color:var(--gold)}
-  .ws-img{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden}
+  /* why-us / course cards follow the services card model: full-bleed photo with
+     the copy sitting over it, index number top-right */
+  .ws-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:ws}
+  .ws-card{counter-increment:ws;position:relative;height:380px;border-radius:14px;overflow:hidden;isolation:isolate;
+    background:#141010;border:none;box-shadow:0 22px 46px -32px rgba(20,13,8,.75);
+    transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s ease}
+  .ws-card:hover{transform:translateY(-8px);box-shadow:0 44px 80px -34px rgba(0,0,0,.85)}
+  .ws-img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;overflow:hidden;z-index:0}
   .ws-img .ws-cover{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
   .ws-card:hover .ws-img .ws-cover{transform:scale(1.06)}
-  .ws-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(18,13,10,.62) 0%,rgba(18,13,10,.05) 50%,transparent 75%)}
-  .ws-no{position:absolute;left:20px;bottom:12px;z-index:2;font-family:var(--serif);font-size:30px;font-weight:700;color:#fff;line-height:1;text-shadow:0 2px 14px rgba(0,0,0,.5)}
-  .ws-body{padding:24px 26px 30px}
-  .ws-card h3{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.22;margin-bottom:10px;color:var(--black)}
-  .ws-meta{display:inline-block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold-deep);background:var(--cream-2);border:1px solid var(--line);border-radius:30px;padding:5px 12px;margin-bottom:14px}
-  .ws-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.66}
+  .ws-img::after{content:"";position:absolute;inset:0;z-index:1;
+    background:linear-gradient(to top,rgba(13,9,6,.92) 0%,rgba(13,9,6,.64) 38%,rgba(13,9,6,.18) 68%,rgba(13,9,6,.04) 100%)}
+  /* auto-numbered, except where the markup already carries its own .ws-no */
+  .ws-card::before{content:counter(ws,decimal-leading-zero);position:absolute;top:20px;right:24px;z-index:3;
+    font-size:13px;font-weight:500;letter-spacing:2px;color:rgba(248,242,231,.6);transition:color .4s ease}
+  .ws-card:hover::before{color:var(--gold-light)}
+  .ws-card:has(.ws-no)::before{content:none}
+  .ws-no{position:absolute;left:auto;bottom:auto;top:20px;right:24px;z-index:3;font-family:var(--sans);font-size:13px;
+    font-weight:500;letter-spacing:2px;line-height:1.4;color:rgba(248,242,231,.6);text-shadow:none;transition:color .4s ease}
+  .ws-card:hover .ws-no{color:var(--gold-light)}
+  .ws-body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:28px 26px 30px}
+  /* short gold rule grows in above the copy on hover, same as the service cards */
+  .ws-body::before{content:"";position:absolute;left:26px;top:-2px;width:0;height:2px;background:var(--gold);
+    transition:width .55s cubic-bezier(.16,1,.3,1)}
+  .ws-card:hover .ws-body::before{width:40px}
+  .ws-card h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;font-size:23px;
+    line-height:1.16;margin-bottom:10px;color:#fff;transition:color .4s ease}
+  .ws-card:hover h3{color:var(--gold-light)}
+  .ws-meta{display:inline-block;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--gold-light);background:rgba(255,255,255,.09);border:1px solid rgba(216,180,131,.34);
+    border-radius:30px;padding:5px 12px;margin-bottom:12px;backdrop-filter:blur(4px)}
+  .ws-card p{color:rgba(248,242,231,.8);font-size:14.5px;line-height:1.58;margin:0}
   @media(max-width:980px){ .ws-grid{grid-template-columns:1fr 1fr} }
-  @media(max-width:680px){ .ws-grid{grid-template-columns:1fr} }
+  @media(max-width:680px){ .ws-grid{grid-template-columns:1fr} .ws-card{height:330px} }
+
+  /* ---- matching treatment for the text-only why cards on the home page ---- */
+  .why-feats{counter-reset:wf}
+  .why-feat{counter-increment:wf;padding-left:34px}
+  .why-feat::after{content:counter(wf,decimal-leading-zero);position:absolute;right:22px;top:18px;
+    font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(171,143,104,.45);
+    transition:color .4s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+  .why-feat:hover::after{color:var(--gold);transform:translateY(-3px)}
 
   /* ==========================================================================
      PREMIUM LAYER — refined typography + advanced motion.
@@ -1119,19 +1225,19 @@
   .hero-inner h1,
   .page-hero h1,
   .sec-head h2{
-    font-family:var(--sans);
-    font-weight:400;
-    text-transform:uppercase;
-    letter-spacing:.04em;   /* open tracking — airy, not congested */
-    line-height:1.16;       /* room between the two lines */
-    text-shadow:none;       /* clean — legibility comes from the overlay */
+    font-family:var(--serif);   /* Playfair Display — the display voice */
+    font-weight:700;
+    text-transform:none;        /* sentence case: the serif does the work, not caps */
+    letter-spacing:-.012em;     /* a display serif wants tight, not airy, tracking */
+    line-height:1.08;
+    text-shadow:none;           /* legibility comes from the overlay */
   }
-  /* sized to sit on ~2 lines like the reference, not fill the screen */
-  .hero-inner h1{font-size:clamp(36px,4.6vw,66px);margin-bottom:28px}
-  .page-hero h1{font-size:clamp(30px,3.6vw,50px)}   /* sub-page banners smaller than home hero */
-  .sec-head h2{font-size:clamp(30px,4.2vw,54px)}
-  /* the gold accent word simply reads as the emphasis, same clean weight */
-  .hero-inner h1 em,.page-hero h1 em,.sec-head h2 em{font-style:normal;font-weight:400}
+  /* sized to sit on ~2 lines, not fill the screen */
+  .hero-inner h1{font-size:clamp(38px,5.2vw,74px);margin-bottom:26px}
+  .page-hero h1{font-size:clamp(32px,4.2vw,58px)}   /* sub-page banners smaller than home hero */
+  .sec-head h2{font-size:clamp(32px,4.6vw,60px)}
+  /* the gold accent word is the same cut and weight — colour is the emphasis */
+  .hero-inner h1 em,.page-hero h1 em,.sec-head h2 em{font-style:normal;font-weight:inherit}
 
   /* hero content clears the fixed top-bar + nav, and never collides with them */
   .hero-inner{padding-top:150px;max-width:1040px}
@@ -1141,3 +1247,108 @@
     .page-hero h1{font-size:clamp(26px,6.2vw,38px);letter-spacing:.03em}
     .sec-head h2{font-size:clamp(25px,6.6vw,38px);letter-spacing:.03em}
   }
+
+  /* ==========================================================================
+     MOBILE HOME HERO — the narrow column was breaking the headline, eyebrow and
+     tagline into ragged lines. Appended last so it wins over the premium layer.
+     ========================================================================== */
+  @media(max-width:680px){
+    /* svh, so the hero doesn't jump when the browser's URL bar hides */
+    header#top{min-height:100svh}
+    .hero-inner{padding:92px 22px 110px;max-width:100%}
+
+    /* the hard-coded <br> fights a 390px column — let the line flow and balance */
+    .hero-inner h1 br{display:none}
+    .hero-inner h1{font-size:clamp(31px,8.6vw,44px);line-height:1.1;letter-spacing:-.005em;
+      margin-bottom:20px;text-wrap:balance}
+
+    /* the flanking rules were pushing the eyebrow onto two lines */
+    .hero-inner .eyebrow{font-size:10px;letter-spacing:2.4px;margin-bottom:16px;line-height:1.7;
+      gap:0;justify-content:center;text-align:center}
+    .hero-inner .eyebrow::before,.hero-inner .eyebrow::after{display:none}
+
+    .hero-inner p{font-size:12.5px;letter-spacing:1.2px;line-height:1.95;margin-bottom:30px;
+      max-width:30ch;margin-left:auto;margin-right:auto;text-wrap:balance;color:rgba(255,255,255,.88)}
+    .hero-inner p span{white-space:nowrap}   /* never split "3D Visualization" */
+
+    /* full-width buttons with a real tap target, secondary reads as glass */
+    .hero-cues{width:100%;max-width:340px;margin:0 auto;gap:11px}
+    .hero-cues .btn{width:100%;min-height:52px;font-size:12px;letter-spacing:1.8px}
+    .hero-cues .btn-ghost-light{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.55);
+      backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+    /* The slideshow runs bright frames (white kitchens) behind white type, so the
+       phone needs a deeper base wash than the desktop does. */
+    .hero-bg::after{background:linear-gradient(to bottom,
+      rgba(16,12,9,.6) 0%,rgba(16,12,9,.54) 40%,rgba(16,12,9,.62) 70%,rgba(10,7,5,.86) 100%)}
+    /* plus a soft pool of shade sitting directly behind the copy, so contrast
+       holds on the light slides without flattening the whole photo */
+    .hero-inner::before{content:"";position:absolute;inset:-4% -12%;z-index:-1;pointer-events:none;
+      background:radial-gradient(ellipse 76% 60% at 50% 46%,rgba(10,7,5,.55) 0%,rgba(10,7,5,.28) 55%,transparent 74%)}
+    .hero-inner h1,.hero-inner p,.hero-inner .eyebrow{
+      text-shadow:0 2px 12px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.45)}
+  }
+
+  /* ==========================================================================
+     HERITAGE LAYER — the studio's signature is Pichwai art, jaali screens and
+     mehrab arches, so the chrome borrows that vocabulary: a lattice rule under
+     every section title, brass hairlines, and an arched frame on the cards.
+     Appended last so it overrides cleanly; safe to tune or drop wholesale.
+     ========================================================================== */
+  :root{
+    --brass:#b08d57;          /* antique brass — the metal in her joinery */
+    --indigo:#2b3a55;         /* Pichwai indigo */
+    --heritage:#4a5c3d;       /* the deep green of the partition panels */
+    --parchment:#f7f1e4;      /* aged paper the murals are painted on */
+  }
+
+  /* jaali lattice rule beneath each section heading */
+  .sec-head::after{
+    content:"";display:block;width:136px;height:12px;margin-top:26px;opacity:.6;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='12' viewBox='0 0 44 12'%3E%3Cg fill='none' stroke='%23b08d57' stroke-width='1.1'%3E%3Cpath d='M0 6 L5.5 0.5 L11 6 L16.5 0.5 L22 6 L27.5 0.5 L33 6 L38.5 0.5 L44 6'/%3E%3Cpath d='M0 6 L5.5 11.5 L11 6 L16.5 11.5 L22 6 L27.5 11.5 L33 6 L38.5 11.5 L44 6'/%3E%3C/g%3E%3C/svg%3E") repeat-x center/44px 12px;
+  }
+  .sec-head.center::after{margin-left:auto;margin-right:auto}
+
+  /* section tag sits between two brass rules, like a plate title */
+  .sec-head .sec-tag{display:inline-flex;align-items:center;gap:13px}
+  .sec-head.center .sec-tag{justify-content:center}
+  .sec-head .sec-tag::before,.sec-head .sec-tag::after{
+    content:"";width:26px;height:1px;background:currentColor;opacity:.55}
+
+  /* mehrab arch drawn inside the card, echoing the pooja doors and partitions */
+  .ws-card::after{
+    content:"";position:absolute;inset:13px;z-index:4;pointer-events:none;
+    border:1px solid rgba(216,180,131,.4);
+    border-radius:50% 50% 10px 10px / 20% 20% 3% 3%;
+    transition:border-color .55s ease,opacity .55s ease}
+  .ws-card:hover::after{border-color:rgba(216,180,131,.85)}
+
+  /* brass hairlines instead of flat cream ones */
+  .tool,.career-card,.faq-item,.about-tags span{border-color:rgba(176,141,87,.3)}
+
+  @media(max-width:680px){
+    .sec-head::after{width:104px;margin-top:20px}
+    .sec-head .sec-tag{gap:9px}
+    .sec-head .sec-tag::before,.sec-head .sec-tag::after{width:16px}
+    .ws-card::after{inset:10px}
+  }
+  @media(prefers-reduced-motion:reduce){ .ws-card::after{transition:none} }
+
+  /* ---- video tour: Instagram-reel 9:16 cards (scoped to #tour3d only, so the
+         room coverflow above keeps its 16:11 landscape frame) ---- */
+  .tour3d .room3d-viewport{height:640px;perspective-origin:50% 50%}
+  .tour3d .r3-card{width:min(310px,64vw);aspect-ratio:9/16;border-radius:20px}
+  .tour3d .r3-card .tour-video{object-fit:cover}   /* portrait video fills the portrait card */
+  .tour3d .tour-play{width:64px;height:64px}
+  @media(max-width:760px){
+    .tour3d .room3d-viewport{height:540px}
+    .tour3d .r3-card{width:min(260px,62vw)}
+  }
+  @media(max-width:520px){
+    .tour3d .room3d-viewport{height:480px}
+    .tour3d .r3-card{width:min(230px,66vw)}
+    .tour3d .tour-play{width:54px;height:54px}
+  }
+
+  /* conditional quote-form dropdowns stay hidden until their parent is chosen */
+  .field[hidden]{display:none}
