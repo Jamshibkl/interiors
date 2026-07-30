@@ -19,10 +19,10 @@ const YOUTUBE_CHANNEL = "https://www.youtube.com/@kaveriinteriors";
    "To Email" field on the dashboard, so it can't be tampered with client-side.
    Template markup lives in scripts/emailjs-template-*.html */
 const EMAILJS = {
-  PUBLIC_KEY:       "xdZmDgnHUwnZYnRmy",     // Account > General > Public Key
-  SERVICE_ID:       "service_icwrh3t",     // Email Services > (your service)
-  TEMPLATE_QUOTE:   "template_cq6i7pi",    // "QUOTE", free-quote modal
-  TEMPLATE_CONTACT: "template_mknsfbn"     // "Contact Us", contact page form
+  PUBLIC_KEY:       "R3fRQs3_4gPcJvyHb",     // Account > General > Public Key
+  SERVICE_ID:       "service_d2c33n9",     // Email Services > (your service)
+  TEMPLATE_QUOTE:   "template_8x6opn3",    // "QUOTE", free-quote modal
+  TEMPLATE_CONTACT: "template_z2qvlgr"     // "Contact Us", contact page form
 };
 
 /* Google Sheet lead log, the permanent record of every enquiry.
@@ -311,7 +311,9 @@ const setBg=(sel,key,grad)=>{const e=document.querySelector(sel);if(e)e.style.ba
 // home hero crossfade slideshow
 const heroBg=$('heroBg');
 if(heroBg){
-  const HERO=['heroHome1','heroHome2','heroHome3','heroHome4'];
+  // slideshow order — first entry is the image visitors land on.
+  // Swap the names to reorder; all four are the original online set.
+  const HERO=['heroHome3','heroHome2','heroHome4','heroHome1'];
   HERO.forEach((k,i)=>{
     const s=document.createElement('div');
     s.className='hero-slide';
