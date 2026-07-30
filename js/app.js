@@ -86,7 +86,7 @@ const SERVICES = [
   {c:'si1',i:ICO.sofa,t:'Residential',s:'Homes designed around how you live.',d:'Complete home interiors, bedrooms, living, dining, kitchens and wardrobes, planned into one cohesive, boho-modern scheme tailored to your family, lifestyle and budget, and kept calm and uncluttered.',f:['Space planning & furniture layout','Colour, material & finish palettes','Modular kitchen & wardrobe design','Lighting, décor & final styling']},
   {c:'si2',i:ICO.building,t:'Commercial',s:'Spaces that work as hard as you do.',d:'Interiors for cafés, salons, retail and offices that balance brand identity, customer experience and day-to-day function, designed to look distinctive and run smoothly.',f:['Cafés, salons, retail & offices','Brand-led concept & theming','Customer-flow & seating planning','Durable, practical material choices']},
   {c:'si3',i:ICO.blueprint,t:'Architecture',s:'Thoughtful spaces from the ground up.',d:'Architectural design and space planning for new builds and major layouts, sound proportions, natural light and circulation worked out before a single wall goes up.',f:['Floor plans & space planning','Elevations & 3D massing','Site & circulation studies','Coordinated working drawings']},
-  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As an architect, I bridge design and site, turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
+  {c:'si4',i:ICO.crane,t:'Construction',s:'Build-ready, on-site, on-track.',d:'As a civil engineer, I bridge design and site, turning drawings into reality with structurally sound detailing, vendor coordination and quality supervision through to handover.',f:['Structural & build-ready detailing','BOQ & material specification','Vendor & contractor coordination','On-site supervision & quality checks']},
   {c:'si5',i:ICO.cube,t:'3D Visualization',s:'See it before it’s built.',d:'Photo-realistic 3D views of your proposed design so you can experience the colours, textures and layout in advance, and make confident decisions before any work begins.',f:['Photoreal 3D renders (V-Ray / Enscape)','Multiple angles & view options','Real-time walkthroughs','Revisions before execution']},
   {c:'si6',i:ICO.roller,t:'Renovation & Consultation',s:'Refresh, or just get direction.',d:'Reviving existing spaces with minimal fuss, or one-off consultations with mood boards, colour and material guidance for clients who want expert direction on their own project.',f:['Single-room or full renovation','Layout & flow improvements','One-off design consultation','Colour & material advice']}
 ];
@@ -130,9 +130,6 @@ const GAL=[
   {t:'Aubergine Gloss Kitchen',s:'Kitchen · Dining',  cat:'Kitchen',    img:'kitchen8', grad:'si5'},
   {t:'Sage Parallel Kitchen', s:'Modular Kitchen',    cat:'Kitchen',    img:'kitchen9', grad:'si2'},
   {t:'Sky Breakfast Kitchen', s:'Kitchen · Breakfast Bar',cat:'Kitchen',img:'kitchen10',grad:'si4'},
-  {t:'Blush Gloss Kitchen',  s:'Modular Kitchen',      cat:'Kitchen',    img:'g2Kitchen1',grad:'si1'},
-  {t:'Grey Gloss L-Kitchen', s:'Modular Kitchen',      cat:'Kitchen',    img:'g2Kitchen2',grad:'si6'},
-  {t:'Blush Parallel Kitchen',s:'Modular Kitchen',     cat:'Kitchen',    img:'g2Kitchen3',grad:'si4'},
   {t:'Pichwai Master Suite', s:'Master Bedroom',      cat:'Bedroom',    img:'bedPichwai',grad:'si4'},
   {t:'World-Map Bedroom',    s:'Bedroom',             cat:'Bedroom',    img:'bed_front',grad:'si2'},
   {t:'Tropical Headboard Suite', s:'Master Bedroom',  cat:'Bedroom',    img:'bed_angled',grad:'si4'},
@@ -141,17 +138,6 @@ const GAL=[
   {t:'Wardrobe & Storage',   s:'Bedroom Storage',     cat:'Bedroom',    img:'wardrobe', grad:'si2'},
   {t:'Magenta Wardrobe Suite',s:'Bedroom · Wardrobe', cat:'Bedroom',    img:'bedMagenta',grad:'si5'},
   {t:'Blush Sliding Wardrobe',s:'Bedroom Storage',    cat:'Bedroom',    img:'wardrobe2',grad:'si1'},
-  {t:'World-Map Kids Room',  s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed1',   grad:'si2'},
-  {t:'Nursery Suite',        s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed2',   grad:'si3'},
-  {t:'Pastel Cloud Kids Room',s:'Kids Bedroom',       cat:'Bedroom',    img:'g2Bed3',   grad:'si1'},
-  {t:'Tropical Arch Bedroom',s:'Master Bedroom',      cat:'Bedroom',    img:'g2Bed4',   grad:'si4'},
-  {t:'Cane Wardrobe Bedroom',s:'Bedroom · Study',     cat:'Bedroom',    img:'g2Bed5',   grad:'si3'},
-  {t:'Jaali Study Bedroom',  s:'Bedroom · Study',     cat:'Bedroom',    img:'g2Bed6',   grad:'si2'},
-  {t:'Lotus Panel Wardrobe', s:'Bedroom · Wardrobe',  cat:'Bedroom',    img:'g2Bed7',   grad:'si6'},
-  {t:'Space Theme Kids Room',s:'Kids Bedroom',        cat:'Bedroom',    img:'g2Bed8',   grad:'si2'},
-  {t:'Crane Art Master Suite',s:'Master Bedroom',     cat:'Bedroom',    img:'g2Bed9',   grad:'si5'},
-  {t:'Fluted Wall Bedroom', s:'Master Bedroom',       cat:'Bedroom',    img:'g2Bed10',  grad:'si1'},
-  {t:'Green Shelf Bedroom', s:'Bedroom · TV Unit',     cat:'Bedroom',    img:'g2Bed11',  grad:'si3'},
   {t:'Pichwai TV Wall',      s:'Living · Décor',      cat:'Living',     img:'living6',  grad:'si3'},
   {t:'Living Room & TV Unit',s:'Living Room',         cat:'Living',     img:'living1',  grad:'si1'},
   {t:'Open Living & Dining', s:'Living · Dining',     cat:'Living',     img:'living2',  grad:'si6'},
@@ -160,17 +146,7 @@ const GAL=[
   {t:'Sage Arch TV Unit',    s:'Living Room',         cat:'Living',     img:'living7',  grad:'si2'},
   {t:'Stone & Halo TV Wall', s:'Living Room',         cat:'Living',     img:'living8',  grad:'si6'},
   {t:'Garden-View Living',   s:'Living Room',         cat:'Living',     img:'living9',  grad:'si4'},
-  {t:'Heritage Art Living',  s:'Living · Décor',      cat:'Living',     img:'g2Living1',grad:'si3'},
-  {t:'Floral Marble TV Wall',s:'Living Room',         cat:'Living',     img:'g2Living2',grad:'si1'},
-  {t:'Fluted Wood TV Wall',  s:'Living · Pooja',      cat:'Living',     img:'g2Living3',grad:'si5'},
-  {t:'Bengali Art Living',   s:'Living · Décor',      cat:'Living',     img:'g2Living4',grad:'si3'},
-  {t:'Arched Panel Living',  s:'Living · Dining',     cat:'Living',     img:'g2Living5',grad:'si2'},
   {t:'Swing & Pichwai Dining',s:'Dining · Décor',     cat:'Dining',     img:'dining3',  grad:'si2'},
-  {t:'Wood-Ceiling Dining',  s:'Dining · Kitchen',    cat:'Dining',     img:'g2Dining1',grad:'si3'},
-  {t:'Cane Pendant Dining',  s:'Dining Room',         cat:'Dining',     img:'g2Dining2',grad:'si1'},
-  {t:'Crockery & Display Unit',s:'Dining Storage',    cat:'Dining',     img:'g2Dining3',grad:'si4'},
-  {t:'Chandelier Dining',    s:'Dining · Stairwell',  cat:'Dining',     img:'g2Dining4',grad:'si6'},
-  {t:'Bar & Crockery Unit',  s:'Dining · Bar',        cat:'Dining',     img:'g2Dining5',grad:'si3'},
   {t:'Dining & Crockery Wall',s:'Dining Room',        cat:'Dining',     img:'dining',   grad:'si3'},
   {t:'Slat-Wall Dining',     s:'Dining Room',         cat:'Dining',     img:'dining2',  grad:'si1'},
   {t:'Pichwai & Cane Partition',s:'Foyer · Entrance', cat:'Partitions',      img:'partition4',grad:'si5'},
@@ -190,16 +166,9 @@ const GAL=[
   {t:'Oak Medallion Pooja Doors',s:'Pooja Room · Mandir',cat:'Pooja Room',img:'pooja8',  grad:'si1'},
   {t:'Balcony Sit-out',      s:'Balcony',             cat:'Balcony',    img:'balcony',  grad:'si4'},
   {t:'Sunset Balcony Deck',  s:'Balcony · Utility',   cat:'Balcony',    img:'balcony2', grad:'si5'},
-  {t:'Dusk Balcony Garden',  s:'Balcony · Sit-out',   cat:'Balcony',    img:'g2Balcony1',grad:'si2'},
   {t:'Art Plate Niche',      s:'Foyer · Décor',       cat:'Partitions',      img:'decor1',   grad:'si2'},
   {t:'Beauty Salon',         s:'Commercial · Retail', cat:'Commercial', img:'salon',    grad:'si5'},
-  {t:'Café Interior',        s:'Commercial · Hospitality', cat:'Commercial', img:'cafe',grad:'si2'},
-  {t:'Coastal Organic Café', s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe1',grad:'si2'},
-  {t:'Café Rattan Booths',   s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe2',grad:'si4'},
-  {t:'Coastal Café Bar',     s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe3',grad:'si2'},
-  {t:'Coastal Café Booths',  s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe4',grad:'si4'},
-  {t:'Coastal Café Palm Court',s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe5',grad:'si1'},
-  {t:'Coastal Café Plate Wall',s:'Commercial · Hospitality', cat:'Commercial', img:'g2Cafe6',grad:'si3'}
+  {t:'Café Interior',        s:'Commercial · Hospitality', cat:'Commercial', img:'cafe',grad:'si2'}
 ];
 const gg=$('galGrid');
 const stage=$('room3dStage');
@@ -436,16 +405,12 @@ if(cg){
    file is missing simply shows its poster with a "coming soon" note, the rest
    keep working, so you can add videos one at a time. */
 const TOURS = [
-  {t:'Walkthrough 01', s:'Tap to play', src:'assets/video/tour-01.mp4', img:'bedPichwai',   grad:'si1'},
-  {t:'Walkthrough 02', s:'Tap to play', src:'assets/video/tour-02.mp4', img:'living6',      grad:'si4'},
-  {t:'Walkthrough 03', s:'Tap to play', src:'assets/video/tour-03.mp4', img:'kitchen5',     grad:'si2'},
-  {t:'Walkthrough 04', s:'Tap to play', src:'assets/video/tour-04.mp4', img:'partition4',   grad:'si5'},
-  {t:'Walkthrough 05', s:'Tap to play', src:'assets/video/tour-05.mp4', img:'dining3',      grad:'si3'},
-  {t:'Walkthrough 06', s:'Tap to play', src:'assets/video/tour-06.mp4', img:'pooja5',       grad:'si6'},
-  {t:'Walkthrough 07', s:'Tap to play', src:'assets/video/tour-07.mp4', img:'living7',      grad:'si1'},
-  {t:'Walkthrough 08', s:'Tap to play', src:'assets/video/tour-08.mp4', img:'kitchen7',     grad:'si4'},
-  {t:'Walkthrough 09', s:'Tap to play', src:'assets/video/tour-09.mp4', img:'bedMagenta',   grad:'si5'},
-  {t:'Walkthrough 10', s:'Tap to play', src:'assets/video/tour-10.mp4', img:'balcony2',     grad:'si2'}
+  {t:'Bedroom',  s:'Master bedroom walkthrough', src:'assets/video/bedroom.mp4', img:'bed_angled', grad:'si1'},
+  {t:'Kitchen',  s:'Modular kitchen walkthrough', src:'assets/video/kitchen.mp4', img:'kitchen1',  grad:'si4'},
+  {t:'Living',   s:'Living room walkthrough',     src:'assets/video/living.mp4',  img:'living1',   grad:'si2'},
+  {t:'Foyer',    s:'Entrance foyer walkthrough',  src:'assets/video/foyer.mp4',   img:'foyer',     grad:'si5'},
+  {t:'Dining',   s:'Dining area walkthrough',     src:'assets/video/dining.mp4',  img:'dining',    grad:'si3'},
+  {t:'Balcony',  s:'Balcony sit-out walkthrough', src:'assets/video/balcony.mp4', img:'balcony',   grad:'si6'}
 ];
 (function(){
   const stage=$('tour3dStage'), dots=$('tour3dDots'), root3=$('tour3d');
@@ -553,14 +518,14 @@ function subscribe(){const e=$('newsEmail').value.trim();const ok=$('newsOk');if
 /* ---------- social media (single source of truth) ---------- */
 const SOCIALS=[
   ['Instagram','@interiorsbykaveri','https://www.instagram.com/interiorsbykaveri/','M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.0556-1.2809.0691-1.6898.0628-4.948-.0062-3.2583-.0207-3.6668-.0815-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.0744.3214 18.2018.1196 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.0508-1.169.2463-1.8055.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.4232-.1651 1.0577-.3614 2.2272-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4216.4194.6816.8176.9005 1.3787.1655.4218.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.0608 4.848-.051 1.17-.2453 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4226.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0033a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0033'],
-  ['Facebook','Kaveri Interiors','https://www.facebook.com/people/Kaveri-Interiors/61567068665464/','M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'],
+  // Facebook, TODO: replace the '#' below with the real Facebook page URL when available
+  ['Facebook','Kaveri Interiors','#','M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z'],
   ['YouTube','@kaveriinteriors','https://www.youtube.com/@kaveriinteriors','M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'],
   ['Pinterest','interiorsbykaveri','https://www.pinterest.com/interiorsbykaveri/','M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z'],
   ['Threads','@interiorsbykaveri','https://www.threads.com/@interiorsbykaveri','M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.475 7.176c.98-1.452 2.568-2.252 4.601-2.252h.043c3.393.024 5.414 2.078 5.711 5.652.169.069.339.143.504.224 1.39.654 2.408 1.642 2.946 2.864.751 1.701.82 4.474-1.43 6.726-1.719 1.717-3.939 2.483-6.946 2.503Z']
 ];
 const svgIcon=(d)=>`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
-// placeholder-aware anchor attributes: any entry whose url is '#' renders as a
-// dead, clearly-labelled link rather than a broken one. All are live right now.
+// placeholder-aware anchor attributes (Facebook link not provided yet → '#')
 const socialAttrs=(name,url)=> (url && url!=='#')
   ? `href="${url}" target="_blank" rel="noopener" aria-label="${name}" title="${name}"`
   : `href="#" onclick="return false" aria-label="${name} (link coming soon)" title="${name}, link coming soon"`;
@@ -741,9 +706,6 @@ function enquiryParams(src, payload){
     location:       payload.location    || ', ',
     project_type:   payload.projectType || ', ',
     message:        payload.message     || ', ',
-    email:          payload.email       || ', ',
-    budget:         payload.budget      || ', ',
-    design_theme:   payload.designTheme  || ', ',
     whatsapp_optin: payload.whatsappOptIn ? 'Yes' : 'No',
     page_url:       window.location.href,
     submitted_at:   new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
@@ -760,10 +722,11 @@ async function sendEmail(src, params){
   if (template.startsWith('YOUR_')) throw new Error('EmailJS template not configured for: ' + src);
 
   emailjs.init({ publicKey: EMAILJS.PUBLIC_KEY });
-  // Keys must match the {{placeholders}} in the matching template file. The quote
-  // form now folds design theme, budget, email and notes into {{message}}, so it
-  // is sent for both forms — the quote template renders {{message}} too.
-  return emailjs.send(EMAILJS.SERVICE_ID, template, params);
+  // Keys must match the {{placeholders}} in the matching template file. The
+  // quote template has no {{message}}, so don't send one.
+  const p = Object.assign({}, params);
+  if (isQuote) delete p.message;
+  return emailjs.send(EMAILJS.SERVICE_ID, template, p);
 }
 
 /* Permanent record. No quota, this is what must not fail.
@@ -869,38 +832,13 @@ function sendWhatsApp(name, phone, loc, type, msg){
   if(msg) text += `%0ADetails: ${msg}`;
   window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
 }
-/* Project type drives a follow-up dropdown: home size for a full interior,
-   which drawing set for a design-only job. Hidden until the parent is chosen. */
-function quoteTypeChanged(){
-  const t=$('qType')?$('qType').value:'';
-  const pairs=[['qHomeWrap','qHome','Full home interior'],
-               ['qServiceWrap','qService','Only design service']];
-  pairs.forEach(([wrapId,selId,match])=>{
-    const wrap=$(wrapId), sel=$(selId);
-    if(!wrap) return;
-    wrap.hidden = (t!==match);
-    if(wrap.hidden && sel) sel.value='';   // don't submit a stale sub-answer
-  });
-}
-
 async function sendQuote(src){
   const g=id=>{const el=$(id);return el?el.value.trim():'';};
-  let name,phone,loc,type,msg,wa,email='',budget='',theme='';
-  if(src==='quote'){
-    name=g('qName');phone=g('qPhone');loc=g('qLoc');
-    // fold the sub-answer into the project type: "Full home interior · 3 BHK"
-    const base=g('qType'), sub=g('qHome')||g('qService');
-    type = base + (sub ? ' · ' + sub : '');
-    email=g('qEmail'); budget=g('qBudget'); theme=g('qTheme');
-    msg=[theme  && 'Design theme: '+theme,
-         budget && 'Budget: '+budget,
-         email  && 'Email: '+email,
-         g('qNotes')].filter(Boolean).join('\n');
-    wa=$('qWa')?$('qWa').checked:false;
-  }
+  let name,phone,loc,type,msg,wa;
+  if(src==='quote'){name=g('qName');phone=g('qPhone');loc=g('qLoc');type=g('qType');msg='';wa=$('qWa')?$('qWa').checked:false;}
   else{name=g('cName');phone=g('cPhone');loc=g('cLoc');type=g('cType');msg=g('cMsg');wa=$('cWa')?$('cWa').checked:false;}
   if(!name||!phone){alert('Please add your name and phone number.');return;}
-  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa,email,budget,designTheme:theme};
+  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa};
   const resultEl = $(src==='quote' ? 'quoteResult' : 'contactResult');
   // The submit button always sits immediately before the message div in both forms.
   const btn = resultEl ? resultEl.previousElementSibling : null;
@@ -912,11 +850,8 @@ async function sendQuote(src){
   try{
     await postSubmission(src,payload);
     if(resultEl){resultEl.textContent='Thanks! Your request is received and will be responded to within 24 hours.';resultEl.className='form-msg success';}
-    const fields = src==='quote'
-      ? ['qName','qPhone','qEmail','qLoc','qType','qHome','qService','qTheme','qBudget','qNotes']
-      : ['cName','cPhone','cLoc','cType','cMsg'];
-    fields.forEach(id=>{const el=$(id); if(el) el.value='';});
-    if(src==='quote') quoteTypeChanged();      // re-hide the follow-up dropdowns
+    ['Name','Phone','Loc','Type'].forEach(k=>{const el=$((src==='quote'?'q':'c')+k);if(el)el.value='';});
+    if(src==='contact' && $('cMsg')) $('cMsg').value='';
     // Hold the modal open briefly so the success line is actually readable.
     if(src==='quote') setTimeout(()=>closeModal('quoteModal'),1600);
   }catch(error){
