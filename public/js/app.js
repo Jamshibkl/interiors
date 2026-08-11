@@ -311,7 +311,9 @@ const setBg=(sel,key,grad)=>{const e=document.querySelector(sel);if(e)e.style.ba
 // home hero crossfade slideshow
 const heroBg=$('heroBg');
 if(heroBg){
-  const HERO=['heroHome1','heroHome2','heroHome3','heroHome4'];
+  // slideshow order — first entry is the image visitors land on.
+  // Swap the names to reorder; all four are the original online set.
+  const HERO=['heroHome3','heroHome2','heroHome4','heroHome1'];
   HERO.forEach((k,i)=>{
     const s=document.createElement('div');
     s.className='hero-slide';
