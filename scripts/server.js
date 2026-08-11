@@ -42,6 +42,9 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// same handler Vercel runs in production, so reel covers work in local dev too
+app.get('/api/reel-thumb', require('../api/reel-thumb'));
+
 app.post('/api/contact', async (req, res) => {
   if (!validateRequest(req.body)) {
     return res.status(400).json({ error: 'Name and phone number are required.' });
