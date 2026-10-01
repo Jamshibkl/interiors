@@ -9,6 +9,21 @@ const WA_NUMBER = "919000470679";   // WhatsApp number, intl format, no +
 const YOUTUBE_ID = "YOUTUBE_ID";    // set to a specific video id to embed the tour inline
 const YOUTUBE_CHANNEL = "https://www.youtube.com/@kaveriinteriors";
 
+/* Consultation booking settings. Replace the payment URL with the studio's
+   Razorpay/Stripe payment link before publishing. Times use India time. */
+const CONSULTATION = {
+  fee: 2500,
+  currency: 'INR',
+  paymentUrl: 'REPLACE_WITH_PAYMENT_LINK',
+  availability: {
+    1: ['10:00', '11:30', '15:00'],
+    2: ['10:00', '11:30', '15:00'],
+    3: ['10:00', '11:30'],
+    4: ['10:00', '11:30', '15:00'],
+    5: ['10:00', '11:30', '15:00']
+  }
+};
+
 /* EmailJS, dashboard.emailjs.com.
    PUBLIC_KEY ships to the browser by design and CANNOT be hidden. Locking it
    to our domain (Account > Security > Allowed Origins) is a paid feature, so
@@ -311,9 +326,7 @@ const setBg=(sel,key,grad)=>{const e=document.querySelector(sel);if(e)e.style.ba
 // home hero crossfade slideshow
 const heroBg=$('heroBg');
 if(heroBg){
-  // slideshow order — first entry is the image visitors land on.
-  // Swap the names to reorder; all four are the original online set.
-  const HERO=['heroHome3','heroHome2','heroHome4','heroHome1'];
+  const HERO=['heroHome1','heroHome2','heroHome3','heroHome4'];
   HERO.forEach((k,i)=>{
     const s=document.createElement('div');
     s.className='hero-slide';
@@ -883,11 +896,65 @@ function quoteTypeChanged(){
     wrap.hidden = (t!==match);
     if(wrap.hidden && sel) sel.value='';   // don't submit a stale sub-answer
   });
+  const consultation=$('qConsultationWrap'), title=$('quoteTitle'), intro=$('quoteIntro'), submit=$('quoteSubmit');
+  const isConsultation=t==='Consultation';
+  if(consultation) consultation.hidden=!isConsultation;
+  if(title) title.textContent=isConsultation?'Book a Consultation':'Get a Quote';
+  if(intro) intro.textContent=isConsultation?'Choose an available time with Kaveri. Payment is required before booking.':'Share a few details and we’ll get back within 24 hours.';
+  if(submit) submit.textContent=isConsultation?'Pay & book consultation':'Send my request';
+  if(isConsultation){
+    const date=$('qDate');
+    if(date&&!date.min) date.min=new Date().toISOString().slice(0,10);
+    consultationDateChanged();
+  }
+}
+
+async function consultationDateChanged(){
+  const date=$('qDate'), time=$('qTime');
+  if(!date||!time) return;
+  time.innerHTML='';
+  if(!date.value){
+    time.innerHTML='<option value="">Choose a date first...</option>';
+    return;
+  }
+  time.innerHTML='<option value="">Checking Kaveri\'s calendar...</option>';
+  const slots=await getConsultationSlots(date.value);
+  if(!date.value||!slots.length){
+    time.innerHTML='<option value="">No consultation times available</option>';
+    return;
+  }
+  time.innerHTML='<option value="">Choose a time...</option>'+slots.map(slot=>`<option value="${slot}">${formatSlot(slot)}</option>`).join('');
+}
+
+async function getConsultationSlots(date){
+  const fallback=CONSULTATION.availability[new Date(date+'T12:00:00').getDay()]||[];
+  if(typeof SHEET_ENDPOINT==='undefined'||SHEET_ENDPOINT.startsWith('YOUR_')) return fallback;
+  try{
+    const res=await fetch(`${SHEET_ENDPOINT}?action=availability&date=${encodeURIComponent(date)}`);
+    const data=await res.json();
+    if(!data.ok||!Array.isArray(data.slots)) throw new Error(data.error||'Availability lookup failed.');
+    return data.slots;
+  }catch(error){
+    console.error('Calendar availability lookup failed:',error);
+    return fallback;
+  }
+}
+
+function formatSlot(slot){
+  const [hour,minute]=slot.split(':').map(Number), suffix=hour>=12?'PM':'AM', display=hour%12||12;
+  return `${display}:${String(minute).padStart(2,'0')} ${suffix}`;
+}
+
+function beginConsultationPayment(payload){
+  if(CONSULTATION.paymentUrl.startsWith('REPLACE_')) throw new Error('Consultation payment link is not configured.');
+  sessionStorage.setItem('pendingConsultation',JSON.stringify(payload));
+  const params=new URLSearchParams({name:payload.name,date:payload.consultationDate,time:payload.consultationTime});
+  window.open(CONSULTATION.paymentUrl+(CONSULTATION.paymentUrl.includes('?')?'&':'?')+params.toString(),'_blank','noopener');
 }
 
 async function sendQuote(src){
   const g=id=>{const el=$(id);return el?el.value.trim():'';};
-  let name,phone,loc,type,msg,wa,email='',budget='',theme='';
+  let name,phone,loc,type,msg,wa,email='',budget='',theme='',consultationDate='',consultationTime='';
   if(src==='quote'){
     name=g('qName');phone=g('qPhone');loc=g('qLoc');
     // fold the sub-answer into the project type: "Full home interior · 3 BHK"
@@ -898,11 +965,16 @@ async function sendQuote(src){
          budget && 'Budget: '+budget,
          email  && 'Email: '+email,
          g('qNotes')].filter(Boolean).join('\n');
+    if(g('qType')==='Consultation'){
+      consultationDate=g('qDate'); consultationTime=g('qTime');
+      if(!consultationDate||!consultationTime){alert('Please choose an available consultation date and time.');return;}
+      msg=[`Consultation date: ${consultationDate}`,`Consultation time: ${consultationTime}`,msg].filter(Boolean).join('\n');
+    }
     wa=$('qWa')?$('qWa').checked:false;
   }
   else{name=g('cName');phone=g('cPhone');loc=g('cLoc');type=g('cType');msg=g('cMsg');wa=$('cWa')?$('cWa').checked:false;}
   if(!name||!phone){alert('Please add your name and phone number.');return;}
-  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa,email,budget,designTheme:theme};
+  const payload={name,phone,location:loc,projectType:type,message:msg,whatsappOptIn:wa,email,budget,designTheme:theme,consultationDate,consultationTime};
   const resultEl = $(src==='quote' ? 'quoteResult' : 'contactResult');
   // The submit button always sits immediately before the message div in both forms.
   const btn = resultEl ? resultEl.previousElementSibling : null;
@@ -912,10 +984,15 @@ async function sendQuote(src){
   if(resultEl){resultEl.textContent='';resultEl.className='form-msg';}
 
   try{
+    if(type.startsWith('Consultation')){
+      beginConsultationPayment(payload);
+      if(resultEl){resultEl.textContent='Payment opened in a new tab. Complete payment there; Kaveri will confirm your selected slot after payment.';resultEl.className='form-msg success';}
+      return;
+    }
     await postSubmission(src,payload);
     if(resultEl){resultEl.textContent='Thanks! Your request is received and will be responded to within 24 hours.';resultEl.className='form-msg success';}
     const fields = src==='quote'
-      ? ['qName','qPhone','qEmail','qLoc','qType','qHome','qService','qTheme','qBudget','qNotes']
+      ? ['qName','qPhone','qEmail','qLoc','qType','qHome','qService','qTheme','qBudget','qNotes','qDate','qTime']
       : ['cName','cPhone','cLoc','cType','cMsg'];
     fields.forEach(id=>{const el=$(id); if(el) el.value='';});
     if(src==='quote') quoteTypeChanged();      // re-hide the follow-up dropdowns
@@ -923,8 +1000,12 @@ async function sendQuote(src){
     if(src==='quote') setTimeout(()=>closeModal('quoteModal'),1600);
   }catch(error){
     console.error('Enquiry send failed:',error);
-    if(resultEl){resultEl.textContent='Could not send just now, opening WhatsApp instead.';resultEl.className='form-msg error';}
-    sendWhatsApp(name,phone,loc,type,msg);
+    if(type.startsWith('Consultation')){
+      if(resultEl){resultEl.textContent='Consultation payment is not available yet. Please try again later or contact the studio.';resultEl.className='form-msg error';}
+    }else{
+      if(resultEl){resultEl.textContent='Could not send just now, opening WhatsApp instead.';resultEl.className='form-msg error';}
+      sendWhatsApp(name,phone,loc,type,msg);
+    }
   }finally{
     if(btn){btn.disabled=false;btn.textContent=btnLabel;}
   }

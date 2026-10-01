@@ -89,3 +89,22 @@ submissions, deploy `scripts/server.js` to a Node host (Render, Railway, etc.).
 - Phone / email — top bar, footer and contact page (search `00000` / `hello@kaveriinteriors.com`).
 - Facebook URL — the `'#'` placeholder in the `SOCIALS` list in `js/app.js`.
 - Project tour video — `YOUTUBE_ID` in `js/app.js`.
+- Consultation booking — update `CONSULTATION.fee` and `CONSULTATION.paymentUrl`
+  in `js/app.js`. Availability is read from Kaveri's default Google Calendar;
+  create a calendar event to block a time. After changing the Google Apps Script,
+  redeploy it as a new web-app version, then run `npm run build`.
+
+### Connect Google Calendar
+
+1. Open the Google Sheet currently used by `SHEET_ENDPOINT`, then open
+  **Extensions > Apps Script**.
+2. Replace the Apps Script code with `scripts/google-sheet-lead-logger.gs`.
+3. Run any function once and approve Google Calendar permission when prompted.
+4. Deploy > Manage deployments > Edit > **New version**. Run as the calendar
+  owner and allow access to **Anyone**. Keep the same web-app URL in `SHEET_ENDPOINT`.
+5. Kaveri manages availability in her default Google Calendar: add an event to
+  block time, move it to change the time, or delete it to make the slot free.
+
+The website checks that calendar whenever a visitor chooses a date. The weekly
+consultation hours in the Apps Script define the bookable window; calendar
+events remove individual slots from that window.

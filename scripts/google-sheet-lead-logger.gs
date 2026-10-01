@@ -49,6 +49,15 @@
    ============================================================================ */
 
 var SHEET_NAME = 'Leads';
+var CALENDAR_TIMEZONE = 'Asia/Kolkata';
+var CONSULTATION_DURATION_MINUTES = 60;
+var CONSULTATION_SLOTS = {
+  1: ['10:00', '11:30', '15:00'], // Monday
+  2: ['10:00', '11:30', '15:00'], // Tuesday
+  3: ['10:00', '11:30'],           // Wednesday
+  4: ['10:00', '11:30', '15:00'], // Thursday
+  5: ['10:00', '11:30', '15:00']  // Friday
+};
 
 var HEADERS = [
   'Received',      // server timestamp — authoritative
@@ -123,8 +132,31 @@ function doPost(e) {
 
 /* Deliberately returns no data. Anyone can find this URL, so it must never
    serve the leads. Reading them requires the Google account that owns the sheet. */
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.action === 'availability') {
+    return availability_(e.parameter.date);
+  }
   return json_({ ok: true, message: 'Endpoint is live. Leads are not served here.' });
+}
+
+/* Returns only slots inside the configured consultation hours that do not
+   overlap an event in Kaveri's default Google Calendar. */
+function availability_(dateText) {
+  try {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText || '')) throw new Error('Invalid date.');
+    var date = new Date(dateText + 'T00:00:00+05:30');
+    var weekday = Number(Utilities.formatDate(date, CALENDAR_TIMEZONE, 'u'));
+    var configured = CONSULTATION_SLOTS[weekday] || [];
+    var calendar = CalendarApp.getDefaultCalendar();
+    var slots = configured.filter(function(slot) {
+      var start = new Date(dateText + 'T' + slot + ':00+05:30');
+      var end = new Date(start.getTime() + CONSULTATION_DURATION_MINUTES * 60000);
+      return calendar.getEvents(start, end).length === 0;
+    });
+    return json_({ ok: true, date: dateText, slots: slots });
+  } catch (err) {
+    return json_({ ok: false, error: String(err) });
+  }
 }
 
 function json_(obj) {
