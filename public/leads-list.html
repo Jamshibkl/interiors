@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>All Leads · Kaveri Interiors Studio</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5eee8;--sidebar:#80563f;--sidebar-deep:#704a36;--card:#ddc8ad;--card-light:#e6d4bf;--paper:#fffaf5;--ink:#30251f;--muted:#79695e;--line:rgba(91,63,45,.17);--bronze:#956744;--dark:#493126;--green:#55795b;--amber:#b77b39;--blue:#627b91;--purple:#80618b;--shadow:0 3px 12px rgba(64,42,27,.045)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:var(--sidebar);color:#fff8f0;padding:25px 18px 17px;display:flex;flex-direction:column;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 8px 36px}
+.brand-mark{width:42px;height:42px;background:#ead8c4;color:var(--sidebar-deep);display:grid;place-items:center;border-radius:12px;font:700 25px Georgia,serif}
+.brand-name{font:600 18px Georgia,serif;letter-spacing:.1px}
+.brand-sub{font-size:9px;letter-spacing:2px;color:#f0d9c1;font-weight:700;margin-top:2px}
+.nav-label{font-size:10px;letter-spacing:1.7px;color:#e1c7ae;margin:12px 12px 10px;font-weight:700}
+.nav{display:grid;gap:8px}
+.nav a{display:flex;align-items:center;gap:13px;padding:12px 13px;border-radius:9px;text-decoration:none;color:#f5e9dc;font-size:14px;transition:.15s}
+.nav a:hover{background:#91664c}
+.nav a.active{background:#ead8c4;color:#38261d;box-shadow:0 2px 6px #4d302533}
+.nav-icon{width:19px;text-align:center;font-size:17px}
+.count{margin-left:auto;background:#f4e5d3;color:#765039;border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700}
+.nav a.active .count{background:#80563f;color:#f4e5d3}
+.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff35;padding:17px 5px 0;display:flex;align-items:center;gap:10px}
+.avatar{width:35px;height:35px;border-radius:50%;background:#ead8c4;color:#714d37;display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+.user-name{font-size:12px;font-weight:700}
+.user-role{font-size:10px;color:#e6d2bf}
+
+/* ── MAIN ── */
+.main{margin-left:230px;padding:24px clamp(22px,3.2vw,46px) 50px;max-width:1700px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
+.heading{font-size:29px;line-height:1.15;font-weight:600;letter-spacing:-.7px;margin:0;color:#34251e}
+.top-actions{display:flex;align-items:center;gap:13px}
+.global-search{width:195px;position:relative}
+.global-search:before{content:'⌕';position:absolute;left:12px;top:5px;font-size:22px;color:#806b5c}
+.global-search input{width:100%;border:1px solid var(--line);background:#eadbca;border-radius:8px;padding:9px 12px 9px 34px;color:var(--ink);outline:none}
+.icon-btn{border:0;background:transparent;color:#6e4d39;font-size:20px;padding:5px;position:relative;cursor:pointer}
+.notification-dot{position:absolute;width:6px;height:6px;background:#a35d43;border-radius:50%;right:5px;top:5px}
+.profile-btn{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:#6e4d39;padding:0;cursor:pointer}
+.profile-btn .avatar{width:36px;height:36px;border:2px solid #f9eee3}
+.mobile-menu{display:none;border:0;background:transparent;color:#684a37;font-size:22px}
+
+/* ── PAGE CONTENT ── */
+.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:800;color:#9a6b42;margin-bottom:7px}
+.page-title-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:2px 0 22px}
+.page-heading{font:600 29px/1.1 Georgia,serif;margin:0;color:#34251e}
+.page-description{margin:6px 0 0;color:#837366;font-size:13px}
+.page-actions{display:flex;align-items:center;gap:9px}
+
+.btn{border:1px solid #c8b29b;background:#f7eee4;color:#513b2d;border-radius:8px;padding:9px 13px;font-size:11px;font-weight:650;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.btn.primary{background:#50372a;color:#fff8f1;border-color:#50372a}
+.btn:hover{filter:brightness(.97)}
+.btn.round{border-radius:24px}
+
+/* ── CATEGORY TABS ── */
+.lead-category-tabs{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:8px 0 15px}
+.category-tab{border:1px solid #e1d6cb;background:#fffaf5;color:#75675d;border-radius:24px;padding:10px 15px;font-size:12px;font-weight:650;cursor:pointer;white-space:nowrap}
+.category-tab b{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:5px;padding:0 5px;border-radius:20px;background:#eee7df;color:#76685d;font-size:10px}
+.category-tab.active{background:#493126;color:#fff8f0;border-color:#493126}
+.category-tab.active b{background:#80624e;color:white}
+
+/* ── TOOLBAR ── */
+.list-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 15px;background:#fffaf6;border:1px solid #e7ddd3;border-radius:15px;margin:3px 0 17px;box-shadow:0 4px 15px #523a2608}
+.list-search-wrap{position:relative;flex:1;max-width:390px}
+.list-search-wrap>span{position:absolute;left:14px;top:6px;font-size:21px;color:#9b8e83}
+.list-search-wrap .search{max-width:none;width:100%;padding:12px 14px 12px 42px;border-radius:28px;background:#fbf8f5;border:1px solid #e5dcd4;font-size:12px;outline:none;color:var(--ink)}
+.list-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.list-controls .btn{background:#fffdfa;border-color:#e4d9cf;color:#5c4b3e;border-radius:24px;padding:10px 14px;font-size:12px}
+.list-controls .btn.primary{background:#493126;color:#fff8f0;border-color:#493126}
+.sort-label{font-size:9px;letter-spacing:1px;color:#8b7c70;font-weight:800}
+.filter-select{border:1px solid #d8c6b4;background:#fff9f3;border-radius:8px;padding:9px 11px;font-size:11px;color:#604b3c;outline:none}
+.list-controls select{border-radius:24px;padding:10px 14px;background:#fffdfa;border-color:#e4d9cf}
+.view-switch{display:flex;padding:4px;border:1px solid #e4d9cf;border-radius:25px;background:#fffdfa}
+.view-btn{border:0;background:transparent;color:#75675d;border-radius:20px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer}
+.view-btn.active{background:#493126;color:white}
+
+/* ── FILTERS ── */
+.advanced-filters{display:flex;gap:9px;align-items:center;margin:-5px 0 14px;padding:12px 15px;border:1px solid #e8ded4;background:#f8f2ec;border-radius:12px}
+.text-link{border:0;background:transparent;color:#765039;font-size:11px;font-weight:700;cursor:pointer}
+
+/* ── TABLE ── */
+.list-page-card{border-radius:15px;background:#fffdfa;box-shadow:0 5px 18px #4d38230a;overflow:hidden}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+.modern-lead-table{min-width:950px}
+.modern-lead-table th{background:#fbf7f2;color:#827366;font-size:9px;letter-spacing:.8px;text-transform:uppercase;padding:14px 15px;border-bottom:1px solid #e9e1d9;font-weight:700;text-align:left}
+.modern-lead-table td{font-size:12px;padding:14px 15px;border-bottom:1px solid #eee8e1;color:#5b514a;white-space:nowrap}
+.modern-lead-table tbody tr:hover{background:#fcf8f3}
+.modern-lead-table tbody tr:last-child td{border-bottom:0}
+.client{display:flex;align-items:center;gap:8px}
+.client .avatar{width:30px;height:30px;font-size:10px;background:#f1e2d0;color:#5c3e2a;flex:none}
+.client-name{font-weight:650;color:#3e2e25;font-size:12px}
+.client-sub{font-size:10px;color:#806c5d;margin-top:1px}
+.company-cell{font-weight:600;color:#655346}
+.muted-cell{color:#aaa097}
+.table-footer{display:flex;justify-content:space-between;padding:12px 16px;color:#9a8b7e;font-size:10px;border-top:1px solid #eee7df}
+.row-action{border:0;background:transparent;color:#795a43;font-size:17px;padding:3px 8px;border-radius:7px;cursor:pointer}
+.row-action:hover{background:#f3e9df}
+.empty-state{padding:40px;text-align:center;color:#86766a;font-size:13px}
+
+/* ── STATUS BADGES ── */
+.status{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 9px;font-size:10px;font-weight:650;white-space:nowrap}
+.status:before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.status-new{background:#f5e5c9;color:#9a6526}
+.status-contacted{background:#e0e7eb;color:#526c80}
+.status-in-progress{background:#e9dfeb;color:#775b80}
+.status-converted{background:#e0e9dd;color:#4f704e}
+.status-lost{background:#e8e1dc;color:#796d65}
+
+.status-select{border:0;background:transparent;color:inherit;font-size:10px;font-weight:650;outline:none;cursor:pointer;max-width:120px}
+
+/* ── GRID VIEW ── */
+.lead-grid-view{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;padding:16px}
+.lead-grid-card{background:#fffdfa;border:1px solid #e7d9c9;border-radius:15px;padding:16px;box-shadow:0 4px 14px #4d38230a;display:flex;flex-direction:column;gap:12px;transition:transform .16s,box-shadow .16s}
+.lead-grid-card:hover{transform:translateY(-2px);box-shadow:0 9px 22px #4d382316}
+.lead-grid-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.lead-grid-client{display:flex;align-items:center;gap:10px;min-width:0}
+.lead-grid-client .avatar{width:39px;height:39px;font-size:12px}
+.lead-grid-name{font-size:13px;font-weight:750;color:#382a21}
+.lead-grid-date{font-size:10px;color:#928174;margin-top:3px}
+.lead-grid-details{display:grid;gap:7px;padding:10px 0;border-top:1px solid #eee5dc;border-bottom:1px solid #eee5dc}
+.lead-grid-detail{display:flex;align-items:center;gap:8px;font-size:11px;color:#6e5b4d}
+.lead-grid-tags{display:flex;flex-wrap:wrap;gap:6px}
+.lead-grid-tag{border-radius:6px;background:#f1e5d7;color:#654a36;padding:5px 8px;font-size:10px;font-weight:650}
+.lead-grid-tag.project{background:#493126;color:#fff8f0}
+.lead-grid-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.lead-grid-actions{display:flex;gap:6px}
+.lead-grid-actions button{border:1px solid #e5d8ca;background:#fffaf5;color:#674c39;border-radius:8px;padding:6px 9px;font-size:10px;cursor:pointer}
+.lead-grid-actions button:hover{background:#f3e8dc}
+.grid-status-select{border:1px solid #e1d6cb;background:#fffaf5;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:650;color:#604b3c;outline:none}
+
+/* ── WHATSAPP BUTTON ── */
+.btn-wa{background:#25D366;color:white;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.btn-wa:hover{background:#1da851}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;background:#493126;color:#fff8f0;padding:11px 16px;border-radius:9px;font-size:12px;opacity:0;transform:translateY(8px);transition:.2s;z-index:30;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ── STATUS BADGE DETAIL ── */
+.modal-backdrop{display:none;position:fixed;inset:0;background:#24180f88;z-index:20;align-items:center;justify-content:center;padding:18px}
+.modal-backdrop.open{display:flex}
+.modal{width:min(600px,100%);max-height:90vh;overflow-y:auto;background:#fffaf5;border-radius:16px;padding:24px;box-shadow:0 20px 70px #24180f55}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-head h2{font:600 20px Georgia,serif;margin:0}
+.close{border:0;background:transparent;font-size:24px;color:#6b5545;cursor:pointer}
+.detail-row{display:flex;gap:8px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #eee5dc;font-size:13px}
+.detail-row:last-child{border-bottom:0}
+.detail-label{color:#9a8b7e;width:100px;flex:none;font-size:11px;font-weight:700;padding-top:2px}
+.detail-val{color:#3e2e25;flex:1;word-break:break-word}
+.notes-input{width:100%;border:1px solid #dfd0c0;background:#fff;border-radius:8px;padding:10px;font-size:12px;color:#382a21;resize:vertical;min-height:60px;margin-top:8px}
+
+@media(max-width:1050px){.lead-grid-view{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+  .sidebar{width:230px;transform:translateX(-100%);transition:transform .22s;box-shadow:8px 0 30px #2a1c1422}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:18px 15px 35px}
+  .mobile-menu{display:block}
+  .topbar{gap:10px;margin-bottom:16px}
+  .heading{font-size:24px}
+  .global-search{width:min(36vw,180px)}
+  .top-actions{gap:7px}
+  .page-title-row{flex-direction:column;align-items:flex-start}
+  .page-actions{width:100%}
+  .lead-category-tabs{overflow-x:auto;flex-wrap:nowrap}
+  .category-tab{font-size:11px;padding:9px 12px}
+  .list-controls{gap:6px}
+  .sort-label{display:none}
+  .advanced-filters{flex-wrap:wrap}
+}
+@media(max-width:650px){.lead-grid-view{grid-template-columns:1fr}}
+@media(max-width:430px){.global-search{display:none}}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">K</div>
+    <div>
+      <div class="brand-name">Kaveri Interiors</div>
+      <div class="brand-sub">STUDIO ADMIN</div>
+    </div>
+  </div>
+  <div class="nav-label">LEADS &amp; INQUIRIES</div>
+  <nav class="nav">
+    <a href="leads.html"><span class="nav-icon">⌂</span>Dashboard</a>
+    <a href="leads-list.html" class="active"><span class="nav-icon">▤</span>All Leads <span class="count" id="sidebarCount">0</span></a>
+    <a href="leads-new.html"><span class="nav-icon">＋</span>Add New Lead</a>
+  </nav>
+  <div class="nav-label">MANAGEMENT</div>
+  <nav class="nav">
+    <a href="admin.html#gallery"><span class="nav-icon">▧</span>Gallery Manager <span class="count">79</span></a>
+    <a href="admin.html#consultation"><span class="nav-icon">▦</span>Consultation Rules</a>
+  </nav>
+  <div class="nav-label">WEBSITE</div>
+  <nav class="nav">
+    <a href="index.html" target="_blank"><span class="nav-icon">⌂</span>Main Website ↗</a>
+    <a href="gallery.html" target="_blank"><span class="nav-icon">↗</span>Live Gallery ↗</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="avatar">KI</div>
+    <div>
+      <div class="user-name">Kaveri Studio</div>
+      <div class="user-role">● Real Data</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="mobile-menu" onclick="toggleSidebar()" aria-label="Open navigation">☰</button>
+      <h1 class="heading">All Leads</h1>
+    </div>
+    <div class="top-actions">
+      <div class="global-search">
+        <input id="globalSearch" placeholder="Search" aria-label="Search leads" oninput="document.getElementById('searchInput').value=this.value;applyFilters()">
+      </div>
+      <button class="icon-btn" onclick="syncSheet()" title="Sync Google Sheet">↻<i class="notification-dot" id="syncDot"></i></button>
+      <button class="profile-btn" aria-label="Studio profile">
+        <span class="avatar">KI</span>
+        <span style="font-size:11px">⌄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <div class="page-title-row">
+    <div>
+      <div class="eyebrow">LEAD INQUIRIES &amp; CLIENT PIPELINE</div>
+      <h1 class="page-heading">All Leads List</h1>
+    </div>
+    <div class="page-actions">
+      <button class="btn" onclick="syncSheet()">↻ Sync Google Sheet</button>
+      <button class="btn" onclick="exportCSV()">⬇ Export CSV</button>
+      <a href="leads-new.html" class="btn primary">＋ Add New Lead</a>
+    </div>
+  </div>
+
+  <!-- STATUS TABS -->
+  <div class="lead-category-tabs" id="categoryTabs">
+    <button class="category-tab active" data-status="All">All <b id="countAll">0</b></button>
+    <button class="category-tab" data-status="New">New <b id="countNew">0</b></button>
+    <button class="category-tab" data-status="Contacted">Contacted <b id="countContacted">0</b></button>
+    <button class="category-tab" data-status="In Progress">In Progress <b id="countProgress">0</b></button>
+    <button class="category-tab" data-status="Converted">Converted <b id="countConverted">0</b></button>
+    <button class="category-tab" data-status="Lost">Lost <b id="countLost">0</b></button>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="list-toolbar">
+    <div class="list-search-wrap">
+      <span>⌕</span>
+      <input class="search" id="searchInput" placeholder="Search by name, phone, email, location, or notes..." oninput="applyFilters()">
+    </div>
+    <div class="list-controls">
+      <button class="btn" onclick="document.getElementById('advFilters').hidden=!document.getElementById('advFilters').hidden">▽ Filters</button>
+      <label class="sort-label">SORT BY</label>
+      <select class="filter-select" id="sortSelect" onchange="applyFilters()" style="border-radius:24px;padding:10px 14px;background:#fffdfa;border-color:#e4d9cf">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="name">Name A–Z</option>
+      </select>
+      <div class="view-switch">
+        <button class="view-btn active" id="btnTable" onclick="setView('table')">▤ Table</button>
+        <button class="view-btn" id="btnGrid" onclick="setView('grid')">▦ Grid</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVANCED FILTERS -->
+  <div class="advanced-filters" id="advFilters" hidden>
+    <select class="filter-select" id="typeFilter" onchange="applyFilters()">
+      <option value="All">All project types</option>
+      <option>Full home interior</option>
+      <option>Full home interior - 3 BHK</option>
+      <option>Full home interior - 2 BHK</option>
+      <option>Renovation</option>
+      <option>Commercial</option>
+      <option>Modular Kitchen</option>
+      <option>3D Design &amp; Visuals</option>
+      <option>Design Service</option>
+    </select>
+    <select class="filter-select" id="sourceFilter" onchange="applyFilters()">
+      <option value="All">All sources</option>
+      <option>Quote Request</option>
+      <option>Contact enquiry</option>
+      <option>Job application</option>
+      <option>Website</option>
+      <option>Instagram</option>
+      <option>WhatsApp</option>
+      <option>Referral</option>
+      <option>Walk-in</option>
+      <option>Manual</option>
+    </select>
+    <button class="text-link" onclick="clearFilters()">Clear filters</button>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <div class="list-page-card" id="tableView">
+    <div class="table-wrap">
+      <table class="modern-lead-table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Project / Type</th>
+            <th>Contact</th>
+            <th>Location</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadRows"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="emptyState" hidden>No leads match your filters.</div>
+    <div class="table-footer">
+      <span id="resultCount">Loading leads…</span>
+      <span>✓ Google Sheets Linked</span>
+    </div>
+  </div>
+
+  <!-- GRID VIEW -->
+  <div class="lead-grid-view" id="gridView" hidden></div>
+</main>
+
+<!-- DETAIL MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 id="modalTitle">Lead Details</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let allLeads = [], filteredLeads = [], activeStatus = 'All', viewMode = 'table';
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const statuses = ['New','Contacted','In Progress','Converted','Lost'];
+
+function toast(msg){
+  const el=$('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(window._t);window._t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+function toggleSidebar(){
+  const sb=$('sidebar');sb.classList.toggle('open');
+}
+
+function initials(name){
+  return (name||'?').split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase();
+}
+
+function formatDate(iso){
+  if(!iso)return '—';
+  try{return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return iso;}
+}
+
+function statusClass(s){
+  return 'status-'+( s||'new').toLowerCase().replace(/\s+/g,'-');
+}
+
+function updateCounts(){
+  const counts={All:allLeads.length,New:0,Contacted:0,'In Progress':0,Converted:0,Lost:0};
+  allLeads.forEach(l=>{if(counts[l.status]!==undefined)counts[l.status]++;});
+  $('countAll').textContent=counts.All;
+  $('countNew').textContent=counts.New;
+  $('countContacted').textContent=counts.Contacted;
+  $('countProgress').textContent=counts['In Progress'];
+  $('countConverted').textContent=counts.Converted;
+  $('countLost').textContent=counts.Lost;
+  $('sidebarCount').textContent=counts.All;
+  document.querySelectorAll('.category-tab').forEach(t=>{
+    t.classList.toggle('active',t.dataset.status===activeStatus);
+  });
+}
+
+function applyFilters(){
+  const q=($('searchInput').value||'').toLowerCase();
+  const type=$('typeFilter').value;
+  const source=$('sourceFilter').value;
+  const sort=$('sortSelect').value;
+  filteredLeads=allLeads.filter(l=>{
+    const p=l.payload||{};
+    if(activeStatus!=='All'&&l.status!==activeStatus)return false;
+    if(type!=='All'&&(p.projectType||'')!==type)return false;
+    if(source!=='All'&&(p.formLabel||l.source||'')!==source)return false;
+    if(q){const hay=[p.name,p.phone,p.email,p.location,p.projectType,p.message,p.budget,p.designTheme,l.notes,p.formLabel].join(' ').toLowerCase();if(!hay.includes(q))return false;}
+    return true;
+  });
+  if(sort==='name')filteredLeads.sort((a,b)=>((a.payload?.name||'').localeCompare(b.payload?.name||'')));
+  else if(sort==='oldest')filteredLeads.sort((a,b)=>new Date(a.receivedAt)-new Date(b.receivedAt));
+  else filteredLeads.sort((a,b)=>new Date(b.receivedAt)-new Date(a.receivedAt));
+  render();
+}
+
+function render(){
+  if(viewMode==='table')renderTable();else renderGrid();
+  $('resultCount').textContent=`Showing ${filteredLeads.length} of ${allLeads.length} inquiries`;
+  $('emptyState').hidden=filteredLeads.length>0;
+}
+
+function renderTable(){
+  $('leadRows').innerHTML=filteredLeads.map(lead=>{
+    const p=lead.payload||{};
+    const name=p.name||'Anonymous';
+    const phone=p.phone||'';
+    const wa=phone?`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hello '+name+', regarding your interior design inquiry...')}` :'';
+    return `<tr>
+      <td>
+        <div class="client">
+          <span class="avatar">${esc(initials(name))}</span>
+          <span>
+            <span class="client-name">${esc(name)}</span><br>
+            <span class="client-sub">${esc(formatDate(lead.receivedAt))} · ${esc(p.formLabel||lead.type||'Inquiry')}</span>
+          </span>
+        </div>
+      </td>
+      <td>
+        <span class="company-cell">${esc(p.projectType||'Full Home Interior')}</span><br>
+        <span class="client-sub">${esc(p.budget||'—')}</span>
+      </td>
+      <td>
+        ${phone?`<a href="tel:${esc(phone)}" style="color:#5c4b3e">${esc(phone)}</a>`:'<span class="muted-cell">—</span>'}<br>
+        ${p.email?`<span style="font-size:10px;color:#827366">${esc(p.email)}</span>`:''}
+      </td>
+      <td>${p.location?esc(p.location):'<span class="muted-cell">—</span>'}</td>
+      <td>${esc(p.formLabel||'Website')}</td>
+      <td>
+        <span class="status ${statusClass(lead.status)}">
+          <select class="status-select" data-id="${esc(lead.id)}" onchange="updateStatus('${esc(lead.id)}',this.value)">
+            ${statuses.map(st=>`<option ${st===lead.status?'selected':''}>${st}</option>`).join('')}
+          </select>
+        </span>
+      </td>
+      <td>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${wa?`<a href="${esc(wa)}" target="_blank" class="btn-wa" title="WhatsApp">💬 WA</a>`:''}
+          <button class="row-action" onclick="showDetail('${esc(lead.id)}')" title="View details">···</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderGrid(){
+  $('gridView').innerHTML=filteredLeads.length?filteredLeads.map(lead=>{
+    const p=lead.payload||{};
+    const name=p.name||'Anonymous';
+    const phone=p.phone||'';
+    const wa=phone?`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hello '+name+'...')}` :'';
+    return `<article class="lead-grid-card">
+      <div class="lead-grid-top">
+        <div class="lead-grid-client">
+          <span class="avatar">${esc(initials(name))}</span>
+          <div>
+            <div class="lead-grid-name">${esc(name)}</div>
+            <div class="lead-grid-date">${esc(formatDate(lead.receivedAt))}</div>
+          </div>
+        </div>
+        <span class="status ${statusClass(lead.status)}">${esc(lead.status||'New')}</span>
+      </div>
+      <div class="lead-grid-details">
+        ${phone?`<div class="lead-grid-detail">☎ <span>${esc(phone)}</span></div>`:''}
+        ${p.email?`<div class="lead-grid-detail">✉ <span>${esc(p.email)}</span></div>`:''}
+        ${p.location?`<div class="lead-grid-detail">⌖ <span>${esc(p.location)}</span></div>`:''}
+      </div>
+      <div class="lead-grid-tags">
+        <span class="lead-grid-tag project">${esc(p.projectType||'Interior')}</span>
+        ${p.budget?`<span class="lead-grid-tag">${esc(p.budget)}</span>`:''}
+        ${p.designTheme?`<span class="lead-grid-tag">${esc(p.designTheme)}</span>`:''}
+      </div>
+      <div class="lead-grid-footer">
+        <select class="grid-status-select" data-id="${esc(lead.id)}" onchange="updateStatus('${esc(lead.id)}',this.value)">
+          ${statuses.map(st=>`<option ${st===lead.status?'selected':''}>${st}</option>`).join('')}
+        </select>
+        <div class="lead-grid-actions">
+          ${wa?`<a href="${esc(wa)}" target="_blank" class="btn-wa" style="border-radius:8px;font-size:10px;padding:5px 8px">WA</a>`:''}
+          <button onclick="showDetail('${esc(lead.id)}')">View</button>
+        </div>
+      </div>
+    </article>`;
+  }).join(''):'<div class="empty-state" style="grid-column:1/-1">No leads match your filters.</div>';
+}
+
+function setView(mode){
+  viewMode=mode;
+  $('tableView').hidden=mode!=='table';
+  $('gridView').hidden=mode!=='grid';
+  $('btnTable').classList.toggle('active',mode==='table');
+  $('btnGrid').classList.toggle('active',mode==='grid');
+  render();
+}
+
+async function updateStatus(id,newStatus){
+  const lead=allLeads.find(l=>l.id===id);
+  if(!lead)return;
+  lead.status=newStatus;
+  updateCounts();
+  applyFilters();
+  try{await fetch(`/api/leads/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:newStatus})});}catch(e){}
+  toast(`Status updated to "${newStatus}"`);
+}
+
+function showDetail(id){
+  const lead=allLeads.find(l=>l.id===id);
+  if(!lead)return;
+  const p=lead.payload||{};
+  $('modalTitle').textContent=p.name||'Lead Details';
+  $('modalBody').innerHTML=`
+    <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-val">${esc(p.phone||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Email</span><span class="detail-val">${esc(p.email||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Location</span><span class="detail-val">${esc(p.location||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Project</span><span class="detail-val">${esc(p.projectType||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Budget</span><span class="detail-val">${esc(p.budget||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Theme</span><span class="detail-val">${esc(p.designTheme||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Source</span><span class="detail-val">${esc(p.formLabel||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Received</span><span class="detail-val">${esc(formatDate(lead.receivedAt))}</span></div>
+    <div class="detail-row"><span class="detail-label">Message</span><span class="detail-val" style="white-space:pre-wrap">${esc(p.message||'—')}</span></div>
+    <div class="detail-row"><span class="detail-label">Status</span>
+      <span class="detail-val">
+        <select class="filter-select" onchange="updateStatus('${esc(id)}',this.value);closeModal()">
+          ${statuses.map(st=>`<option ${st===lead.status?'selected':''}>${st}</option>`).join('')}
+        </select>
+      </span>
+    </div>
+    <div class="detail-row" style="flex-direction:column;gap:6px">
+      <span class="detail-label">Studio Notes</span>
+      <textarea class="notes-input" id="detailNote" placeholder="Add follow-up notes...">${esc(lead.notes||'')}</textarea>
+      <button class="btn primary" onclick="saveNote('${esc(id)}')">Save Note</button>
+    </div>
+    ${p.phone?`<div style="margin-top:12px"><a href="https://wa.me/${p.phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hello '+p.name+', thank you for your interior design inquiry!')}" target="_blank" class="btn-wa" style="border-radius:8px;padding:9px 14px;font-size:12px">💬 WhatsApp Client</a></div>`:''}
+  `;
+  $('modalBackdrop').classList.add('open');
+}
+
+async function saveNote(id){
+  const notes=$('detailNote').value.trim();
+  const lead=allLeads.find(l=>l.id===id);
+  if(lead){lead.notes=notes;}
+  try{await fetch(`/api/leads/${encodeURIComponent(id)}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({notes})});}catch(e){}
+  toast('✓ Note saved');
+}
+
+function closeModal(){$('modalBackdrop').classList.remove('open');}
+$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeModal();});
+
+function clearFilters(){
+  $('searchInput').value='';$('typeFilter').value='All';$('sourceFilter').value='All';activeStatus='All';
+  updateCounts();applyFilters();
+}
+
+async function syncSheet(){
+  toast('Syncing with Google Sheet…');
+  $('syncDot').style.display='block';
+  try{
+    const res=await fetch('/api/leads/sync',{method:'POST'});
+    if(res.ok){
+      const data=await res.json();
+      if(Array.isArray(data)){allLeads=data;}
+      else if(data.leads&&Array.isArray(data.leads)){allLeads=data.leads;}
+      updateCounts();applyFilters();
+      toast(`✓ Synced ${allLeads.length} leads from Google Sheet`);
+    }
+  }catch(e){toast('Sync failed — using cached data');}
+  finally{$('syncDot').style.display='none';}
+}
+
+function exportCSV(){
+  if(!filteredLeads.length){toast('No leads to export','err');return;}
+  const headers=['Received','Name','Phone','Email','Location','Project','Budget','Theme','Source','Status','Notes'];
+  const rows=[headers,...filteredLeads.map(l=>{
+    const p=l.payload||{};
+    return[l.receivedAt||'',p.name||'',p.phone||'',p.email||'',p.location||'',p.projectType||'',p.budget||'',p.designTheme||'',p.formLabel||'',l.status||'New',(l.notes||'').replace(/"/g,'""')];
+  })];
+  const csv=rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`kaveri-leads-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(a.href);
+  toast(`✓ Exported ${filteredLeads.length} leads`);
+}
+
+document.querySelectorAll('.category-tab').forEach(t=>{
+  t.addEventListener('click',()=>{activeStatus=t.dataset.status;updateCounts();applyFilters();});
+});
+
+async function loadLeads(){
+  try{
+    const res=await fetch('/api/leads');
+    if(res.ok){
+      const data=await res.json();
+      allLeads=Array.isArray(data)?data:(data.leads||[]);
+    }
+  }catch(e){
+    try{
+      const r2=await fetch('submissions.json');
+      if(r2.ok){const d=await r2.json();allLeads=Array.isArray(d)?d:[];}
+    }catch(e2){allLeads=[];}
+  }
+  updateCounts();
+  applyFilters();
+}
+
+loadLeads();
+</script>
+</body>
+</html>

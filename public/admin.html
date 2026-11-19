@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f4efe8">
+<title>Admin Dashboard · Kaveri Interiors</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#2a2420;--black-soft:#38312b;
+    --gold:#b6854f;--gold-deep:#956438;--gold-soft:#f1e4d1;
+    --cream:#f4efe8;--cream-2:#efe2d2;--cream-card:#faf6f0;
+    --ink-soft:#79695a;--ink-light:#9e8e7f;--line:#e6dac8;--white:#fffdf9;
+    --ok:#2e7d32;--ok-bg:#e8f5e9;--warn:#d97706;--warn-bg:#fef3c7;
+    --info:#2563eb;--info-bg:#eff6ff;--purple:#7c3aed;--purple-bg:#f5f3ff;
+    --err:#b91c1c;--err-bg:#fee2e2;--gray-tag:#6b7280;--gray-bg:#f3f4f6;
+    --serif:"Playfair Display",Georgia,serif;--sans:"Inter",-apple-system,"Segoe UI",sans-serif;
+    --radius:14px;--shadow:0 1px 3px rgba(42,36,32,.04),0 8px 24px rgba(42,36,32,.05);
+    --sidebar-w:250px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--cream);color:var(--black);font-family:var(--sans);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  input,textarea,select{font:inherit;font-size:15px;color:var(--black)}
+  [hidden]{display:none!important}
+
+  /* LAYOUT SHELL */
+  .admin-shell{display:flex;min-height:100vh}
+  .admin-overlay{position:fixed;inset:0;background:rgba(42,36,32,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:998;display:none;opacity:0;transition:opacity .2s}
+  .admin-overlay.active{display:block;opacity:1}
+
+  /* SIDEBAR */
+  .admin-sidebar{
+    width:var(--sidebar-w);
+    background:#80563f;
+    border-right:none;
+    display:flex;
+    flex-direction:column;
+    position:sticky;
+    top:0;
+    height:100vh;
+    z-index:999;
+    flex-shrink:0;
+    transition:transform .25s ease;
+  }
+  .sidebar-header{padding:22px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .brand-monogram{width:38px;height:38px;border-radius:10px;background:rgba(241,228,209,.18);color:#f1e4d1;display:grid;place-items:center;font-family:var(--serif);font-size:20px;font-weight:700;flex-shrink:0}
+  .brand-meta{min-width:0;flex:1}
+  .brand-title{font-family:var(--serif);font-size:17px;font-weight:700;line-height:1.15;color:#f1e4d1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand-tag{font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(241,228,209,.55);font-weight:700;margin-top:2px}
+  .sidebar-close-btn{display:none;width:30px;height:30px;border-radius:8px;align-items:center;justify-content:center;color:var(--ink-soft);font-size:16px}
+  .sidebar-close-btn:hover{background:var(--cream);color:var(--black)}
+
+  .sidebar-nav{flex:1;overflow-y:auto;padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+  .nav-group-title{font-size:10px;font-weight:700;letter-spacing:1.7px;text-transform:uppercase;color:#e1c7ae;padding:12px 10px 4px}
+  .nav-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    color:#f5e9dc;
+    font-weight:500;
+    font-size:13.5px;
+    text-decoration:none;
+    transition:all .15s;
+    width:100%;
+    text-align:left;
+  }
+  .nav-item:hover{background:#91664c;color:#f5e9dc}
+  .nav-item.active{background:#ead8c4;color:#38261d;font-weight:600;box-shadow:0 2px 6px #4d302533}
+  .nav-item.active .nav-icon{color:#38261d}
+  .nav-icon{width:18px;height:18px;flex-shrink:0;color:currentColor}
+  .nav-label{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.12);color:rgba(241,228,209,.75)}
+  .nav-badge.alert{background:var(--warn-bg);color:var(--warn)}
+  .nav-item.active .nav-badge{background:rgba(61,43,31,.18);color:#3d2b1f}
+  .nav-item.active .nav-badge.alert{background:var(--warn);color:#fff}
+
+  .sidebar-footer{padding:14px 16px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(0,0,0,.18)}
+  .admin-user-info{display:flex;align-items:center;gap:9px;min-width:0}
+  .admin-avatar{width:32px;height:32px;border-radius:50%;background:rgba(241,228,209,.2);color:#f1e4d1;font-weight:700;font-size:12px;display:grid;place-items:center;flex-shrink:0}
+  .admin-user-meta{min-width:0}
+  .admin-user-name{font-size:12.5px;font-weight:600;color:#f1e4d1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .admin-user-status{font-size:11px;color:var(--ok);display:flex;align-items:center;gap:4px}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:#6bcf7f}
+  .sidebar-signout-btn{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:var(--ink-soft);transition:all .15s}
+  .sidebar-signout-btn:hover{background:var(--err-bg);color:var(--err)}
+
+  /* MOBILE HEADER */
+  .admin-mobile-header{display:none;position:sticky;top:0;z-index:990;background:var(--white);border-bottom:1px solid var(--line);padding:10px 16px;align-items:center;justify-content:space-between}
+  .admin-burger{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;color:var(--black);background:var(--cream)}
+  .admin-mobile-brand{display:flex;align-items:center;gap:8px}
+  .admin-mobile-site{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--ink-soft);background:var(--cream)}
+
+  /* MAIN CONTENT */
+  .admin-main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .main-topbar{padding:24px 32px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .topbar-eyebrow{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+  .topbar-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--black);margin-top:2px}
+  .topbar-actions{display:flex;align-items:center;gap:10px}
+  .topbar-site-link{font-size:13px;color:var(--gold-deep);font-weight:600;text-decoration:none}
+  .topbar-site-link:hover{text-decoration:underline}
+
+  .main-content{padding:0 32px 100px;max-width:1200px}
+
+  /* CARDS & PANELS */
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+  h2{font-family:var(--serif);font-size:19px;line-height:1.25;color:var(--black)}
+  .hint{color:var(--ink-soft);font-size:13px;margin-top:2px}
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:999px;padding:9px 18px;font-weight:600;font-size:13.5px;transition:all .15s}
+  .btn-dark{background:var(--black);color:var(--cream)}
+  .btn-dark:hover{background:#3b322b}
+  .btn-ghost{border:1px solid var(--line);background:var(--white);color:var(--black)}
+  .btn-ghost:hover{border-color:var(--gold);background:var(--cream)}
+  .btn-gold{background:var(--gold);color:#fff}
+  .btn-gold:hover{background:var(--gold-deep)}
+  .btn-sm{padding:6px 12px;font-size:12.5px;border-radius:999px}
+  .btn-wa{background:#25d366;color:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600}
+  .btn-wa:hover{background:#1ebc59}
+
+  /* INPUTS */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .full{grid-column:1/-1}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px;color:var(--black)}
+  .field small{display:block;color:var(--ink-soft);font-size:12px;margin-top:4px}
+  .input{display:flex;align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:10px;transition:border-color .15s,box-shadow .15s}
+  .input:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(182,133,79,.18);background:#fff}
+  .input input,.input textarea,.input select{flex:1;min-width:0;width:100%;background:none;border:0;outline:0;padding:10px 12px;font-size:14px}
+  .input textarea{min-height:72px;resize:vertical}
+  .input .pre,.input .suf{color:var(--ink-soft);font-size:13.5px;padding:0 12px}
+
+  /* METRICS GRID */
+  .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:20px}
+  .metric-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;transition:transform .15s,box-shadow .15s}
+  .metric-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(42,36,32,.07)}
+  .metric-header{display:flex;justify-content:space-between;align-items:center}
+  .metric-label{font-size:12.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px}
+  .metric-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+  .metric-badge.new{background:var(--warn-bg);color:var(--warn)}
+  .metric-badge.progress{background:var(--purple-bg);color:var(--purple)}
+  .metric-badge.converted{background:var(--ok-bg);color:var(--ok)}
+  .metric-badge.neutral{background:var(--cream-2);color:var(--ink-soft)}
+  .metric-val{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--black);line-height:1.1;margin:10px 0 4px}
+  .metric-sub{font-size:12px;color:var(--ink-soft)}
+
+  /* REPORTS OVERVIEW */
+  .reports-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+  .funnel-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--cream-2);margin:14px 0 16px}
+  .funnel-seg{height:100%;transition:width .3s}
+  .seg-new{background:var(--warn)}
+  .seg-contacted{background:var(--info)}
+  .seg-progress{background:var(--purple)}
+  .seg-converted{background:var(--ok)}
+  .seg-lost{background:#9ca3af}
+  .funnel-legend{display:flex;flex-wrap:wrap;gap:12px}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--black)}
+  .legend-dot{width:8px;height:8px;border-radius:50%}
+
+  .type-bars{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+  .type-bar-row{display:flex;flex-direction:column;gap:4px}
+  .type-bar-head{display:flex;justify-content:space-between;font-size:12px}
+  .type-bar-title{font-weight:600;color:var(--black)}
+  .type-bar-meta{color:var(--ink-soft)}
+  .type-bar-track{height:7px;border-radius:999px;background:var(--cream-2);overflow:hidden}
+  .type-bar-fill{height:100%;background:var(--gold);border-radius:999px;transition:width .3s}
+
+  /* LEADS TOOLBAR & FILTER */
+  .leads-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .leads-filter-pills{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .leads-filter-pills::-webkit-scrollbar{display:none}
+  .filter-pill{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;white-space:nowrap;transition:all .15s}
+  .filter-pill:hover{border-color:var(--gold);color:var(--black)}
+  .filter-pill.active{background:var(--black);color:var(--cream);border-color:var(--black)}
+  .filter-pill .pill-num{font-size:11px;margin-left:4px;opacity:.8}
+
+  .leads-search-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .leads-search-row .input{flex:1;min-width:240px}
+  .leads-search-row select{background:none;border:0;outline:0;padding:10px 12px;font-size:13.5px}
+
+  /* LEADS LIST / CARDS */
+  .leads-list{display:flex;flex-direction:column;gap:12px}
+  .lead-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;transition:border-color .15s}
+  .lead-card:hover{border-color:var(--gold)}
+  .lead-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .lead-identity{display:flex;align-items:center;gap:12px}
+  .lead-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold-soft);color:var(--gold-deep);font-weight:700;font-size:14px;display:grid;place-items:center;flex-shrink:0}
+  .lead-name{font-size:16px;font-weight:700;color:var(--black);line-height:1.2}
+  .lead-date{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  
+  .lead-status-select-wrap{position:relative}
+  .lead-status-badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+  .lead-status-badge.new{background:var(--warn-bg);color:var(--warn)}
+  .lead-status-badge.contacted{background:var(--info-bg);color:var(--info)}
+  .lead-status-badge.progress{background:var(--purple-bg);color:var(--purple)}
+  .lead-status-badge.converted{background:var(--ok-bg);color:var(--ok)}
+  .lead-status-badge.lost{background:var(--gray-bg);color:var(--gray-tag)}
+
+  .lead-contact-strip{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink-soft);padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .lead-contact-item{display:flex;align-items:center;gap:6px}
+  .lead-contact-item a{color:var(--black);font-weight:500;text-decoration:none}
+  .lead-contact-item a:hover{color:var(--gold-deep);text-decoration:underline}
+
+  .lead-scope{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .scope-pill{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:6px;background:var(--cream);color:var(--black);border:1px solid var(--line)}
+  .scope-pill.budget{background:var(--gold-soft);color:var(--gold-deep);border-color:rgba(182,133,79,.3)}
+  .scope-pill.type{background:var(--black);color:var(--cream);border-color:var(--black)}
+
+  .lead-message-box{background:var(--cream);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--black);line-height:1.45}
+  
+  .lead-notes-row{display:flex;align-items:center;gap:8px}
+  .lead-notes-row .input{flex:1}
+  .lead-notes-row .input input{font-size:13px;padding:7px 10px}
+
+  .lead-actions-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .lead-quick-contacts{display:flex;align-items:center;gap:8px}
+  .lead-del-btn{color:var(--err);font-size:12px;font-weight:600;padding:5px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px}
+  .lead-del-btn:hover{background:var(--err-bg)}
+
+  /* MODAL */
+  .lead-modal-backdrop{position:fixed;inset:0;background:rgba(42,36,32,.7);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px}
+  .lead-modal-card{background:var(--white);border-radius:var(--radius);padding:24px;width:100%;max-width:520px;box-shadow:0 12px 40px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto}
+  .lead-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .lead-modal-close{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:var(--ink-soft)}
+  .lead-modal-close:hover{background:var(--cream);color:var(--black)}
+
+  /* GALLERY SECTION STYLES */
+  .label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .source-toggle{display:inline-flex;background:var(--cream-2);border-radius:999px;padding:2px;border:1px solid var(--line)}
+  .source-toggle button{padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--ink-soft);border:0;background:none;cursor:pointer;transition:all .15s}
+  .source-toggle button.active{background:var(--white);color:var(--black);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .opt{font-weight:400;color:var(--ink-soft);font-size:12px}
+
+  .dropzone{border:1.5px dashed var(--line);border-radius:12px;padding:18px 14px;text-align:center;background:var(--cream);transition:border-color .15s,background .15s;cursor:pointer;position:relative}
+  .dropzone:hover,.dropzone.dragover{border-color:var(--gold);background:var(--gold-soft)}
+  .dropzone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .drop-text{font-size:13.5px;color:var(--black);margin-top:2px}
+  .drop-sub{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+
+  .drop-preview{position:relative;border-radius:12px;overflow:hidden;background:#1a1715;margin-top:8px;border:1px solid var(--line);display:none}
+  .drop-preview img{width:100%;max-height:200px;object-fit:cover;display:block}
+  .drop-preview-remove{position:absolute;top:8px;right:8px;background:rgba(42,36,32,.75);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:17px;cursor:pointer;border:0}
+  .drop-preview-remove:hover{background:var(--err)}
+  .drop-preview-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;padding:8px 12px;font-size:12px;display:flex;justify-content:space-between}
+
+  .form-actions{display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap}
+  .gal-filter-bar{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;margin-bottom:12px}
+  .gal-filter-bar::-webkit-scrollbar{display:none}
+  .gal-filter-btn{border-radius:999px;border:1px solid var(--line);background:var(--white);padding:5px 12px;font-size:12.5px;font-weight:500;white-space:nowrap;cursor:pointer;transition:all .15s;color:var(--ink-soft);flex-shrink:0}
+  .gal-filter-btn:hover{border-color:var(--gold);color:var(--black)}
+  .gal-filter-btn.active{background:var(--black);color:var(--cream);border-color:var(--black)}
+
+  .gal-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:12px}
+  .gal-admin-card{background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s}
+  .gal-admin-card:hover{box-shadow:var(--shadow)}
+  .gal-admin-thumb{height:130px;position:relative;background-size:cover;background-position:center;background-color:var(--cream-2);cursor:pointer}
+  .gal-admin-badge{position:absolute;top:6px;left:6px;background:rgba(42,36,32,.85);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;padding:2px 7px;border-radius:5px;backdrop-filter:blur(3px)}
+  .gal-admin-custom-badge{position:absolute;top:6px;right:6px;background:var(--ok);color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:999px}
+  .gal-admin-body{padding:10px 12px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+  .gal-admin-title{font-weight:600;font-size:13.5px;line-height:1.25;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gal-admin-sub{font-size:11.5px;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gal-admin-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+  .gal-admin-del{color:var(--err);font-size:11.5px;font-weight:500;cursor:pointer;border:0;background:none;padding:2px 4px;border-radius:4px}
+  .gal-admin-del:hover{background:var(--err-bg)}
+  .gal-admin-view{color:var(--gold-deep);font-size:11.5px;font-weight:500;text-decoration:none}
+  .gal-admin-view:hover{text-decoration:underline}
+
+  /* CONSULTATION WIZARD */
+  .stepper{display:flex;list-style:none;margin:0 0 20px;padding:0;counter-reset:step}
+  .stepper li{flex:1;position:relative}
+  .stepper li::before{content:"";position:absolute;top:17px;left:-50%;right:50%;height:2px;background:var(--line)}
+  .stepper li:first-child::before{display:none}
+  .stepper li.done::before,.stepper li.on::before{background:var(--gold)}
+  .stepper button{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 4px}
+  .stepper .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13.5px;background:var(--white);border:2px solid var(--line);color:var(--ink-soft);transition:all .2s}
+  .stepper .lbl{font-size:12px;font-weight:500;color:var(--ink-soft);text-align:center;line-height:1.25}
+  .stepper li.done .dot{background:var(--gold-soft);border-color:var(--gold);color:var(--gold-deep)}
+  .stepper li.on .dot{background:var(--black);border-color:var(--black);color:var(--cream);box-shadow:0 0 0 4px rgba(42,36,32,.1)}
+  .stepper li.on .lbl{color:var(--black);font-weight:600}
+
+  .status{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .toggle{position:relative;flex:0 0 52px;height:30px}
+  .toggle input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:1;margin:0}
+  .toggle span{position:absolute;inset:0;border-radius:999px;background:#d6cbbb;transition:background .2s}
+  .toggle span::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+  .toggle input:checked+span{background:var(--ok)}
+  .toggle input:checked+span::after{transform:translateX(22px)}
+
+  .day{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+  .day:first-child{border-top:0;padding-top:0}
+  .day-name{font-weight:600;padding-top:7px}
+  .day-name small{display:block;font-weight:400;color:var(--ink-soft);font-size:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .chip{display:inline-flex;align-items:center;background:var(--gold-soft);color:var(--black);border-radius:999px;padding:0 4px 0 14px;font-size:13.5px;font-weight:500;height:34px}
+  .chip button{width:26px;height:26px;border-radius:50%;font-size:17px;line-height:1;color:var(--ink-soft);display:grid;place-items:center}
+  .chip button:hover{background:rgba(168,68,46,.12);color:var(--err)}
+  .closed{color:var(--ink-soft);font-size:13.5px;font-style:italic}
+  .adder{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+  .adder .input{width:140px}
+  .day-tools{display:flex;gap:16px;margin-top:8px}
+
+  .ov-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+  .ov{display:flex;align-items:center;gap:14px;background:var(--cream);border-radius:12px;padding:12px 14px}
+  .ov-date{flex:0 0 auto;text-align:center;background:var(--white);border:1px solid var(--line);border-radius:10px;width:52px;padding:4px 0}
+  .ov-date b{display:block;font-family:var(--serif);font-size:20px}
+  .ov-date span{font-size:11px;text-transform:uppercase;color:var(--ink-soft)}
+  .ov-body{flex:1;min-width:0}
+  .ov .x{width:36px;height:36px;border-radius:50%;font-size:20px;color:var(--ink-soft);flex:0 0 auto}
+  .ov .x:hover{background:var(--err-bg);color:var(--err)}
+  .empty{color:var(--ink-soft);font-size:14px;text-align:center;padding:24px 16px;border:1px dashed var(--line);border-radius:12px;margin-bottom:18px}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(255,253,249,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 24px calc(12px + env(safe-area-inset-bottom))}
+  .bar-in{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px}
+  .bar .msg{font-size:13.5px;color:var(--ink-soft);flex:1}
+  .actions{display:flex;gap:10px;margin-left:auto}
+
+  /* SIGN IN SCREEN */
+  #login{max-width:400px;margin:12vh auto 0;text-align:center;padding:28px}
+  #login .logo{width:56px;height:56px;border-radius:50%;background:var(--gold-soft);display:grid;place-items:center;margin:0 auto 14px;color:var(--gold-deep)}
+  #login form{display:flex;flex-direction:column;gap:14px;margin-top:22px;text-align:left}
+  .alert{font-size:13.5px;border-radius:10px;padding:10px 12px}
+  .alert.err{background:var(--err-bg);color:var(--err)}
+
+  /* LIGHTBOX */
+  .admin-modal{position:fixed;inset:0;background:rgba(42,36,32,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1100;padding:20px}
+  .admin-modal-img{max-width:90vw;max-height:85vh;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.4);object-fit:contain}
+  .admin-modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--black);font-size:22px;border:0;display:grid;place-items:center;cursor:pointer}
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .admin-shell{
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      width:100%;
+      max-width:100vw;
+      overflow-x:hidden;
+    }
+    .admin-mobile-header{
+      display:flex!important;
+      position:sticky;
+      top:0;
+      z-index:990;
+      width:100%;
+      box-sizing:border-box;
+      background:#80563f;
+      color:#fff8f0;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      padding:12px 16px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .admin-burger{
+      width:38px;
+      height:38px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      color:#fff8f0;
+      background:rgba(255,255,255,.14);
+      cursor:pointer;
+      border:0;
+    }
+    .admin-burger:hover{
+      background:rgba(255,255,255,.24);
+    }
+    .admin-mobile-brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#fff8f0;
+    }
+    .admin-mobile-brand span{
+      color:#fff8f0!important;
+      font-family:var(--serif);
+      font-size:16px;
+      font-weight:700;
+    }
+    .admin-mobile-brand .brand-monogram{
+      background:rgba(255,255,255,.18);
+      color:#f1e4d1;
+    }
+    .admin-mobile-site{
+      width:36px;
+      height:36px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      color:#fff8f0;
+      background:rgba(255,255,255,.14);
+      text-decoration:none;
+    }
+    .admin-sidebar{
+      position:fixed!important;
+      top:0;left:0;bottom:0;
+      width:270px;
+      max-width:85vw;
+      transform:translateX(-100%);
+      box-shadow:8px 0 30px rgba(42,36,32,.35);
+      z-index:1001;
+      height:100vh;
+      height:100dvh;
+      transition:transform .25s ease;
+    }
+    .admin-sidebar.open{
+      transform:translateX(0);
+    }
+    .admin-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(42,36,32,.5);
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+      z-index:1000;
+      display:none;
+      opacity:0;
+      transition:opacity .2s;
+    }
+    .admin-overlay.active{
+      display:block!important;
+      opacity:1;
+    }
+    .sidebar-close-btn{
+      display:flex!important;
+      color:rgba(255,255,255,.7);
+    }
+    .sidebar-close-btn:hover{
+      background:rgba(255,255,255,.15);
+      color:#fff;
+    }
+    .admin-main{
+      width:100%;
+      min-width:0;
+      max-width:100vw;
+      flex:1;
+      box-sizing:border-box;
+      overflow-x:hidden;
+    }
+    .main-topbar{
+      display:none!important;
+    }
+    .main-content{
+      padding:16px 14px 100px;
+      max-width:100%;
+      box-sizing:border-box;
+      width:100%;
+    }
+    .reports-row{
+      grid-template-columns:1fr;
+    }
+    .metrics-grid{
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    .metric-val{
+      font-size:28px;
+    }
+    .card{
+      padding:16px 14px;
+      margin-bottom:14px;
+      border-radius:12px;
+      max-width:100%;
+      box-sizing:border-box;
+    }
+    .card-head{
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .grid{
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+    .grid .full{
+      grid-column:auto;
+    }
+    .lead-card{
+      padding:16px 14px;
+    }
+    .lead-contact-strip{
+      gap:8px;
+      font-size:12.5px;
+    }
+    .gal-admin-grid{
+      grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+      gap:10px;
+    }
+    .gal-admin-thumb{
+      height:115px;
+    }
+    .form-actions{
+      flex-direction:column;
+      align-items:stretch;
+      gap:8px;
+    }
+    .form-actions .btn{
+      width:100%;
+      justify-content:center;
+    }
+    .form-actions .topbar-site-link{
+      margin-left:0!important;
+      text-align:center;
+      display:block;
+      padding-top:6px;
+    }
+  }
+
+  @media (max-width:550px){
+    .metrics-grid{
+      grid-template-columns:1fr;
+    }
+    .lead-actions-bar{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .lead-quick-contacts{
+      width:100%;
+      justify-content:space-between;
+    }
+    .leads-search-row{
+      flex-direction:column;
+    }
+    .leads-search-row .input{
+      min-width:100%;
+    }
+    .leads-toolbar{
+      flex-direction:column;
+      align-items:stretch;
+    }
+    .stepper{
+      gap:4px;
+    }
+    .stepper .dot{
+      width:28px;
+      height:28px;
+      font-size:12px;
+    }
+    .stepper .lbl{
+      font-size:9.5px;
+      line-height:1.15;
+    }
+    .gal-filter-bar{
+      gap:4px;
+    }
+    .gal-filter-btn{
+      padding:4px 10px;
+      font-size:11.5px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- MAIN APPLICATION SHELL -->
+<div class="admin-shell" id="app">
+
+  <!-- Mobile Top Header -->
+  <header class="admin-mobile-header">
+    <button type="button" class="admin-burger" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Open sidebar menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="admin-mobile-brand">
+      <div class="brand-monogram" style="width:30px;height:30px;font-size:16px">K</div>
+      <span style="font-family:var(--serif);font-weight:700;font-size:16px">Kaveri Interiors</span>
+    </div>
+    <a href="index.html" target="_blank" class="admin-mobile-site" title="View website">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </header>
+
+  <!-- Mobile Overlay Backdrop -->
+  <div class="admin-overlay" id="adminOverlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="brand-monogram">K</div>
+      <div class="brand-meta">
+        <div class="brand-title">Kaveri Interiors</div>
+        <div class="brand-tag">STUDIO ADMIN</div>
+      </div>
+      <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close sidebar">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-title">LEADS PIPELINE</div>
+
+      <a href="leads.html" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        <span class="nav-label">Leads Dashboard</span>
+      </a>
+
+      <a href="leads-list.html" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span class="nav-label">All Leads List</span>
+        <span class="nav-badge alert" id="leadsNavBadge">73</span>
+      </a>
+
+      <a href="leads-new.html" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        <span class="nav-label">Add New Lead</span>
+      </a>
+
+      <div class="nav-group-title" style="margin-top:14px">WORKSPACE</div>
+
+      <button type="button" class="nav-item active" id="navItemLeads" onclick="switchSection('leads')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        <span class="nav-label">Leads Overview</span>
+      </button>
+
+      <button type="button" class="nav-item" id="navItemGallery" onclick="switchSection('gallery')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span class="nav-label">Gallery Manager</span>
+        <span class="nav-badge" id="galleryNavBadge">79</span>
+      </button>
+
+      <button type="button" class="nav-item" id="navItemConsultation" onclick="switchSection('consultation')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="nav-label">Consultation Rules</span>
+      </button>
+
+      <div class="nav-group-title" style="margin-top:20px">QUICK LINKS</div>
+
+      <a href="gallery.html" target="_blank" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span class="nav-label">Live Gallery</span>
+      </a>
+
+      <a href="index.html" target="_blank" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="nav-label">Main Website</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-user-info">
+        <div class="admin-avatar">KI</div>
+        <div class="admin-user-meta">
+          <div class="admin-user-name">Kaveri Studio</div>
+          <div class="admin-user-status"><span class="status-dot"></span> Live Mode</div>
+        </div>
+      </div>
+      <button type="button" class="sidebar-signout-btn" onclick="logout()" title="Sign out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <div class="admin-main">
+    <header class="main-topbar">
+      <div>
+        <div class="topbar-eyebrow" id="topbarEyebrow">STUDIO MANAGEMENT</div>
+        <h1 class="topbar-title" id="pageTitle">Leads & Reports</h1>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="refreshCurrentSection()">↻ Refresh</button>
+        <a href="index.html" target="_blank" class="topbar-site-link">View website ↗</a>
+      </div>
+    </header>
+
+    <div class="main-content">
+
+      <!-- ========================================================
+           SECTION 1: LEADS DASHBOARD, REPORTS & TRACKING
+           ======================================================== -->
+      <section id="sectionLeads">
+        <!-- 4 KPI Stat Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Total Leads</span>
+              <span class="metric-badge neutral">All Time</span>
+            </div>
+            <div class="metric-val" id="metricTotalLeads">0</div>
+            <div class="metric-sub" id="metricTotalSub">Inquiries logged</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">New Leads</span>
+              <span class="metric-badge new" id="metricNewBadge">Action needed</span>
+            </div>
+            <div class="metric-val" id="metricNewLeads" style="color:var(--warn)">0</div>
+            <div class="metric-sub">Awaiting initial contact</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">In Progress</span>
+              <span class="metric-badge progress">Active</span>
+            </div>
+            <div class="metric-val" id="metricProgressLeads" style="color:var(--purple)">0</div>
+            <div class="metric-sub">In design / site discussion</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Converted</span>
+              <span class="metric-badge converted" id="metricConvRate">0% Won</span>
+            </div>
+            <div class="metric-val" id="metricConvertedLeads" style="color:var(--ok)">0</div>
+            <div class="metric-sub" id="metricConvertedSub">Projects finalized</div>
+          </div>
+        </div>
+
+        <!-- Reports & Breakdown Panel -->
+        <div class="reports-row">
+          <!-- Status Funnel Card -->
+          <div class="card" style="margin-bottom:0">
+            <div class="card-head">
+              <div>
+                <h2>Lead Status Funnel</h2>
+                <p class="hint">Lifecycle distribution of all studio inquiries.</p>
+              </div>
+            </div>
+            <div class="funnel-bar">
+              <div class="funnel-seg seg-new" id="funnelNew" style="width:0%" title="New"></div>
+              <div class="funnel-seg seg-contacted" id="funnelContacted" style="width:0%" title="Contacted"></div>
+              <div class="funnel-seg seg-progress" id="funnelProgress" style="width:0%" title="In Progress"></div>
+              <div class="funnel-seg seg-converted" id="funnelConverted" style="width:0%" title="Converted"></div>
+              <div class="funnel-seg seg-lost" id="funnelLost" style="width:0%" title="Lost"></div>
+            </div>
+            <div class="funnel-legend" id="funnelLegend"></div>
+          </div>
+
+          <!-- Project Demand Distribution -->
+          <div class="card" style="margin-bottom:0">
+            <div class="card-head">
+              <div>
+                <h2>Project Demand</h2>
+                <p class="hint">Most requested services & interior formats.</p>
+              </div>
+            </div>
+            <div class="type-bars" id="typeBarsContainer"></div>
+          </div>
+        </div>
+
+        <!-- Leads List & Action Toolbar -->
+        <div style="margin-top:22px">
+          <div class="leads-toolbar">
+            <div class="leads-filter-pills" id="leadFilterPills">
+              <button type="button" class="filter-pill active" onclick="setLeadStatusFilter('all')">All <span class="pill-num" id="pillCountAll">0</span></button>
+              <button type="button" class="filter-pill" onclick="setLeadStatusFilter('New')">New <span class="pill-num" id="pillCountNew">0</span></button>
+              <button type="button" class="filter-pill" onclick="setLeadStatusFilter('Contacted')">Contacted <span class="pill-num" id="pillCountContacted">0</span></button>
+              <button type="button" class="filter-pill" onclick="setLeadStatusFilter('In Progress')">In Progress <span class="pill-num" id="pillCountProgress">0</span></button>
+              <button type="button" class="filter-pill" onclick="setLeadStatusFilter('Converted')">Converted <span class="pill-num" id="pillCountConverted">0</span></button>
+              <button type="button" class="filter-pill" onclick="setLeadStatusFilter('Lost')">Lost <span class="pill-num" id="pillCountLost">0</span></button>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <a href="leads-list.html" class="btn btn-gold btn-sm">📋 All Leads Page →</a>
+              <button type="button" class="btn btn-ghost btn-sm" onclick="exportLeadsCSV()" title="Export all filtered leads to CSV">📥 Export CSV</button>
+              <a href="leads-new.html" class="btn btn-dark btn-sm">+ Add Lead</a>
+              <button type="button" class="btn btn-ghost btn-sm" onclick="syncLeadsFromSheet()" title="Sync real leads from Google Sheet">🔄 Sync Sheet</button>
+            </div>
+          </div>
+
+          <!-- Search & Type Filter -->
+          <div class="leads-search-row">
+            <div class="input">
+              <input type="text" id="leadSearchInput" placeholder="Search by client name, phone, email, location or notes..." oninput="filterAndRenderLeads()">
+            </div>
+            <div class="input" style="max-width:200px">
+              <select id="leadTypeFilter" onchange="filterAndRenderLeads()">
+                <option value="all">All Inquiry Types</option>
+                <option value="quote">Quote Requests</option>
+                <option value="contact">Contact Messages</option>
+                <option value="consultation">Consultation Bookings</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Leads Card List -->
+          <div class="leads-list" id="leadsListContainer"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           SECTION 2: GALLERY MANAGER
+           ======================================================== -->
+      <section id="sectionGallery" hidden>
+        <!-- Upload Card -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Add image to gallery</h2>
+              <p class="hint">Upload a high resolution project photo or 3D render to the live gallery.</p>
+            </div>
+          </div>
+
+          <form id="galleryUploadForm" onsubmit="event.preventDefault(); submitGalleryImage();">
+            <div class="grid">
+              <!-- Room Category -->
+              <div class="field">
+                <label for="galCategory">Room Heading / Category</label>
+                <div class="input">
+                  <select id="galCategory" onchange="handleCategoryChange()" required>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="Bedroom">Bedroom</option>
+                    <option value="Living">Living</option>
+                    <option value="Dining">Dining</option>
+                    <option value="Partitions">Partitions</option>
+                    <option value="Pooja Room">Pooja Room</option>
+                    <option value="Balcony">Balcony</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="__NEW__">+ Custom Room...</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Custom Category -->
+              <div class="field" id="newCategoryWrap" hidden>
+                <label for="newCategoryInput">Custom Room Name</label>
+                <div class="input">
+                  <input type="text" id="newCategoryInput" placeholder="e.g. Foyer, Home Bar, Study">
+                </div>
+              </div>
+
+              <!-- Title -->
+              <div class="field">
+                <label for="galTitle">Image Title / Card Heading</label>
+                <div class="input">
+                  <input type="text" id="galTitle" placeholder="e.g. Mint Modular Kitchen" required>
+                </div>
+              </div>
+
+              <!-- Tag / Subtitle -->
+              <div class="field full">
+                <label for="galSubtitle">Subtitle / Tag Line <span class="opt">(optional)</span></label>
+                <div class="input">
+                  <input type="text" id="galSubtitle" placeholder="e.g. Modular Kitchen · 3D Render, Italian Finish">
+                </div>
+              </div>
+
+              <!-- Image Source -->
+              <div class="field full">
+                <div class="label-row">
+                  <label>Image File or URL</label>
+                  <div class="source-toggle">
+                    <button type="button" id="segImgFile" class="active" onclick="setImgSourceMode('file')">Upload File</button>
+                    <button type="button" id="segImgUrl" onclick="setImgSourceMode('url')">Image URL</button>
+                  </div>
+                </div>
+
+                <div id="dropzoneContainer">
+                  <div class="dropzone" id="dropzone">
+                    <input type="file" id="galFileInput" accept="image/*" onchange="onFileChosen(this.files)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gold-deep);margin-bottom:6px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <div class="drop-text"><b>Choose an image</b> or drag &amp; drop here</div>
+                    <div class="drop-sub">PNG, JPG, WEBP, AVIF up to 30 MB</div>
+                  </div>
+
+                  <div class="drop-preview" id="dropPreview">
+                    <img id="previewImg" src="" alt="Preview">
+                    <button type="button" class="drop-preview-remove" onclick="clearFileSelection()" title="Remove file">×</button>
+                    <div class="drop-preview-bar">
+                      <span id="previewName"></span>
+                      <span id="previewSize"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="urlInputContainer" hidden>
+                  <div class="input">
+                    <input type="url" id="galUrlInput" placeholder="https://..." oninput="onUrlInput(this.value)">
+                  </div>
+                  <div class="drop-preview" id="urlPreview" style="margin-top:8px">
+                    <img id="urlPreviewImg" src="" alt="URL Preview">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Upload Actions -->
+              <div class="full form-actions">
+                <button type="submit" class="btn btn-dark" id="btnUploadGallery">Add to gallery</button>
+                <button type="button" class="btn btn-ghost" onclick="resetGalleryForm()">Clear</button>
+                <a href="gallery.html" target="_blank" class="topbar-site-link" style="margin-left:auto">View live gallery ↗</a>
+              </div>
+
+              <div class="full" id="galleryUploadNotice" style="display:none"></div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Manage Existing Images Card -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Existing Gallery Images <span class="metric-badge neutral" id="galCountHint">0</span></h2>
+              <p class="hint">Filter by category or search to review and delete images.</p>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="loadAdminGallery(true)">↻ Refresh</button>
+          </div>
+
+          <div class="gal-filter-bar" id="galFilterBar"></div>
+
+          <div class="input" style="margin:10px 0 16px">
+            <input type="text" id="galSearchInput" placeholder="Search gallery by title, tag, or room..." oninput="filterGalleryCards()">
+          </div>
+
+          <div class="gal-admin-grid" id="galAdminGrid"></div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           SECTION 3: CONSULTATION SETTINGS
+           ======================================================== -->
+      <section id="sectionConsultation" hidden>
+        <ol class="stepper" id="stepper">
+          <li><button type="button" onclick="goStep(0)"><span class="dot">1</span><span class="lbl">Fee &amp; rules</span></button></li>
+          <li><button type="button" onclick="goStep(1)"><span class="dot">2</span><span class="lbl">Weekly hours</span></button></li>
+          <li><button type="button" onclick="goStep(2)"><span class="dot">3</span><span class="lbl">Holidays</span></button></li>
+          <li><button type="button" onclick="goStep(3)"><span class="dot">4</span><span class="lbl">Review &amp; save</span></button></li>
+        </ol>
+
+        <div class="step" data-step="0">
+          <div class="card">
+            <div class="status">
+              <div>
+                <b>Online bookings <span class="metric-badge" id="statusPill"></span></b>
+                <div class="hint" id="statusHint"></div>
+              </div>
+              <label class="toggle" aria-label="Accept consultation bookings"><input type="checkbox" id="enabled" onchange="renderStatus()"><span></span></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><div><h2>Fee &amp; booking rules</h2><p class="hint">Shown to clients when they pick “Consultation” in the quote form.</p></div></div>
+            <div class="grid">
+              <div class="field">
+                <label for="fee">Consultation fee</label>
+                <div class="input"><span class="pre">₹</span><input id="fee" type="number" inputmode="numeric" min="0" step="50"></div>
+              </div>
+              <div class="field">
+                <label for="dur">Session length</label>
+                <div class="input"><input id="dur" type="number" inputmode="numeric" min="15" max="480" step="15"><span class="suf">minutes</span></div>
+              </div>
+              <div class="field">
+                <label for="win">Bookable up to</label>
+                <div class="input"><input id="win" type="number" inputmode="numeric" min="1" max="365"><span class="suf">days ahead</span></div>
+              </div>
+              <div class="field">
+                <label for="notice">Minimum notice</label>
+                <div class="input"><input id="notice" type="number" inputmode="numeric" min="0" max="720"><span class="suf">hours</span></div>
+                <small>Slots sooner than this are hidden.</small>
+              </div>
+              <div class="field full">
+                <label for="pay">Payment link</label>
+                <div class="input"><input id="pay" type="url" inputmode="url" placeholder="https://rzp.io/l/your-link"></div>
+                <small>Razorpay, Stripe or UPI link. Clients pay here to confirm slot.</small>
+              </div>
+              <div class="field full">
+                <label for="note">Message under the fee</label>
+                <div class="input"><textarea id="note" maxlength="300"></textarea></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" data-step="1" hidden>
+          <div class="card">
+            <div class="card-head"><div><h2>Weekly hours</h2><p class="hint">Start times you're free each week (India time). Automatically syncs with Google Calendar.</p></div></div>
+            <div id="weekly"></div>
+          </div>
+        </div>
+
+        <div class="step" data-step="2" hidden>
+          <div class="card">
+            <div class="card-head"><div><h2>Holidays &amp; special days</h2><p class="hint">Close a date, or set custom times for one day.</p></div></div>
+            <div id="overrides"></div>
+            <div class="ov-new" style="border-top:1px solid var(--line);padding-top:16px;margin-top:16px">
+              <h3 style="font-size:14px;font-weight:600;margin-bottom:12px">Add a date</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="ovDate">Date</label>
+                  <div class="input"><input id="ovDate" type="date"></div>
+                </div>
+                <div class="field">
+                  <label>On this day</label>
+                  <div class="source-toggle" style="width:100%;display:flex">
+                    <button type="button" id="segClosed" class="active" style="flex:1" onclick="setOvMode('closed')">Closed</button>
+                    <button type="button" id="segCustom" style="flex:1" onclick="setOvMode('custom')">Custom times</button>
+                  </div>
+                </div>
+                <div class="field full" id="ovCustom" hidden>
+                  <label for="ovTime">Times available</label>
+                  <div class="chips" id="ovChips"></div>
+                  <div class="adder">
+                    <div class="input"><input type="time" id="ovTime" step="900"></div>
+                    <button class="btn btn-ghost btn-sm" type="button" onclick="addOvTime()">+ Add time</button>
+                  </div>
+                </div>
+                <div class="full"><button class="btn btn-ghost" type="button" onclick="addOverride()" style="width:100%">+ Add this date</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" data-step="3" hidden>
+          <div class="card">
+            <div class="card-head"><div><h2>Review &amp; save</h2><p class="hint">Check settings, then save to make them live instantly.</p></div></div>
+            <div class="sum" id="summary"></div>
+            <div id="warnings"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ADD LEAD MANUAL MODAL -->
+<div class="lead-modal-backdrop" id="addLeadModal" hidden>
+  <div class="lead-modal-card">
+    <div class="lead-modal-head">
+      <div>
+        <h2 style="font-size:18px">Log New Lead</h2>
+        <div class="hint">Record a phone call, WhatsApp enquiry, or studio walk-in.</div>
+      </div>
+      <button type="button" class="lead-modal-close" onclick="closeAddLeadModal()" aria-label="Close modal">✕</button>
+    </div>
+
+    <form onsubmit="submitManualLead(event)">
+      <div class="grid">
+        <div class="field">
+          <label for="mName">Client Name *</label>
+          <div class="input"><input id="mName" placeholder="e.g. Aditi Rao" required></div>
+        </div>
+        <div class="field">
+          <label for="mPhone">Phone Number *</label>
+          <div class="input"><input id="mPhone" placeholder="e.g. +91 98450..." required></div>
+        </div>
+        <div class="field">
+          <label for="mEmail">Email Address</label>
+          <div class="input"><input id="mEmail" type="email" placeholder="client@example.com"></div>
+        </div>
+        <div class="field">
+          <label for="mLoc">Property Location</label>
+          <div class="input"><input id="mLoc" placeholder="e.g. Bellandur, Bengaluru"></div>
+        </div>
+        <div class="field">
+          <label for="mType">Project Scope</label>
+          <div class="input">
+            <select id="mType">
+              <option value="Full home interior · 3 BHK">Full home interior · 3 BHK</option>
+              <option value="Full home interior · 2 BHK">Full home interior · 2 BHK</option>
+              <option value="Full home interior · 4 BHK">Full home interior · 4 BHK</option>
+              <option value="Modular Kitchen">Modular Kitchen</option>
+              <option value="Renovation · Villa">Renovation · Villa</option>
+              <option value="Commercial · Office">Commercial · Office</option>
+              <option value="Design Consultation">Design Consultation</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="mBudget">Estimated Budget</label>
+          <div class="input">
+            <select id="mBudget">
+              <option value="₹5L - ₹8L">₹5L - ₹8L</option>
+              <option value="₹8L - ₹12L">₹8L - ₹12L</option>
+              <option value="₹12L - ₹18L">₹12L - ₹18L</option>
+              <option value="₹18L - ₹25L" selected>₹18L - ₹25L</option>
+              <option value="₹25L - ₹35L">₹25L - ₹35L</option>
+              <option value="₹35L+">₹35L+</option>
+            </select>
+          </div>
+        </div>
+        <div class="field full">
+          <label for="mTheme">Design Theme / Style</label>
+          <div class="input"><input id="mTheme" placeholder="e.g. Warm Scandinavian, Bohemian Minimal, Modern Luxury"></div>
+        </div>
+        <div class="field full">
+          <label for="mMsg">Notes &amp; Requirements</label>
+          <div class="input"><textarea id="mMsg" placeholder="Client requirements, room preferences, site visit notes..."></textarea></div>
+        </div>
+        <div class="field full">
+          <label for="mStatus">Initial Status</label>
+          <div class="input">
+            <select id="mStatus">
+              <option value="New">New (Needs Call)</option>
+              <option value="Contacted">Contacted</option>
+              <option value="In Progress">In Progress (Design Phase)</option>
+              <option value="Converted">Converted (Won)</option>
+            </select>
+          </div>
+        </div>
+        <div class="full form-actions" style="margin-top:10px">
+          <button type="submit" class="btn btn-dark" style="flex:1">Save Lead</button>
+          <button type="button" class="btn btn-ghost" onclick="closeAddLeadModal()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- CONSULTATION SAVE BAR -->
+<div class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <span class="msg" id="saveMsg" role="status"></span>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" id="backBtn" onclick="goStep(step-1)">Back</button>
+      <button class="btn btn-dark btn-sm" id="nextBtn" onclick="next()">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX PREVIEW -->
+<div class="admin-modal" id="adminLightbox" hidden onclick="closeAdminLightbox()">
+  <button type="button" class="admin-modal-close" onclick="closeAdminLightbox()" aria-label="Close">×</button>
+  <img class="admin-modal-img" id="adminLightboxImg" src="" alt="Full view" onclick="event.stopPropagation()">
+</div>
+
+<script src="js/assets.js"></script>
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwnVtWUmTDKFu-wWc1BAaSLC-EDDAt6dlc68g28Q_sbpIN5tFL3C1yqIdkIc6e0kDRs/exec";
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const ORDER = [1,2,3,4,5,6,0];
+const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+const $ = id => document.getElementById(id);
+
+let password = '';
+let settings = null;
+let dirty = false;
+let ovMode = 'closed';
+let ovTimes = [];
+let currentSection = 'leads';
+
+/* Leads state */
+let allLeads = [];
+let leadStatusFilter = 'all';
+
+/* Gallery state */
+let adminGalleryItems = [];
+let selectedFileData = null;
+let selectedFileName = '';
+let activeFilterCat = 'all';
+let imgSourceMode = 'file';
+
+/* -------------------------------------------------------------
+   NAVIGATION & SIDEBAR
+   ------------------------------------------------------------- */
+function toggleSidebar(){
+  const sb = $('adminSidebar');
+  const ov = $('adminOverlay');
+  const isOpen = sb.classList.contains('open');
+  if(isOpen){
+    closeSidebar();
+  } else {
+    sb.classList.add('open');
+    ov.classList.add('active');
+  }
+}
+
+function closeSidebar(){
+  $('adminSidebar').classList.remove('open');
+  $('adminOverlay').classList.remove('active');
+}
+
+function switchSection(sec){
+  currentSection = sec;
+  closeSidebar();
+
+  try {
+    if(window.location.hash !== '#' + sec){
+      history.replaceState(null, '', '#' + sec);
+    }
+  }catch(_){}
+
+  $('navItemLeads').classList.toggle('active', sec === 'leads');
+  $('navItemGallery').classList.toggle('active', sec === 'gallery');
+  $('navItemConsultation').classList.toggle('active', sec === 'consultation');
+
+  $('sectionLeads').hidden = sec !== 'leads';
+  $('sectionGallery').hidden = sec !== 'gallery';
+  $('sectionConsultation').hidden = sec !== 'consultation';
+  $('bar').hidden = sec !== 'consultation';
+
+  if(sec === 'leads'){
+    $('pageTitle').textContent = 'Leads & Reports';
+    $('topbarEyebrow').textContent = 'STUDIO MANAGEMENT';
+    loadAdminLeads();
+  } else if(sec === 'gallery'){
+    $('pageTitle').textContent = 'Gallery Manager';
+    $('topbarEyebrow').textContent = 'WEBSITE MEDIA';
+    loadAdminGallery();
+  } else if(sec === 'consultation'){
+    $('pageTitle').textContent = 'Consultation Rules';
+    $('topbarEyebrow').textContent = 'BOOKING SETTINGS';
+    goStep(step);
+  }
+}
+
+function refreshCurrentSection(){
+  if(currentSection === 'leads') loadAdminLeads(true);
+  else if(currentSection === 'gallery') loadAdminGallery(true);
+  else if(currentSection === 'consultation') location.reload();
+}
+
+/* -------------------------------------------------------------
+   LEADS DASHBOARD & TRACKING
+   ------------------------------------------------------------- */
+async function loadAdminLeads(force){
+  try {
+    const res = await fetch('/api/leads');
+    if(res.ok){
+      allLeads = await res.json();
+    } else {
+      throw new Error('API failed');
+    }
+  } catch(e) {
+    try {
+      const gRes = await fetch('submissions.json');
+      if(gRes.ok){
+        allLeads = await gRes.json();
+      } else {
+        const local = localStorage.getItem('ki_admin_leads');
+        if(local) allLeads = JSON.parse(local);
+      }
+    } catch(err){
+      const local = localStorage.getItem('ki_admin_leads');
+      if(local) allLeads = JSON.parse(local);
+    }
+  }
+
+  if(!Array.isArray(allLeads)) allLeads = [];
+  try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+
+  renderLeadsDashboard();
+}
+
+function renderLeadsDashboard(){
+  renderLeadsMetrics();
+  renderLeadsReports();
+  filterAndRenderLeads();
+}
+
+function renderLeadsMetrics(){
+  const total = allLeads.length;
+  const newCount = allLeads.filter(l => (l.status || 'New').toLowerCase() === 'new').length;
+  const progressCount = allLeads.filter(l => (l.status || '').toLowerCase() === 'in progress' || (l.status || '').toLowerCase() === 'contacted').length;
+  const convertedCount = allLeads.filter(l => (l.status || '').toLowerCase() === 'converted').length;
+  const lostCount = allLeads.filter(l => (l.status || '').toLowerCase() === 'lost').length;
+
+  $('metricTotalLeads').textContent = total;
+  $('metricNewLeads').textContent = newCount;
+  $('metricProgressLeads').textContent = progressCount;
+  $('metricConvertedLeads').textContent = convertedCount;
+
+  const convRate = total > 0 ? Math.round((convertedCount / total) * 100) : 0;
+  $('metricConvRate').textContent = convRate + '% Won';
+  $('leadsNavBadge').textContent = newCount + ' New';
+  if(newCount === 0) $('leadsNavBadge').classList.remove('alert');
+  else $('leadsNavBadge').classList.add('alert');
+
+  $('pillCountAll').textContent = total;
+  $('pillCountNew').textContent = newCount;
+  $('pillCountContacted').textContent = allLeads.filter(l => (l.status || '').toLowerCase() === 'contacted').length;
+  $('pillCountProgress').textContent = allLeads.filter(l => (l.status || '').toLowerCase() === 'in progress').length;
+  $('pillCountConverted').textContent = convertedCount;
+  $('pillCountLost').textContent = lostCount;
+}
+
+function renderLeadsReports(){
+  const total = allLeads.length || 1;
+  const nNew = allLeads.filter(l => (l.status||'').toLowerCase() === 'new').length;
+  const nContacted = allLeads.filter(l => (l.status||'').toLowerCase() === 'contacted').length;
+  const nProgress = allLeads.filter(l => (l.status||'').toLowerCase() === 'in progress').length;
+  const nConverted = allLeads.filter(l => (l.status||'').toLowerCase() === 'converted').length;
+  const nLost = allLeads.filter(l => (l.status||'').toLowerCase() === 'lost').length;
+
+  // Funnel segments
+  $('funnelNew').style.width = ((nNew / total) * 100) + '%';
+  $('funnelContacted').style.width = ((nContacted / total) * 100) + '%';
+  $('funnelProgress').style.width = ((nProgress / total) * 100) + '%';
+  $('funnelConverted').style.width = ((nConverted / total) * 100) + '%';
+  $('funnelLost').style.width = ((nLost / total) * 100) + '%';
+
+  $('funnelLegend').innerHTML = `
+    <div class="legend-item"><span class="legend-dot" style="background:var(--warn)"></span> New (${nNew})</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--info)"></span> Contacted (${nContacted})</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--purple)"></span> In Progress (${nProgress})</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--ok)"></span> Converted (${nConverted})</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#9ca3af"></span> Lost (${nLost})</div>
+  `;
+
+  // Demand bars
+  const typeCounts = {};
+  allLeads.forEach(l => {
+    let t = (l.payload && l.payload.projectType) || 'Full Home Interior';
+    if(t.includes('·')) t = t.split('·')[0].trim();
+    typeCounts[t] = (typeCounts[t] || 0) + 1;
+  });
+
+  const sortedTypes = Object.entries(typeCounts).sort((a,b) => b[1] - a[1]);
+  if(sortedTypes.length === 0){
+    $('typeBarsContainer').innerHTML = '<div class="hint">No inquiries yet.</div>';
+    return;
+  }
+
+  $('typeBarsContainer').innerHTML = sortedTypes.slice(0, 5).map(([type, count]) => {
+    const pct = Math.round((count / total) * 100);
+    return `
+      <div class="type-bar-row">
+        <div class="type-bar-head">
+          <span class="type-bar-title">${escapeHtml(type)}</span>
+          <span class="type-bar-meta">${count} leads (${pct}%)</span>
+        </div>
+        <div class="type-bar-track">
+          <div class="type-bar-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setLeadStatusFilter(status){
+  leadStatusFilter = status;
+  document.querySelectorAll('#leadFilterPills .filter-pill').forEach(btn => {
+    const isCurrent = btn.textContent.toLowerCase().startsWith(status.toLowerCase());
+    btn.classList.toggle('active', isCurrent);
+  });
+  filterAndRenderLeads();
+}
+
+function filterAndRenderLeads(){
+  const query = ($('leadSearchInput').value || '').trim().toLowerCase();
+  const typeFilter = $('leadTypeFilter').value;
+
+  let filtered = allLeads;
+
+  // Filter status
+  if(leadStatusFilter !== 'all'){
+    filtered = filtered.filter(l => (l.status || 'New').toLowerCase() === leadStatusFilter.toLowerCase());
+  }
+
+  // Filter type
+  if(typeFilter !== 'all'){
+    filtered = filtered.filter(l => {
+      const srcType = (l.type || 'quote').toLowerCase();
+      const pType = ((l.payload && l.payload.projectType) || '').toLowerCase();
+      if(typeFilter === 'consultation') return srcType === 'consultation' || pType.includes('consultation');
+      return srcType === typeFilter;
+    });
+  }
+
+  // Search query
+  if(query){
+    filtered = filtered.filter(l => {
+      const p = l.payload || {};
+      const fullText = [
+        p.name, p.phone, p.email, p.location, p.projectType, p.budget, p.designTheme, p.message, l.notes, l.status
+      ].filter(Boolean).join(' ').toLowerCase();
+      return fullText.includes(query);
+    });
+  }
+
+  const container = $('leadsListContainer');
+  if(filtered.length === 0){
+    container.innerHTML = `
+      <div class="empty">
+        <div style="font-size:16px;font-weight:600;margin-bottom:6px">No leads found</div>
+        <div style="margin-bottom:14px">There are no inquiries matching your active filters.</div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="setLeadStatusFilter('all'); $('leadSearchInput').value=''; filterAndRenderLeads();">Clear filters</button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(lead => {
+    const p = lead.payload || {};
+    const name = p.name || 'Anonymous Client';
+    const initials = name.split(' ').map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase() || 'KI';
+    const status = lead.status || 'New';
+    const statusClass = status.toLowerCase().replace(/\s+/g, '-');
+    const receivedDate = lead.receivedAt ? formatDisplayTime(lead.receivedAt) : 'Recently';
+    const phone = p.phone || '';
+    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const cleanWA = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+    const waText = encodeURIComponent(`Hi ${name}, thank you for reaching out to Kaveri Interiors regarding your ${p.projectType || 'interior design'} project! How can we assist you today?`);
+
+    return `
+      <div class="lead-card" id="leadCard_${lead.id}">
+        <div class="lead-card-top">
+          <div class="lead-identity">
+            <div class="lead-avatar">${escapeHtml(initials)}</div>
+            <div>
+              <div class="lead-name">${escapeHtml(name)}</div>
+              <div class="lead-date">Received ${receivedDate} · Source: <b>${escapeHtml(lead.type === 'contact' ? 'Contact Form' : lead.type === 'consultation' ? 'Consultation' : 'Quote Request')}</b></div>
+            </div>
+          </div>
+
+          <div class="lead-status-select-wrap">
+            <select class="lead-status-badge ${statusClass}" onchange="updateLeadStatus('${lead.id}', this.value)" title="Change inquiry status">
+              <option value="New" ${status==='New'?'selected':''}>● New</option>
+              <option value="Contacted" ${status==='Contacted'?'selected':''}>● Contacted</option>
+              <option value="In Progress" ${status==='In Progress'?'selected':''}>● In Progress</option>
+              <option value="Converted" ${status==='Converted'?'selected':''}>● Converted</option>
+              <option value="Lost" ${status==='Lost'?'selected':''}>● Lost</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="lead-contact-strip">
+          ${phone ? `<div class="lead-contact-item">📞 <a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a></div>` : ''}
+          ${p.email ? `<div class="lead-contact-item">✉️ <a href="mailto:${escapeHtml(p.email)}">${escapeHtml(p.email)}</a></div>` : ''}
+          ${p.location ? `<div class="lead-contact-item">📍 <span>${escapeHtml(p.location)}</span></div>` : ''}
+        </div>
+
+        <div class="lead-scope">
+          ${p.projectType ? `<span class="scope-pill type">${escapeHtml(p.projectType)}</span>` : ''}
+          ${p.budget ? `<span class="scope-pill budget">Budget: ${escapeHtml(p.budget)}</span>` : ''}
+          ${p.designTheme ? `<span class="scope-pill">Theme: ${escapeHtml(p.designTheme)}</span>` : ''}
+          ${p.consultationDate ? `<span class="scope-pill" style="background:#e0f2fe;color:#0369a1">Slot: ${escapeHtml(p.consultationDate)} at ${escapeHtml(p.consultationTime||'')}</span>` : ''}
+        </div>
+
+        ${p.message ? `<div class="lead-message-box">"${escapeHtml(p.message)}"</div>` : ''}
+
+        <!-- Internal Notes -->
+        <div class="lead-notes-row">
+          <div class="input">
+            <input type="text" id="noteInput_${lead.id}" value="${escapeHtml(lead.notes || '')}" placeholder="Add studio internal note..." onblur="saveLeadNote('${lead.id}', this.value)">
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="saveLeadNote('${lead.id}', $('noteInput_${lead.id}').value)">Save note</button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="lead-actions-bar">
+          <div class="lead-quick-contacts">
+            ${cleanWA ? `<a href="https://wa.me/${cleanWA}?text=${waText}" target="_blank" class="btn-wa">💬 WhatsApp Client</a>` : ''}
+            ${phone ? `<a href="tel:${escapeHtml(phone)}" class="btn btn-ghost btn-sm">📞 Call</a>` : ''}
+          </div>
+
+          <button type="button" class="lead-del-btn" onclick="deleteLead('${lead.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function updateLeadStatus(id, newStatus){
+  const idx = allLeads.findIndex(l => l.id === id);
+  if(idx !== -1){
+    allLeads[idx].status = newStatus;
+    try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+    renderLeadsMetrics();
+    renderLeadsReports();
+    filterAndRenderLeads();
+  }
+
+  try {
+    await fetch(`/api/leads/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus })
+    });
+  } catch(e) {
+    console.warn('API update failed, updated locally.');
+  }
+}
+
+async function saveLeadNote(id, noteText){
+  const idx = allLeads.findIndex(l => l.id === id);
+  if(idx !== -1){
+    allLeads[idx].notes = noteText.trim();
+    try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+  }
+
+  try {
+    await fetch(`/api/leads/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ notes: noteText.trim() })
+    });
+  } catch(e){}
+}
+
+async function deleteLead(id){
+  const lead = allLeads.find(l => l.id === id);
+  const name = lead && lead.payload && lead.payload.name ? lead.payload.name : 'this lead';
+  if(!confirm(`Are you sure you want to delete ${name}?`)) return;
+
+  allLeads = allLeads.filter(l => l.id !== id);
+  try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+  renderLeadsDashboard();
+
+  try {
+    await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+  } catch(e){}
+}
+
+function openAddLeadModal(){
+  $('addLeadModal').hidden = false;
+  $('mName').focus();
+}
+
+function closeAddLeadModal(){
+  $('addLeadModal').hidden = true;
+  ['mName','mPhone','mEmail','mLoc','mTheme','mMsg'].forEach(id => { $(id).value = ''; });
+}
+
+async function submitManualLead(e){
+  e.preventDefault();
+  const name = $('mName').value.trim();
+  const phone = $('mPhone').value.trim();
+  if(!name || !phone){
+    alert('Please provide name and phone number.');
+    return;
+  }
+
+  const payload = {
+    name,
+    phone,
+    email: $('mEmail').value.trim(),
+    location: $('mLoc').value.trim(),
+    projectType: $('mType').value,
+    budget: $('mBudget').value,
+    designTheme: $('mTheme').value.trim(),
+    message: $('mMsg').value.trim(),
+    status: $('mStatus').value,
+    notes: 'Manually logged from admin dashboard.'
+  };
+
+  try {
+    const res = await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      const data = await res.json();
+      allLeads = data.leads || allLeads;
+    } else {
+      const newLead = {
+        id: 'lead_' + Date.now(),
+        type: 'quote',
+        receivedAt: new Date().toISOString(),
+        status: payload.status,
+        notes: payload.notes,
+        payload
+      };
+      allLeads.unshift(newLead);
+    }
+  } catch(err){
+    const newLead = {
+      id: 'lead_' + Date.now(),
+      type: 'quote',
+      receivedAt: new Date().toISOString(),
+      status: payload.status,
+      notes: payload.notes,
+      payload
+    };
+    allLeads.unshift(newLead);
+  }
+
+  try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+  closeAddLeadModal();
+  renderLeadsDashboard();
+}
+
+async function syncLeadsFromSheet(){
+  try {
+    const res = await fetch('/api/leads/sync', { method: 'POST' });
+    if(res.ok){
+      const data = await res.json();
+      if(data.leads && Array.isArray(data.leads)){
+        allLeads = data.leads;
+        try { localStorage.setItem('ki_admin_leads', JSON.stringify(allLeads)); } catch(e){}
+        renderLeadsDashboard();
+        alert('✓ Successfully synced ' + allLeads.length + ' real leads from Google Sheets!');
+        return;
+      }
+    }
+  } catch(e){}
+
+  // Fallback: direct Google Sheet fetch
+  try {
+    const res2 = await fetch('https://docs.google.com/spreadsheets/d/1v6Jl09sf7cTkmeATFVHvuFkYf2LtsgCGKseHyHAkdeU/export?format=csv&gid=585954869');
+    if(res2.ok){
+      location.reload();
+      return;
+    }
+  } catch(e2){}
+  location.reload();
+}
+
+function exportLeadsCSV(){
+  if(allLeads.length === 0){
+    alert('No leads to export.');
+    return;
+  }
+
+  const headers = ['ID', 'Date', 'Type', 'Status', 'Client Name', 'Phone', 'Email', 'Location', 'Project Type', 'Budget', 'Design Theme', 'Message', 'Notes'];
+  const rows = allLeads.map(l => {
+    const p = l.payload || {};
+    return [
+      l.id,
+      l.receivedAt || '',
+      l.type || 'quote',
+      l.status || 'New',
+      p.name || '',
+      p.phone || '',
+      p.email || '',
+      p.location || '',
+      p.projectType || '',
+      p.budget || '',
+      p.designTheme || '',
+      (p.message || '').replace(/"/g, '""'),
+      (l.notes || '').replace(/"/g, '""')
+    ].map(val => `"${val}"`).join(',');
+  });
+
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kaveri_leads_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function formatDisplayTime(isoString){
+  try {
+    const dt = new Date(isoString);
+    if(isNaN(dt.getTime())) return 'Recently';
+    return dt.toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch(e){
+    return 'Recently';
+  }
+}
+
+/* -------------------------------------------------------------
+   GALLERY MANAGEMENT
+   ------------------------------------------------------------- */
+async function loadAdminGallery(forceRefresh){
+  try {
+    const res = await fetch('/api/gallery');
+    if(res.ok){
+      adminGalleryItems = await res.json();
+    } else {
+      throw new Error('API unavailable');
+    }
+  } catch(e) {
+    try {
+      const gRes = await fetch('gallery.json');
+      if(gRes.ok){
+        adminGalleryItems = await gRes.json();
+      } else {
+        const local = localStorage.getItem('ki_gallery_items');
+        if(local) adminGalleryItems = JSON.parse(local);
+      }
+    } catch(err){
+      const local = localStorage.getItem('ki_gallery_items');
+      if(local) adminGalleryItems = JSON.parse(local);
+    }
+  }
+  if(!Array.isArray(adminGalleryItems)) adminGalleryItems = [];
+  try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+
+  updateGalleryBadge();
+  populateCategoryDropdown();
+  renderCategoryFilterBar();
+  renderAdminGalleryGrid();
+}
+
+function updateGalleryBadge(){
+  const count = adminGalleryItems.length;
+  $('galleryNavBadge').textContent = count;
+  $('galCountHint').textContent = count;
+}
+
+function getUniqueCategories(){
+  const cats = [];
+  adminGalleryItems.forEach(item => {
+    const c = (item.cat || '').trim();
+    if(c && !cats.includes(c)) cats.push(c);
+  });
+  ['Kitchen','Bedroom','Living','Dining','Partitions','Pooja Room','Balcony','Commercial'].forEach(std => {
+    if(!cats.includes(std)) cats.push(std);
+  });
+  return cats;
+}
+
+function populateCategoryDropdown(){
+  const sel = $('galCategory');
+  const currentVal = sel.value;
+  const cats = getUniqueCategories();
+
+  let html = '';
+  cats.forEach(c => {
+    html += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
+  });
+  html += `<option value="__NEW__">+ Custom Room...</option>`;
+  sel.innerHTML = html;
+
+  if(currentVal && (cats.includes(currentVal) || currentVal === '__NEW__')){
+    sel.value = currentVal;
+  }
+  handleCategoryChange();
+}
+
+function handleCategoryChange(){
+  const isNew = $('galCategory').value === '__NEW__';
+  $('newCategoryWrap').hidden = !isNew;
+  if(isNew) $('newCategoryInput').focus();
+}
+
+function setImgSourceMode(mode){
+  imgSourceMode = mode;
+  $('segImgFile').classList.toggle('active', mode === 'file');
+  $('segImgUrl').classList.toggle('active', mode === 'url');
+  $('dropzoneContainer').hidden = mode !== 'file';
+  $('urlInputContainer').hidden = mode !== 'url';
+}
+
+function onFileChosen(files){
+  if(!files || !files[0]) return;
+  const file = files[0];
+  if(!file.type.startsWith('image/')){
+    alert('Please select a valid image file (JPEG, PNG, WEBP, AVIF).');
+    return;
+  }
+  if(file.size > 30 * 1024 * 1024){
+    alert('File size exceeds 30 MB. Please choose a smaller image.');
+    return;
+  }
+  selectedFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    selectedFileData = e.target.result;
+    $('previewImg').src = selectedFileData;
+    $('previewName').textContent = file.name;
+    $('previewSize').textContent = formatBytes(file.size);
+    $('dropzone').style.display = 'none';
+    $('dropPreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearFileSelection(){
+  selectedFileData = null;
+  selectedFileName = '';
+  $('galFileInput').value = '';
+  $('previewImg').src = '';
+  $('dropzone').style.display = 'block';
+  $('dropPreview').style.display = 'none';
+}
+
+function onUrlInput(url){
+  const u = (url || '').trim();
+  if(u.startsWith('http://') || u.startsWith('https://') || u.startsWith('assets/')){
+    $('urlPreviewImg').src = u;
+    $('urlPreview').style.display = 'block';
+  } else {
+    $('urlPreview').style.display = 'none';
+  }
+}
+
+function formatBytes(bytes){
+  if(bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+function resetGalleryForm(){
+  $('galTitle').value = '';
+  $('galSubtitle').value = '';
+  $('newCategoryInput').value = '';
+  $('galUrlInput').value = '';
+  $('urlPreview').style.display = 'none';
+  clearFileSelection();
+  $('galCategory').selectedIndex = 0;
+  handleCategoryChange();
+  setImgSourceMode('file');
+  $('galleryUploadNotice').style.display = 'none';
+}
+
+async function submitGalleryImage(){
+  const title = $('galTitle').value.trim();
+  if(!title){
+    alert('Please enter an image title / heading.');
+    $('galTitle').focus();
+    return;
+  }
+
+  let category = $('galCategory').value;
+  if(category === '__NEW__'){
+    category = $('newCategoryInput').value.trim();
+    if(!category){
+      alert('Please enter a name for the new room / heading.');
+      $('newCategoryInput').focus();
+      return;
+    }
+  }
+
+  const subtitle = $('galSubtitle').value.trim() || category;
+  const grad = 'si1';
+
+  let imageData = '';
+  if(imgSourceMode === 'file'){
+    if(!selectedFileData){
+      alert('Please select an image file to upload.');
+      return;
+    }
+    imageData = selectedFileData;
+  } else {
+    imageData = $('galUrlInput').value.trim();
+    if(!imageData){
+      alert('Please enter a valid image URL.');
+      $('galUrlInput').focus();
+      return;
+    }
+  }
+
+  const btn = $('btnUploadGallery');
+  btn.disabled = true;
+  btn.textContent = 'Adding...';
+
+  try {
+    const payload = {
+      title,
+      subtitle,
+      category,
+      image: imageData,
+      fileName: selectedFileName,
+      grad
+    };
+
+    let result = null;
+    try {
+      const res = await fetch('/api/gallery/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(res.ok){
+        result = await res.json();
+      }
+    } catch(apiErr){}
+
+    let newItem = null;
+    if(result && result.success){
+      adminGalleryItems = result.items || adminGalleryItems;
+      newItem = result.item;
+    } else {
+      newItem = {
+        id: 'gal_' + Date.now(),
+        t: title,
+        s: subtitle,
+        cat: category,
+        img: imageData,
+        grad: grad,
+        custom: true,
+        createdAt: new Date().toISOString()
+      };
+      const catIdx = adminGalleryItems.findIndex(x => x.cat.toLowerCase() === category.toLowerCase());
+      if(catIdx !== -1) adminGalleryItems.splice(catIdx, 0, newItem);
+      else adminGalleryItems.unshift(newItem);
+    }
+
+    try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+
+    const notice = $('galleryUploadNotice');
+    notice.className = 'notice-banner success';
+    notice.style.display = 'block';
+    notice.innerHTML = `✓ Added "<b>${escapeHtml(title)}</b>" to <b>${escapeHtml(category)}</b> gallery.`;
+
+    resetGalleryForm();
+    updateGalleryBadge();
+    populateCategoryDropdown();
+    renderCategoryFilterBar();
+    renderAdminGalleryGrid();
+
+    setTimeout(() => { notice.style.display = 'none'; }, 6000);
+  } catch(error){
+    alert('Upload failed: ' + error.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Add to gallery';
+  }
+}
+
+async function deleteGalleryItem(id){
+  const item = adminGalleryItems.find(x => x.id === id);
+  const name = item ? `"${item.t}"` : 'this image';
+  if(!confirm(`Are you sure you want to remove ${name} from the website gallery?`)) return;
+
+  try {
+    let handled = false;
+    try {
+      const res = await fetch(`/api/gallery/${id}`, { method: 'DELETE' });
+      if(res.ok){
+        const data = await res.json();
+        adminGalleryItems = data.items || adminGalleryItems.filter(x => x.id !== id);
+        handled = true;
+      }
+    } catch(e){}
+
+    if(!handled){
+      adminGalleryItems = adminGalleryItems.filter(x => x.id !== id);
+    }
+
+    try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+    updateGalleryBadge();
+    renderCategoryFilterBar();
+    renderAdminGalleryGrid();
+  } catch(err){
+    alert('Failed to remove item: ' + err.message);
+  }
+}
+
+function renderCategoryFilterBar(){
+  const bar = $('galFilterBar');
+  const cats = getUniqueCategories();
+
+  let html = `<button type="button" class="gal-filter-btn${activeFilterCat === 'all' ? ' active' : ''}" onclick="setFilterCategory('all')">All (${adminGalleryItems.length})</button>`;
+
+  cats.forEach(c => {
+    const count = adminGalleryItems.filter(x => (x.cat||'').toLowerCase() === c.toLowerCase()).length;
+    if(count > 0){
+      html += `<button type="button" class="gal-filter-btn${activeFilterCat.toLowerCase() === c.toLowerCase() ? ' active' : ''}" onclick="setFilterCategory('${escapeHtml(c)}')">${escapeHtml(c)} (${count})</button>`;
+    }
+  });
+
+  bar.innerHTML = html;
+}
+
+function setFilterCategory(cat){
+  activeFilterCat = cat;
+  renderCategoryFilterBar();
+  renderAdminGalleryGrid();
+}
+
+function filterGalleryCards(){
+  renderAdminGalleryGrid();
+}
+
+function renderAdminGalleryGrid(){
+  const grid = $('galAdminGrid');
+  const query = ($('galSearchInput').value || '').trim().toLowerCase();
+
+  let filtered = adminGalleryItems;
+  if(activeFilterCat !== 'all'){
+    filtered = filtered.filter(x => (x.cat||'').toLowerCase() === activeFilterCat.toLowerCase());
+  }
+  if(query){
+    filtered = filtered.filter(x =>
+      (x.t||'').toLowerCase().includes(query) ||
+      (x.s||'').toLowerCase().includes(query) ||
+      (x.cat||'').toLowerCase().includes(query)
+    );
+  }
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No images found matching your search.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(item => {
+    const imgSrc = (window.ASSET && window.ASSET[item.img]) || item.img || '';
+    const isCustom = !!item.custom;
+    return `
+      <div class="gal-admin-card">
+        <div class="gal-admin-thumb" style="background-image:url('${escapeHtml(imgSrc)}')" onclick="openAdminLightbox('${escapeHtml(imgSrc)}')" title="Click to view full image">
+          <span class="gal-admin-badge">${escapeHtml(item.cat)}</span>
+          ${isCustom ? `<span class="gal-admin-custom-badge">★ Custom</span>` : ''}
+        </div>
+        <div class="gal-admin-body">
+          <div>
+            <div class="gal-admin-title">${escapeHtml(item.t)}</div>
+            <div class="gal-admin-sub">${escapeHtml(item.s)}</div>
+          </div>
+          <div class="gal-admin-footer">
+            <a href="gallery.html#${encodeURIComponent(item.cat)}" target="_blank" class="gal-admin-view">View ↗</a>
+            <button type="button" class="gal-admin-del" onclick="deleteGalleryItem('${item.id}')" title="Delete image">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAdminLightbox(src){
+  if(!src) return;
+  $('adminLightboxImg').src = src;
+  $('adminLightbox').hidden = false;
+}
+
+function closeAdminLightbox(){
+  $('adminLightbox').hidden = true;
+  $('adminLightboxImg').src = '';
+}
+
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* -------------------------------------------------------------
+   CONSULTATION LOGIC
+   ------------------------------------------------------------- */
+async function call(action, extra){
+  const res = await fetch(ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({action, password, ...extra})
+  });
+  const data = await res.json().catch(() => ({ok:false, error:'Unexpected response from server.'}));
+  if(!data.ok) throw new Error(String(data.error || 'Request failed.').replace(/^Error: /,''));
+  return data.settings;
+}
+
+function setMsg(text, kind){ const el = $('saveMsg'); el.textContent = text; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+
+function render(){
+  const s = settings;
+  $('enabled').checked = !!s.enabled;
+  $('fee').value = s.fee; $('dur').value = s.durationMinutes;
+  $('win').value = s.bookingWindowDays; $('notice').value = s.minNoticeHours;
+  $('pay').value = s.paymentUrl || ''; $('note').value = s.note || '';
+  $('ovDate').min = new Date().toISOString().slice(0,10);
+  renderStatus(); renderWeekly(); renderOverrides(); renderOvChips();
+}
+
+function renderStatus(){
+  const on = $('enabled').checked;
+  $('statusPill').textContent = on ? 'Open' : 'Paused';
+  $('statusPill').className = 'metric-badge ' + (on ? 'converted' : 'lost');
+  $('statusHint').textContent = on ? 'Clients can book and pay for a consultation on the website.'
+                                   : 'The website shows that consultations are paused.';
+}
+
+function renderWeekly(){
+  $('weekly').innerHTML = ORDER.map(d => {
+    const times = settings.weekly[d] || [];
+    return `<div class="day">
+      <div class="day-name">${DAYS[d]}<small>${times.length ? times.length + (times.length>1?' slots':' slot') : 'Closed'}</small></div>
+      <div>
+        <div class="chips">${times.map((t,i) => chip(t, `removeSlot(${d},${i})`)).join('') || '<span class="closed">Not available</span>'}</div>
+        <div class="adder">
+          <div class="input"><input type="time" id="add${d}" step="900" aria-label="New time for ${DAYS[d]}"></div>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="addSlot(${d})">+ Add time</button>
+        </div>
+        ${times.length ? `<div class="day-tools">
+          ${d>=1&&d<=5 ? `<button class="link" type="button" onclick="copyToWeekdays(${d})" style="font-size:12px;color:var(--gold-deep);text-decoration:underline">Copy to Mon–Fri</button>` : ''}
+          <button class="link" type="button" onclick="clearDay(${d})" style="font-size:12px;color:var(--err);text-decoration:underline">Close this day</button>
+        </div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderOverrides(){
+  const dates = Object.keys(settings.overrides||{}).sort();
+  $('overrides').innerHTML = dates.length ? `<div class="ov-list">${dates.map(d => {
+    const t = settings.overrides[d], dt = new Date(d+'T12:00:00');
+    return `<div class="ov">
+      <div class="ov-date"><b>${dt.getDate()}</b><span>${dt.toLocaleDateString('en-IN',{month:'short'})}</span></div>
+      <div class="ov-body"><b>${dt.toLocaleDateString('en-IN',{weekday:'long',year:'numeric'})}</b>
+        <div>${t.length ? 'Only ' + t.map(to12).join(', ') : 'Closed all day'}</div></div>
+      <button class="x" type="button" aria-label="Remove ${d}" onclick="removeOverride('${d}')">×</button>
+    </div>`;
+  }).join('')}</div>` : '<div class="empty">No holidays or special days yet.</div>';
+}
+
+function renderOvChips(){
+  $('ovChips').innerHTML = ovTimes.map((t,i) => chip(t, `removeOvTime(${i})`)).join('') || '<span class="closed">No times added yet</span>';
+}
+
+function addSlot(d){
+  const input = $('add'+d);
+  if(!input.value){ input.focus(); return; }
+  settings.weekly[d] = settings.weekly[d] || [];
+  if(addTime(settings.weekly[d], input.value)) markDirty();
+  renderWeekly();
+}
+function removeSlot(d,i){ settings.weekly[d].splice(i,1); markDirty(); renderWeekly(); }
+function clearDay(d){ settings.weekly[d] = []; markDirty(); renderWeekly(); }
+function copyToWeekdays(d){
+  if(!confirm(`Use ${DAYS[d]}'s times for every weekday (Mon–Fri)?`)) return;
+  for(let w=1; w<=5; w++) settings.weekly[w] = [...settings.weekly[d]];
+  markDirty(); renderWeekly();
+}
+
+function setOvMode(mode){
+  ovMode = mode;
+  $('segClosed').classList.toggle('active', mode==='closed');
+  $('segCustom').classList.toggle('active', mode==='custom');
+  $('ovCustom').hidden = mode!=='custom';
+}
+function addOvTime(){ if(!$('ovTime').value){ $('ovTime').focus(); return; } addTime(ovTimes, $('ovTime').value); $('ovTime').value=''; renderOvChips(); }
+function removeOvTime(i){ ovTimes.splice(i,1); renderOvChips(); }
+
+function addOverride(){
+  const d = $('ovDate').value;
+  if(!d){ alert('Pick a date first.'); $('ovDate').focus(); return; }
+  if(ovMode==='custom' && !ovTimes.length){ alert('Add at least one time, or choose “Closed”.'); return; }
+  settings.overrides = settings.overrides || {};
+  settings.overrides[d] = ovMode==='custom' ? [...ovTimes] : [];
+  $('ovDate').value = ''; ovTimes = []; setOvMode('closed'); renderOvChips();
+  markDirty(); renderOverrides();
+}
+function removeOverride(d){ delete settings.overrides[d]; markDirty(); renderOverrides(); }
+
+let step = 0;
+const LAST = 3;
+const STEP_NAMES = ['Fee & rules','Weekly hours','Holidays','Review & save'];
+function goStep(n){
+  step = Math.max(0, Math.min(LAST, n));
+  document.querySelectorAll('.step').forEach(el => el.hidden = Number(el.dataset.step) !== step);
+  document.querySelectorAll('#stepper li').forEach((li,i) => {
+    li.classList.toggle('on', i===step);
+    li.classList.toggle('done', i<step);
+    li.querySelector('button').setAttribute('aria-current', i===step ? 'step' : 'false');
+  });
+  $('backBtn').hidden = !step;
+  $('nextBtn').textContent = step===LAST ? 'Save changes' : 'Next';
+  if(step===LAST) renderSummary();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function next(){ step===LAST ? save() : goStep(step+1); }
+
+function renderSummary(){
+  const on = $('enabled').checked, pay = $('pay').value.trim();
+  const fee = Number($('fee').value||0).toLocaleString('en-IN');
+  const days = ORDER.filter(d => (settings.weekly[d]||[]).length);
+  const slots = days.reduce((n,d) => n + settings.weekly[d].length, 0);
+  const special = Object.keys(settings.overrides||{}).length;
+  const row = (label, value, to, bad) => `<button type="button" class="sum-row" onclick="goStep(${to})" style="display:flex;justify-content:space-between;width:100%;padding:10px 0;border-top:1px solid var(--line);text-align:left">
+      <div><span style="font-size:12px;color:var(--ink-soft)">${label}</span><b style="display:block;font-size:14px;color:${bad?'var(--err)':'var(--black)'}">${value}</b></div><i style="color:var(--ink-soft);font-style:normal">›</i></button>`;
+  $('summary').innerHTML =
+    row('Online bookings', on ? 'Open' : 'Paused', 0) +
+    row('Consultation fee', '₹' + fee + ' · ' + $('dur').value + ' min', 0) +
+    row('Booking window', `Up to ${$('win').value} days ahead · ${$('notice').value} h notice`, 0) +
+    row('Payment link', pay ? 'Added' : 'Not added', 0, on && !pay) +
+    row('Weekly hours', days.length ? `${slots} slots · ${days.map(d => DAYS[d].slice(0,3)).join(', ')}` : 'None', 1, on && !days.length) +
+    row('Holidays & special days', special ? special + (special>1?' dates':' date') : 'None', 2);
+  const warn = [];
+  if(on && !pay) warn.push('No payment link yet: clients will see the times but can’t pay to book.');
+  if(on && !days.length && !special) warn.push('No times are set, so clients won’t see any slots.');
+  $('warnings').innerHTML = warn.map(w => `<div style="background:var(--err-bg);color:var(--err);padding:10px 12px;border-radius:8px;font-size:13px;margin-top:10px">${w}</div>`).join('');
+}
+
+function markDirty(){ dirty = true; setMsg('Unsaved changes', 'dirty'); }
+['enabled','fee','dur','win','notice','pay','note'].forEach(id => {
+  const el = $(id);
+  if(el) el.addEventListener('input', markDirty);
+});
+
+async function save(){
+  const out = {
+    ...settings,
+    enabled: $('enabled').checked,
+    fee: Number($('fee').value),
+    durationMinutes: Number($('dur').value),
+    bookingWindowDays: Number($('win').value),
+    minNoticeHours: Number($('notice').value),
+    paymentUrl: $('pay').value.trim(),
+    note: $('note').value.trim()
+  };
+  const btn = $('nextBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+  try{
+    settings = await call('adminSave', {settings: out});
+    dirty = false; render(); renderSummary();
+    setMsg('Saved — live on the website now', 'ok');
+  }catch(err){
+    setMsg(err.message, 'err');
+  }finally{ btn.disabled = false; btn.textContent = step===LAST ? 'Save changes' : 'Next'; }
+}
+
+function to12(t){
+  const [h,m] = t.split(':').map(Number);
+  return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+function chip(t, onRemove){ return `<span class="chip">${to12(t)}<button type="button" aria-label="Remove ${to12(t)}" onclick="${onRemove}">×</button></span>`; }
+function addTime(list, t){ if(TIME_RE.test(t) && !list.includes(t)){ list.push(t); list.sort(); return true; } return false; }
+
+/* -------------------------------------------------------------
+   ROUTING & BOOTSTRAP (No login wall)
+   ------------------------------------------------------------- */
+function handleHashRoute(){
+  const hash = window.location.hash;
+  if(hash === '#gallery'){
+    switchSection('gallery');
+  } else if(hash === '#consultation'){
+    switchSection('consultation');
+  } else {
+    switchSection('leads');
+  }
+}
+
+function logout(){
+  location.href = 'index.html';
+}
+
+/* Drag and Drop binding */
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = $('dropzone');
+  if(dz){
+    ['dragenter', 'dragover'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); }));
+    dz.addEventListener('drop', e => {
+      if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+        onFileChosen(e.dataTransfer.files);
+      }
+    });
+  }
+});
+
+// Listen for hash changes so clicking sidebar links or external links immediately switches sections
+window.addEventListener('hashchange', handleHashRoute);
+
+// Bootstrap immediately
+handleHashRoute();
+
+// Pre-load data in background
+loadAdminLeads();
+loadAdminGallery();
+
+// Load consultation settings in background silently if available
+try{
+  call('adminLoad').then(s => {
+    if(s){
+      settings = s;
+      render();
+    }
+  }).catch(() => {});
+}catch(_){}
+</script>
+</body>
+</html>

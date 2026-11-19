@@ -9,9 +9,14 @@ const WA_NUMBER = "919000470679";   // WhatsApp number, intl format, no +
 const YOUTUBE_ID = "YOUTUBE_ID";    // set to a specific video id to embed the tour inline
 const YOUTUBE_CHANNEL = "https://www.youtube.com/@kaveriinteriors";
 
-/* Consultation booking settings. Replace the payment URL with the studio's
-   Razorpay/Stripe payment link before publishing. Times use India time. */
+/* Consultation booking fallback. The live fee, hours, note and payment link
+   are set by Kaveri on admin.html and served by the Apps Script (see
+   scripts/google-sheet-lead-logger.gs); these values are used only if that
+   lookup fails. Times use India time. */
 const CONSULTATION = {
+  enabled: true,
+  note: 'Choose a time when Kaveri is available. Payment is required before your slot is confirmed.',
+  bookingWindowDays: 60,
   fee: 2500,
   currency: 'INR',
   paymentUrl: 'REPLACE_WITH_PAYMENT_LINK',
@@ -58,7 +63,10 @@ const GRAD = {
   si6:'linear-gradient(155deg,#9d9784,#2a2622)'
 };
 // background = real image over gradient fallback
-const RBG = (key,grad)=> `url('${ASSET[key]||''}') center/cover no-repeat, ${grad}`;
+const RBG = (key, grad) => {
+  const src = (window.ASSET && window.ASSET[key]) || key || '';
+  return `url('${src}') center/cover no-repeat, ${grad || 'linear-gradient(155deg,#d9cdbd,#8a7150)'}`;
+};
 const $ = (id)=>document.getElementById(id);
 
 /* ---------- logos (shared, from assets.js) ---------- */
@@ -219,72 +227,126 @@ const GAL=[
 const gg=$('galGrid');
 const stage=$('room3dStage');
 if(stage && gg){
-  // group projects by room category, preserving first-seen order
-  const CATS=[];
-  GAL.forEach(g=>{ let c=CATS.find(x=>x.cat===g.cat); if(!c){c={cat:g.cat,items:[]};CATS.push(c);} c.items.push(g); });
-  const n=CATS.length;
-
   const galDetail=$('galDetail'), galTitle=$('galDetailTitle'), room3d=$('room3d'), dots=$('room3dDots');
   const lightbox=bg=>{const lb=$('lbImg');lb.className='lb-img ph';lb.style.background=bg;openModal('lightbox');};
 
   let active=0, timer=null;
-  const cards=[];
+  let cards=[];
+  let currentCats=[];
+  let listenersAttached = false;
 
-  // ---- build the 3D coverflow cards ----
-  CATS.forEach((c,i)=>{
-    const cover=c.items[0];
-    const bg=RBG(cover.img,GRAD[cover.grad]);
-    const el=document.createElement('article');
-    el.className='r3-card';
-    el.innerHTML=`<div class="r3-cover" style="background:${bg}"></div>
-      <span class="r3-count">${c.items.length} design${c.items.length>1?'s':''}</span>
-      <div class="r3-meta"><b>${c.cat}</b><span class="r3-see">See all
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>`;
-    el.addEventListener('click',()=>{ i===active ? openRoom(c) : go(i); });
-    stage.appendChild(el);
-    cards.push(el);
-    const d=document.createElement('button'); d.className='r3-dot'; d.setAttribute('aria-label',c.cat);
-    d.addEventListener('click',()=>go(i)); dots.appendChild(d);
-  });
+  function renderGallery(items, keepOpenCategory){
+    if(!items || !items.length) return;
+    clearInterval(timer);
+    stage.innerHTML = '';
+    dots.innerHTML = '';
+    cards = [];
 
-  // ---- position every card in 3D space relative to the active one ----
-  function place(){
-    const spread=Math.min(320, Math.max(150, innerWidth*0.34)); // responsive fan-out
-    const depth=Math.min(185, spread*0.6);
-    cards.forEach((el,i)=>{
-      let o=i-active; if(o>n/2) o-=n; if(o<-n/2) o+=n;
-      const a=Math.abs(o);
-      const tx=o*spread, tz=-a*depth, ry=-o*43, sc=1-a*0.15;
-      const op=a===0?1:a===1?0.92:a===2?0.42:0;
-      el.style.transform=`translate(-50%,-50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
-      el.style.opacity=op;
-      el.style.zIndex=String(100-a);
-      el.style.filter=`brightness(${a===0?1:a===1?0.72:0.45})`;
-      el.style.pointerEvents=a>2?'none':'auto';
-      el.classList.toggle('is-active',o===0);
+    // Group projects by room category, preserving order
+    const CATS=[];
+    items.forEach(g=>{
+      const categoryName = (g.cat || 'General').trim();
+      let c = CATS.find(x => x.cat.toLowerCase() === categoryName.toLowerCase());
+      if(!c){ c = { cat: categoryName, items: [] }; CATS.push(c); }
+      c.items.push(g);
     });
-    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===active));
+    currentCats = CATS;
+    const n = CATS.length;
+    if(n === 0) return;
+
+    if(active >= n) active = 0;
+
+    // ---- build the 3D coverflow cards ----
+    CATS.forEach((c,i)=>{
+      const cover=c.items[0];
+      const bg=RBG(cover.img, GRAD[cover.grad]);
+      const el=document.createElement('article');
+      el.className='r3-card';
+      el.innerHTML=`<div class="r3-cover" style="background:${bg}"></div>
+        <span class="r3-count">${c.items.length} design${c.items.length>1?'s':''}</span>
+        <div class="r3-meta"><b>${c.cat}</b><span class="r3-see">See all
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>`;
+      el.addEventListener('click',()=>{ i===active ? openRoom(c) : go(i); });
+      stage.appendChild(el);
+      cards.push(el);
+      const d=document.createElement('button'); d.className='r3-dot'; d.setAttribute('aria-label',c.cat);
+      d.addEventListener('click',()=>go(i)); dots.appendChild(d);
+    });
+
+    // ---- position every card in 3D space relative to the active one ----
+    function place(){
+      const spread=Math.min(320, Math.max(150, innerWidth*0.34));
+      const depth=Math.min(185, spread*0.6);
+      cards.forEach((el,i)=>{
+        let o=i-active; if(o>n/2) o-=n; if(o<-n/2) o+=n;
+        const a=Math.abs(o);
+        const tx=o*spread, tz=-a*depth, ry=-o*43, sc=1-a*0.15;
+        const op=a===0?1:a===1?0.92:a===2?0.42:0;
+        el.style.transform=`translate(-50%,-50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
+        el.style.opacity=op;
+        el.style.zIndex=String(100-a);
+        el.style.filter=`brightness(${a===0?1:a===1?0.72:0.45})`;
+        el.style.pointerEvents=a>2?'none':'auto';
+        el.classList.toggle('is-active',o===0);
+      });
+      [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===active));
+    }
+    function go(i){ active=((i%n)+n)%n; place(); restart(); }
+    const next=()=>go(active+1), prev=()=>go(active-1);
+    function restart(){ clearInterval(timer); timer=setInterval(next,4200); }
+
+    if(!listenersAttached){
+      listenersAttached = true;
+      if($('r3Next')) $('r3Next').onclick=()=>go(active+1);
+      if($('r3Prev')) $('r3Prev').onclick=()=>go(active-1);
+      room3d.addEventListener('mouseenter',()=>clearInterval(timer));
+      room3d.addEventListener('mouseleave',()=>restart());
+      addEventListener('resize',()=>place());
+      const vp=room3d.querySelector('.room3d-viewport');
+      if(vp){
+        let sx=0;
+        vp.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+        vp.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)(dx<0?go(active+1):go(active-1));});
+      }
+      document.addEventListener('keydown',e=>{
+        if(galDetail.hasAttribute('hidden')&&!room3d.hasAttribute('hidden')){
+          if(e.key==='ArrowRight') go(active+1);
+          else if(e.key==='ArrowLeft') go(active-1);
+        }
+      });
+      const back=$('galBack');
+      if(back) back.onclick=()=>{
+        galDetail.setAttribute('hidden','');
+        room3d.removeAttribute('hidden');
+        if(window.location.hash) history.replaceState(null, null, ' ');
+        place(); restart();
+        room3d.scrollIntoView({behavior:'smooth',block:'center'});
+      };
+      window.addEventListener('hashchange', checkHashRoom);
+    }
+
+    place();
+    restart();
+
+    // Check if a category should remain open or open from hash
+    if(keepOpenCategory){
+      const match = CATS.find(x => x.cat.toLowerCase() === keepOpenCategory.toLowerCase());
+      if(match) openRoom(match, true);
+    } else {
+      checkHashRoom();
+    }
   }
-  function go(i){ active=((i%n)+n)%n; place(); restart(); }
-  const next=()=>go(active+1), prev=()=>go(active-1);
-  function restart(){ clearInterval(timer); timer=setInterval(next,4200); }
 
-  if($('r3Next')) $('r3Next').onclick=next;
-  if($('r3Prev')) $('r3Prev').onclick=prev;
-  room3d.addEventListener('mouseenter',()=>clearInterval(timer));
-  room3d.addEventListener('mouseleave',restart);
-  addEventListener('resize',place); // keep the 3D fan-out responsive
-  // keyboard + swipe
-  const vp=room3d.querySelector('.room3d-viewport');
-  let sx=0;
-  vp.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
-  vp.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40)(dx<0?next():prev());});
-  document.addEventListener('keydown',e=>{ if(galDetail.hasAttribute('hidden')&&!room3d.hasAttribute('hidden')){ if(e.key==='ArrowRight')next(); else if(e.key==='ArrowLeft')prev(); } });
-
-  place(); restart();
+  function checkHashRoom(){
+    if(!window.location.hash) return;
+    const hash = decodeURIComponent(window.location.hash.slice(1)).trim().toLowerCase();
+    if(!hash) return;
+    const match = currentCats.find(x => x.cat.toLowerCase() === hash);
+    if(match) openRoom(match, false);
+  }
 
   // ---- expand a room into the detail grid ----
-  function openRoom(c){
+  function openRoom(c, silentScroll){
     gg.innerHTML='';
     galTitle.innerHTML=`${c.cat} <span>${c.items.length} design${c.items.length>1?'s':''}</span>`;
     c.items.forEach((g,i)=>{
@@ -300,17 +362,49 @@ if(stage && gg){
     clearInterval(timer);
     room3d.setAttribute('hidden','');
     galDetail.removeAttribute('hidden');
-    galDetail.scrollIntoView({behavior:'smooth',block:'start'});
+    if(!silentScroll) galDetail.scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  // ---- back to the 3D carousel ----
-  const back=$('galBack');
-  if(back) back.onclick=()=>{
-    galDetail.setAttribute('hidden','');
-    room3d.removeAttribute('hidden');
-    place(); restart();
-    room3d.scrollIntoView({behavior:'smooth',block:'center'});
-  };
+  // 1. Initial render from localStorage cache or GAL default
+  let initialItems = GAL;
+  try {
+    const cached = localStorage.getItem('ki_gallery_items');
+    if(cached){
+      const parsed = JSON.parse(cached);
+      if(Array.isArray(parsed) && parsed.length) initialItems = parsed;
+    }
+  } catch(e){}
+  renderGallery(initialItems);
+
+  // 2. Fetch latest gallery items from API (or gallery.json)
+  function refreshGalleryFromSource(){
+    fetch('/api/gallery')
+      .then(res => res.ok ? res.json() : fetch('/gallery.json').then(r => r.ok ? r.json() : null))
+      .then(data => {
+        if(Array.isArray(data) && data.length){
+          try { localStorage.setItem('ki_gallery_items', JSON.stringify(data)); } catch(e){}
+          const isDetailOpen = !galDetail.hasAttribute('hidden');
+          const openCatName = isDetailOpen && galTitle ? galTitle.childNodes[0].textContent.trim() : null;
+          renderGallery(data, openCatName);
+        }
+      })
+      .catch(()=>{});
+  }
+  refreshGalleryFromSource();
+
+  // 3. Live sync when admin uploads or deletes an image in another tab
+  window.addEventListener('storage', e => {
+    if(e.key === 'ki_gallery_items' && e.newValue){
+      try {
+        const updated = JSON.parse(e.newValue);
+        if(Array.isArray(updated) && updated.length){
+          const isDetailOpen = !galDetail.hasAttribute('hidden');
+          const openCatName = isDetailOpen && galTitle ? galTitle.childNodes[0].textContent.trim() : null;
+          renderGallery(updated, openCatName);
+        }
+      } catch(err){}
+    }
+  });
 }
 
 /* ---------- inspiration tiles ---------- */
@@ -800,6 +894,16 @@ async function saveToSheet(params){
    fail, and only then do we fall back to WhatsApp. */
 async function postSubmission(src, payload){
   const params = enquiryParams(src, payload);
+
+  // Also silently record into local backend if running
+  try {
+    fetch('/api/' + (src === 'quote' ? 'quote' : 'contact'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  } catch (e) {}
+
   const [email, sheet] = await Promise.allSettled([
     sendEmail(src, params),
     saveToSheet(params)
@@ -902,11 +1006,44 @@ function quoteTypeChanged(){
   if(title) title.textContent=isConsultation?'Book a Consultation':'Get a Quote';
   if(intro) intro.textContent=isConsultation?'Choose an available time with Kaveri. Payment is required before booking.':'Share a few details and we’ll get back within 24 hours.';
   if(submit) submit.textContent=isConsultation?'Pay & book consultation':'Send my request';
+  if(submit&&!isConsultation) submit.disabled=false;   // may have been disabled while consultations are paused
   if(isConsultation){
     const date=$('qDate');
     if(date&&!date.min) date.min=new Date().toISOString().slice(0,10);
     consultationDateChanged();
+    loadConsultationSettings().then(applyConsultationSettings);
   }
+}
+
+/* Fetched once per page view; falls back to CONSULTATION if the script is unreachable. */
+let consultationSettings=null;
+function loadConsultationSettings(){
+  if(consultationSettings) return consultationSettings;
+  consultationSettings=(async()=>{
+    if(typeof SHEET_ENDPOINT==='undefined'||SHEET_ENDPOINT.startsWith('YOUR_')) return CONSULTATION;
+    try{
+      const res=await fetch(`${SHEET_ENDPOINT}?action=consultation`);
+      const data=await res.json();
+      if(!data.ok||!data.settings) throw new Error(data.error||'Settings lookup failed.');
+      return {...CONSULTATION,...data.settings,paymentUrl:data.settings.paymentUrl||CONSULTATION.paymentUrl};
+    }catch(error){
+      console.error('Consultation settings lookup failed:',error);
+      return CONSULTATION;
+    }
+  })();
+  return consultationSettings;
+}
+
+function applyConsultationSettings(s){
+  const fee=$('qFee'), note=$('qFeeNote'), date=$('qDate'), submit=$('quoteSubmit');
+  if(fee) fee.textContent=s.enabled?`Consultation fee: ₹${Number(s.fee).toLocaleString('en-IN')}`:'Consultations are paused';
+  if(note) note.textContent=s.enabled?s.note:'Kaveri is not taking consultation bookings right now. Please send an enquiry instead.';
+  if(date){
+    const max=new Date(Date.now()+s.bookingWindowDays*86400000);
+    date.max=max.toISOString().slice(0,10);
+    date.disabled=!s.enabled;
+  }
+  if(submit&&$('qType')&&$('qType').value==='Consultation') submit.disabled=!s.enabled;
 }
 
 async function consultationDateChanged(){
@@ -945,11 +1082,12 @@ function formatSlot(slot){
   return `${display}:${String(minute).padStart(2,'0')} ${suffix}`;
 }
 
-function beginConsultationPayment(payload){
-  if(CONSULTATION.paymentUrl.startsWith('REPLACE_')) throw new Error('Consultation payment link is not configured.');
+async function beginConsultationPayment(payload){
+  const {paymentUrl}=await loadConsultationSettings();
+  if(!paymentUrl||paymentUrl.startsWith('REPLACE_')) throw new Error('Consultation payment link is not configured.');
   sessionStorage.setItem('pendingConsultation',JSON.stringify(payload));
   const params=new URLSearchParams({name:payload.name,date:payload.consultationDate,time:payload.consultationTime});
-  window.open(CONSULTATION.paymentUrl+(CONSULTATION.paymentUrl.includes('?')?'&':'?')+params.toString(),'_blank','noopener');
+  window.open(paymentUrl+(paymentUrl.includes('?')?'&':'?')+params.toString(),'_blank','noopener');
 }
 
 async function sendQuote(src){
@@ -985,7 +1123,7 @@ async function sendQuote(src){
 
   try{
     if(type.startsWith('Consultation')){
-      beginConsultationPayment(payload);
+      await beginConsultationPayment(payload);
       if(resultEl){resultEl.textContent='Payment opened in a new tab. Complete payment there; Kaveri will confirm your selected slot after payment.';resultEl.className='form-msg success';}
       return;
     }

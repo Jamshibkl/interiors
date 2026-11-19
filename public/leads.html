@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Leads Dashboard · Kaveri Interiors Studio</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5eee8;--sidebar:#80563f;--sidebar-deep:#704a36;--card:#ddc8ad;--card-light:#e6d4bf;--paper:#fffaf5;--ink:#30251f;--muted:#79695e;--line:rgba(91,63,45,.17);--bronze:#956744;--dark:#493126;--green:#55795b;--amber:#b77b39;--blue:#627b91;--purple:#80618b;--shadow:0 3px 12px rgba(64,42,27,.045)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:var(--sidebar);color:#fff8f0;padding:25px 18px 17px;display:flex;flex-direction:column;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 8px 36px}
+.brand-mark{width:42px;height:42px;background:#ead8c4;color:var(--sidebar-deep);display:grid;place-items:center;border-radius:12px;font:700 25px Georgia,serif}
+.brand-name{font:600 18px Georgia,serif;letter-spacing:.1px}
+.brand-sub{font-size:9px;letter-spacing:2px;color:#f0d9c1;font-weight:700;margin-top:2px}
+.nav-label{font-size:10px;letter-spacing:1.7px;color:#e1c7ae;margin:12px 12px 10px;font-weight:700}
+.nav{display:grid;gap:8px}
+.nav a{display:flex;align-items:center;gap:13px;padding:12px 13px;border-radius:9px;text-decoration:none;color:#f5e9dc;font-size:14px;transition:.15s}
+.nav a:hover{background:#91664c}
+.nav a.active{background:#ead8c4;color:#38261d;box-shadow:0 2px 6px #4d302533}
+.nav-icon{width:19px;text-align:center;font-size:17px}
+.count{margin-left:auto;background:#f4e5d3;color:#765039;border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700}
+.nav a.active .count{background:#80563f;color:#f4e5d3}
+.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff35;padding:17px 5px 0;display:flex;align-items:center;gap:10px}
+.avatar{width:35px;height:35px;border-radius:50%;background:#ead8c4;color:#714d37;display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+.user-name{font-size:12px;font-weight:700}
+.user-role{font-size:10px;color:#e6d2bf}
+
+/* ── MAIN ── */
+.main{margin-left:230px;padding:24px clamp(22px,3.2vw,46px) 50px;max-width:1700px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
+.heading{font-size:29px;line-height:1.15;font-weight:600;letter-spacing:-.7px;margin:0;color:#34251e}
+.top-actions{display:flex;align-items:center;gap:13px}
+.global-search{width:195px;position:relative}
+.global-search:before{content:'⌕';position:absolute;left:12px;top:5px;font-size:22px;color:#806b5c}
+.global-search input{width:100%;border:1px solid var(--line);background:#eadbca;border-radius:8px;padding:9px 12px 9px 34px;color:var(--ink);outline:none}
+.icon-btn{border:0;background:transparent;color:#6e4d39;font-size:20px;padding:5px;position:relative;cursor:pointer}
+.notification-dot{position:absolute;width:6px;height:6px;background:#a35d43;border-radius:50%;right:5px;top:5px}
+.profile-btn{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:#6e4d39;padding:0;cursor:pointer}
+.profile-btn .avatar{width:36px;height:36px;border:2px solid #f9eee3}
+.mobile-menu{display:none;border:0;background:transparent;color:#684a37;font-size:22px}
+
+/* ── PAGE HEADER ── */
+.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:800;color:#9a6b42;margin-bottom:4px}
+.page-title-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
+.page-heading{font:600 28px/1.1 Georgia,serif;margin:0;color:#34251e}
+.page-actions{display:flex;align-items:center;gap:9px}
+.btn{border:1px solid #c8b29b;background:#f7eee4;color:#513b2d;border-radius:8px;padding:9px 13px;font-size:11px;font-weight:650;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.btn.primary{background:#50372a;color:#fff8f1;border-color:#50372a}
+.btn:hover{filter:brightness(.97)}
+
+/* ── OVERVIEW GRID (2 charts) ── */
+.overview-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(270px,1fr);gap:22px;margin-bottom:19px}
+.chart-card,.metric-card,.recent-card{background:var(--card);border:1px solid rgba(104,73,51,.08);border-radius:17px;box-shadow:var(--shadow)}
+.chart-card{padding:19px 21px 14px;min-height:320px}
+.card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:5px}
+.card-title{font-size:18px;font-weight:550;margin:0;color:#35271f}
+.card-sub{font-size:11px;color:#78685c;margin-top:2px}
+.select{border:1px solid #b99b7c;background:#e7d5bf;border-radius:8px;padding:7px 10px;color:#48352a;font-size:11px;outline:none}
+.chart-wrap{height:230px;width:100%;margin-top:10px}
+.chart-wrap svg{width:100%;height:100%;overflow:visible}
+.chart-grid{stroke:#8e755f;stroke-opacity:.23;stroke-width:1}
+.chart-label{fill:#604b3c;font-size:11px}
+.chart-line{fill:none;stroke:#553a2b;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart-area{fill:url(#areaFill)}
+.chart-point{fill:#553a2b;stroke:#f1dfcc;stroke-width:3}
+.bar-chart{height:230px;padding:13px 3px 0;display:flex;align-items:flex-end;justify-content:space-around;gap:12px;border-bottom:1px solid #987e67;background:repeating-linear-gradient(to bottom,transparent 0,transparent 47px,#9a816b22 48px)}
+.bar-item{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px;flex:1;max-width:52px}
+.bar-value{font-size:10px;color:#5e493b;font-weight:700}
+.bar{width:70%;min-height:4px;border-radius:6px 6px 0 0;background:#9b7054}
+.bar-item:nth-child(2n) .bar{background:#6c4b39}
+.bar-item:nth-child(3n) .bar{background:#4d3429}
+.bar-label{font-size:11px;color:#594538;text-align:center}
+
+/* ── BOTTOM GRID (metrics + table) ── */
+.bottom-grid{display:grid;grid-template-columns:minmax(300px,.92fr) minmax(0,1.75fr);gap:22px;align-items:stretch}
+.metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.metric-card{padding:17px 19px;min-height:120px;display:flex;flex-direction:column;justify-content:space-between}
+.metric-label{font-size:14px;color:#453329}
+.metric-number{font:600 30px/1 Georgia,serif;color:#4d3428;margin:7px 0 2px}
+.metric-note{font-size:11px;color:#715d4e}
+.metric-card:nth-child(2) .metric-number{color:#5f493b}
+.metric-card:nth-child(3) .metric-number{color:#7c573c}
+.metric-card:nth-child(4) .metric-number{color:#4d654e}
+
+/* ── RECENT INQUIRIES TABLE ── */
+.recent-card{padding:17px 20px;min-width:0}
+.recent-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.recent-head h2{font-size:18px;font-weight:550;margin:0}
+.text-link{border:0;background:transparent;color:#765039;font-size:11px;font-weight:700;cursor:pointer}
+table{border-collapse:collapse;width:100%}
+th{text-align:left;font-size:11px;font-weight:550;color:#5d493c;padding:10px 8px;border-bottom:1px solid #bda58d}
+td{padding:11px 8px;border-bottom:1px solid #c6b099;font-size:11px;color:#49382e;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(0,0,0,.02)}
+.client{display:flex;align-items:center;gap:8px}
+.client .avatar{width:27px;height:27px;font-size:9px;background:#f1e2d0;color:#5c3e2a}
+.client-name{font-weight:650;color:#3e2e25}
+.client-sub{font-size:9px;color:#806c5d;margin-top:1px}
+.status{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:4px 8px;font-size:10px;font-weight:650}
+.status:before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.status-new{background:#f5e5c9;color:#9a6526}
+.status-contacted{background:#e0e7eb;color:#526c80}
+.status-in-progress{background:#e9dfeb;color:#775b80}
+.status-converted{background:#e0e9dd;color:#4f704e}
+.status-lost{background:#e8e1dc;color:#796d65}
+
+/* ── FUNNEL ── */
+.funnel-card{background:var(--card);border-radius:17px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:22px}
+.funnel-track{height:12px;border-radius:999px;background:rgba(0,0,0,.08);display:flex;overflow:hidden;margin:16px 0 12px}
+.funnel-seg{height:100%;transition:width .4s;border-radius:0}
+.funnel-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#5d4a3a}
+.leg-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px}
+
+/* ── QUICK ACTIONS ── */
+.actions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.action-card{background:var(--paper);border:1px solid #e7d9c9;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.action-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px #4d382310}
+.action-icon{font-size:22px}
+.action-title{font:600 13px Georgia,serif;color:#34251e}
+.action-desc{font-size:11px;color:#827366}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;background:#493126;color:#fff8f0;padding:11px 16px;border-radius:9px;font-size:12px;opacity:0;transform:translateY(8px);transition:.2s;z-index:30;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:1050px){
+  .overview-grid{grid-template-columns:1.35fr 1fr}
+  .bottom-grid{grid-template-columns:1fr}
+  .metrics-grid{grid-template-columns:repeat(4,1fr)}
+  .metric-card{min-height:112px;padding:14px}
+  .metric-label{font-size:13px}
+  .actions-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .sidebar{width:230px;transform:translateX(-100%);transition:transform .22s;box-shadow:8px 0 30px #2a1c1422}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:18px 15px 35px}
+  .mobile-menu{display:block}
+  .topbar{gap:10px;margin-bottom:16px}
+  .heading{font-size:24px}
+  .global-search{width:min(36vw,180px)}
+  .overview-grid{grid-template-columns:1fr;gap:14px}
+  .bottom-grid{gap:14px}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .actions-grid{grid-template-columns:repeat(2,1fr)}
+  .page-title-row{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:430px){
+  .global-search{display:none}
+  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  .actions-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">K</div>
+    <div>
+      <div class="brand-name">Kaveri Interiors</div>
+      <div class="brand-sub">STUDIO ADMIN</div>
+    </div>
+  </div>
+  <div class="nav-label">LEADS &amp; INQUIRIES</div>
+  <nav class="nav">
+    <a href="leads.html" class="active"><span class="nav-icon">⌂</span>Dashboard</a>
+    <a href="leads-list.html"><span class="nav-icon">▤</span>All Leads <span class="count" id="sidebarCount">0</span></a>
+    <a href="leads-new.html"><span class="nav-icon">＋</span>Add New Lead</a>
+  </nav>
+  <div class="nav-label">MANAGEMENT</div>
+  <nav class="nav">
+    <a href="admin.html#gallery"><span class="nav-icon">▧</span>Gallery Manager <span class="count">79</span></a>
+    <a href="admin.html#consultation"><span class="nav-icon">▦</span>Consultation Rules</a>
+  </nav>
+  <div class="nav-label">WEBSITE</div>
+  <nav class="nav">
+    <a href="index.html" target="_blank"><span class="nav-icon">⌂</span>Main Website ↗</a>
+    <a href="gallery.html" target="_blank"><span class="nav-icon">↗</span>Live Gallery ↗</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="avatar">KI</div>
+    <div>
+      <div class="user-name">Kaveri Studio</div>
+      <div class="user-role">● Real Data</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="mobile-menu" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Open navigation">☰</button>
+      <h1 class="heading">Dashboard</h1>
+    </div>
+    <div class="top-actions">
+      <div class="global-search">
+        <input id="globalSearch" placeholder="Search" aria-label="Search">
+      </div>
+      <button class="icon-btn" title="Notifications">♧<i class="notification-dot" id="notifDot" hidden></i></button>
+      <button class="profile-btn">
+        <span class="avatar">KI</span>
+        <span style="font-size:11px">⌄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE TITLE -->
+  <div class="page-title-row">
+    <div>
+      <div class="eyebrow">STUDIO PERFORMANCE &amp; ANALYTICS</div>
+      <h1 class="page-heading">Leads Dashboard</h1>
+    </div>
+    <div class="page-actions">
+      <button class="btn" onclick="syncSheet()">↻ Sync Google Sheet</button>
+      <a href="leads-new.html" class="btn primary">＋ Log New Lead</a>
+      <a href="leads-list.html" class="btn">View All Leads →</a>
+    </div>
+  </div>
+
+  <!-- 2-COLUMN CHART GRID -->
+  <section class="overview-grid">
+    <!-- Monthly Inquiries Line Chart -->
+    <article class="chart-card">
+      <div class="card-heading">
+        <div>
+          <h2 class="card-title">Monthly Inquiries</h2>
+          <div class="card-sub">Lead activity · 2026</div>
+        </div>
+        <select class="select" id="periodSelect">
+          <option value="year">All Months</option>
+          <option value="quarter">Last 3 Months</option>
+        </select>
+      </div>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 650 245" role="img" aria-label="Monthly inquiry trend">
+          <defs>
+            <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#8a6044" stop-opacity=".23"/>
+              <stop offset="1" stop-color="#8a6044" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g class="chart-grid">
+            <line x1="42" y1="24" x2="635" y2="24"/>
+            <line x1="42" y1="78" x2="635" y2="78"/>
+            <line x1="42" y1="132" x2="635" y2="132"/>
+            <line x1="42" y1="186" x2="635" y2="186"/>
+          </g>
+          <g class="chart-label" id="chartYLabels">
+            <text x="5" y="28">8</text><text x="5" y="82">6</text>
+            <text x="5" y="136">4</text><text x="5" y="190">2</text>
+            <text x="24" y="220">0</text>
+          </g>
+          <g class="chart-label" id="chartXLabels">
+            <text x="52" y="238">Jan</text><text x="121" y="238">Feb</text>
+            <text x="190" y="238">Mar</text><text x="259" y="238">Apr</text>
+            <text x="328" y="238">May</text><text x="397" y="238">Jun</text>
+            <text x="466" y="238">Jul</text><text x="535" y="238">Aug</text>
+            <text x="604" y="238">Sep</text>
+          </g>
+          <path class="chart-area" id="chartArea" d="M55 175 C82 154 105 123 137 130 S176 161 206 145 S247 70 275 83 S315 122 344 105 S385 61 412 72 S452 112 480 95 S520 57 548 66 S588 91 620 48 L620 194 L55 194Z"/>
+          <path class="chart-line" id="chartLine" d="M55 175 C82 154 105 123 137 130 S176 161 206 145 S247 70 275 83 S315 122 344 105 S385 61 412 72 S452 112 480 95 S520 57 548 66 S588 91 620 48"/>
+          <circle class="chart-point" cx="412" cy="72" r="5"/>
+        </svg>
+      </div>
+    </article>
+
+    <!-- Project Demand Bar Chart -->
+    <article class="chart-card">
+      <div class="card-heading">
+        <div>
+          <h2 class="card-title">Project Demand</h2>
+          <div class="card-sub">Most requested services</div>
+        </div>
+        <select class="select" id="demandSelect" onchange="renderDemandChart()">
+          <option>By leads</option>
+          <option>By percentage</option>
+        </select>
+      </div>
+      <div class="bar-chart" id="demandChart"></div>
+    </article>
+  </section>
+
+  <!-- BOTTOM GRID: Metrics + Recent Inquiries -->
+  <section class="bottom-grid">
+    <div class="metrics-grid">
+      <article class="metric-card">
+        <div class="metric-label">Total Leads</div>
+        <div class="metric-number" id="mTotal">0</div>
+        <div class="metric-note">All inquiries received</div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-label">New Leads</div>
+        <div class="metric-number" id="mNew">0</div>
+        <div class="metric-note">Awaiting first contact</div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-label">In Progress</div>
+        <div class="metric-number" id="mProgress">0</div>
+        <div class="metric-note">Design / site discussion</div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-label">Conversion Rate</div>
+        <div class="metric-number" id="mConv">0%</div>
+        <div class="metric-note">Projects finalized</div>
+      </article>
+    </div>
+
+    <article class="recent-card">
+      <div class="recent-head">
+        <h2>Recent Inquiries</h2>
+        <a href="leads-list.html" class="text-link">View all →</a>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Project</th>
+              <th>Status</th>
+              <th>Budget</th>
+            </tr>
+          </thead>
+          <tbody id="recentRows"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <!-- STATUS FUNNEL -->
+  <section class="funnel-card" style="margin-top:22px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <h2 style="font:600 18px Georgia,serif;margin:0;color:#35271f">Lead Status Funnel</h2>
+        <div style="font-size:11px;color:#78685c;margin-top:2px">Lifecycle distribution of all studio inquiries.</div>
+      </div>
+      <a href="leads-list.html" class="text-link">Explore →</a>
+    </div>
+    <div class="funnel-track">
+      <div class="funnel-seg" id="fNew" style="background:#b77b39;width:0%"></div>
+      <div class="funnel-seg" id="fCont" style="background:#627b91;width:0%"></div>
+      <div class="funnel-seg" id="fProg" style="background:#80618b;width:0%"></div>
+      <div class="funnel-seg" id="fConv" style="background:#55795b;width:0%"></div>
+      <div class="funnel-seg" id="fLost" style="background:#9ca3af;width:0%"></div>
+    </div>
+    <div class="funnel-legend" id="fLegend"></div>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <div class="actions-grid">
+    <a href="leads-list.html" class="action-card">
+      <div class="action-icon">📋</div>
+      <div class="action-title">Browse All Leads</div>
+      <div class="action-desc">Full search, status filters, and one-click WhatsApp client contact</div>
+    </a>
+    <a href="leads-new.html" class="action-card">
+      <div class="action-icon">➕</div>
+      <div class="action-title">Log New Lead</div>
+      <div class="action-desc">Record a walk-in, phone call, or custom design inquiry</div>
+    </a>
+    <a href="admin.html#gallery" class="action-card">
+      <div class="action-icon">🖼</div>
+      <div class="action-title">Gallery Manager</div>
+      <div class="action-desc">Upload project photos &amp; curate portfolio categories</div>
+    </a>
+    <a href="admin.html#consultation" class="action-card">
+      <div class="action-icon">📅</div>
+      <div class="action-title">Consultation Rules</div>
+      <div class="action-desc">Configure booking slots, fee, notice hours and holiday dates</div>
+    </a>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let allLeads = [];
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg){
+  const el=$('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(window._t);window._t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+function initials(name){return (name||'?').split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase();}
+
+function formatDate(iso){
+  if(!iso)return '—';
+  try{return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});}
+  catch(e){return iso;}
+}
+
+function statusClass(s){return 'status-'+(s||'new').toLowerCase().replace(/\s+/g,'-');}
+
+function renderDashboard(){
+  const total=allLeads.length;
+  const counts={New:0,Contacted:0,'In Progress':0,Converted:0,Lost:0};
+  allLeads.forEach(l=>{if(counts[l.status]!==undefined)counts[l.status]++;});
+
+  $('mTotal').textContent=total;
+  $('mNew').textContent=counts.New;
+  $('mProgress').textContent=counts['In Progress'];
+  $('mConv').textContent=total?Math.round(counts.Converted/total*100)+'%':'0%';
+  $('sidebarCount').textContent=total;
+  if(counts.New>0)$('notifDot').hidden=false;
+
+  // Recent Inquiries
+  const recent=[...allLeads].slice(0,6);
+  $('recentRows').innerHTML=recent.map(l=>{
+    const p=l.payload||{};
+    return `<tr>
+      <td><div class="client">
+        <span class="avatar">${esc(initials(p.name||'?'))}</span>
+        <span>
+          <span class="client-name">${esc(p.name||'Anonymous')}</span><br>
+          <span class="client-sub">${esc(p.location||'—')}</span>
+        </span>
+      </div></td>
+      <td>${esc(p.projectType||'Full Home Interior')}</td>
+      <td><span class="status ${statusClass(l.status)}">${esc(l.status||'New')}</span></td>
+      <td>${esc(p.budget||'—')}</td>
+    </tr>`;
+  }).join('');
+
+  // Funnel bars
+  if(total>0){
+    $('fNew').style.width=(counts.New/total*100)+'%';
+    $('fCont').style.width=(counts.Contacted/total*100)+'%';
+    $('fProg').style.width=(counts['In Progress']/total*100)+'%';
+    $('fConv').style.width=(counts.Converted/total*100)+'%';
+    $('fLost').style.width=(counts.Lost/total*100)+'%';
+  }
+  $('fLegend').innerHTML=`
+    <span><span class="leg-dot" style="background:#b77b39"></span>New (${counts.New})</span>
+    <span><span class="leg-dot" style="background:#627b91"></span>Contacted (${counts.Contacted})</span>
+    <span><span class="leg-dot" style="background:#80618b"></span>In Progress (${counts['In Progress']})</span>
+    <span><span class="leg-dot" style="background:#55795b"></span>Converted (${counts.Converted})</span>
+    <span><span class="leg-dot" style="background:#9ca3af"></span>Lost (${counts.Lost})</span>
+  `;
+
+  renderDemandChart();
+  updateLineChart();
+}
+
+function renderDemandChart(){
+  const total=allLeads.length;
+  const projMap={};
+  allLeads.forEach(l=>{
+    const p=l.payload||{};
+    let pt=(p.projectType||'Other').trim();
+    // normalize common types
+    if(pt.toLowerCase().includes('3 bhk'))pt='Full Home · 3 BHK';
+    else if(pt.toLowerCase().includes('2 bhk'))pt='Full Home · 2 BHK';
+    else if(pt.toLowerCase().includes('home'))pt='Home';
+    else if(pt.toLowerCase().includes('renovation'))pt='Renovation';
+    else if(pt.toLowerCase().includes('kitchen'))pt='Kitchen';
+    else if(pt.toLowerCase().includes('commercial'))pt='Commercial';
+    else if(pt.toLowerCase().includes('3d'))pt='3D Design';
+    else if(pt.toLowerCase().includes('design'))pt='Design';
+    projMap[pt]=(projMap[pt]||0)+1;
+  });
+  const sorted=Object.entries(projMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const byPct=$('demandSelect').value==='By percentage';
+  $('demandChart').innerHTML=sorted.map(([name,n])=>{
+    const val=byPct?Math.round(n/Math.max(total,1)*100)+'%':n;
+    const h=Math.max(5,n/Math.max(sorted[0][1],1)*100);
+    return `<div class="bar-item">
+      <span class="bar-value">${val}</span>
+      <div class="bar" style="height:${h}%"></div>
+      <span class="bar-label">${esc(name)}</span>
+    </div>`;
+  }).join('');
+}
+
+function updateLineChart(){
+  // Build monthly counts from real data
+  const monthly=new Array(12).fill(0);
+  allLeads.forEach(l=>{
+    if(l.receivedAt){
+      try{const m=new Date(l.receivedAt).getMonth();monthly[m]++;}catch(e){}
+    }
+  });
+  const max=Math.max(...monthly,1);
+  const svgH=194,svgTop=24,range=svgH-svgTop;
+  const xs=[55,121,190,259,328,397,466,535,604];
+  const ys=monthly.slice(0,9).map(v=>svgH-(v/max)*range*0.9);
+  const lineD=ys.map((y,i)=>`${i===0?'M':'L'}${xs[i]} ${y}`).join(' ');
+  const areaD=lineD+` L${xs[8]} ${svgH} L${xs[0]} ${svgH}Z`;
+  if($('chartLine'))$('chartLine').setAttribute('d',lineD);
+  if($('chartArea'))$('chartArea').setAttribute('d',areaD);
+  // update y-axis labels
+  const yStep=Math.ceil(max/4);
+  const labels=$('chartYLabels');
+  if(labels){
+    labels.querySelectorAll('text').forEach((t,i)=>{if(i<4)t.textContent=yStep*(4-i);});
+  }
+}
+
+async function syncSheet(){
+  toast('Syncing with Google Sheet…');
+  try{
+    const res=await fetch('/api/leads/sync',{method:'POST'});
+    if(res.ok){
+      const data=await res.json();
+      allLeads=Array.isArray(data)?data:(data.leads||[]);
+      renderDashboard();
+      toast(`✓ Synced ${allLeads.length} leads from Google Sheet`);
+    }
+  }catch(e){toast('Sync failed — using cached data');}
+}
+
+async function loadLeads(){
+  try{
+    const res=await fetch('/api/leads');
+    if(res.ok){
+      const data=await res.json();
+      allLeads=Array.isArray(data)?data:(data.leads||[]);
+    }
+  }catch(e){
+    try{const r=await fetch('submissions.json');if(r.ok){const d=await r.json();allLeads=Array.isArray(d)?d:[];}}catch(e2){}
+  }
+  renderDashboard();
+}
+
+loadLeads();
+</script>
+</body>
+</html>

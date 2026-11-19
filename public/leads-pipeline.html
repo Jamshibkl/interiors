@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Lead Pipeline · NextAutomate Kaveri Studio</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-page:#f4f2fb;
+    --sidebar-bg:#ffffff;
+    --card-bg:#ffffff;
+    --text-primary:#1e1b4b;
+    --text-secondary:#64748b;
+    --text-muted:#94a3b8;
+    --border:#ece8f8;
+    --border-light:#f1effa;
+    --primary:#6d28d9;
+    --primary-light:#ede9fe;
+    --purple-grad:linear-gradient(135deg, #4c1d95 0%, #6d28d9 45%, #7c3aed 100%);
+    --col-new-bg:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    --col-contacted-bg:linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    --col-meeting-bg:linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    --col-proposal-bg:linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --col-converted-bg:linear-gradient(135deg, #059669 0%, #047857 100%);
+    --col-lost-bg:linear-gradient(135deg, #64748b 0%, #475569 100%);
+    --radius-lg:18px;
+    --radius-md:14px;
+    --shadow-sm:0 1px 3px rgba(109,40,217,.04),0 4px 12px rgba(109,40,217,.03);
+    --shadow-card:0 4px 20px rgba(109,40,217,.06);
+    --sidebar-w:260px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg-page);color:var(--text-primary);
+    font-family:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;
+    font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  a{text-decoration:none;color:inherit}
+
+  /* ---- SHELL & SIDEBAR ---- */
+  .app-shell{display:flex;min-height:100vh}
+
+  .app-sidebar{
+    width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:999;flex-shrink:0;
+    transition:transform .25s ease;
+  }
+  .sidebar-logo{
+    padding:20px 22px;display:flex;align-items:center;gap:10px;
+  }
+  .logo-box{
+    width:34px;height:34px;border-radius:10px;background:#1e1b4b;
+    color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;
+  }
+  .logo-title{font-size:13.5px;font-weight:800;color:#1e1b4b;text-transform:uppercase}
+  .logo-sub{font-size:10px;color:var(--text-muted);font-weight:600}
+
+  .sidebar-nav{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+  .nav-group-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 12px 6px;font-size:11.5px;font-weight:700;color:#1e1b4b;
+  }
+  .nav-group-items{display:flex;flex-direction:column;gap:3px;margin-bottom:6px}
+  .nav-link{
+    display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;
+    color:var(--text-secondary);font-weight:600;font-size:13px;transition:all .15s;
+  }
+  .nav-link:hover{background:var(--primary-light);color:var(--primary)}
+  .nav-link.active{background:var(--primary-light);color:var(--primary);font-weight:700}
+  .nav-link.active::before{
+    content:'';display:block;width:3px;height:18px;background:var(--primary);
+    border-radius:999px;margin-left:-8px;margin-right:2px;
+  }
+  .nav-link .icon{width:17px;height:17px;flex-shrink:0;opacity:.85}
+  .nav-link.active .icon{opacity:1;stroke-width:2.2}
+
+  /* ---- MAIN CONTENT ---- */
+  .app-main{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+
+  /* ---- TOPBAR ---- */
+  .topbar{
+    height:64px;background:rgba(244,242,251,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);padding:0 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    position:sticky;top:0;z-index:100;
+  }
+  .topbar-search{position:relative;width:340px;max-width:100%}
+  .search-input{
+    width:100%;background:#ffffff;border:1px solid var(--border);border-radius:999px;
+    padding:8px 38px 8px 36px;font-size:13px;font-family:inherit;color:var(--text-primary);
+    outline:0;transition:all .15s;box-shadow:var(--shadow-sm);
+  }
+  .search-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(109,40,217,.12)}
+  .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none}
+  .search-shortcut{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    background:var(--bg-page);border:1px solid var(--border);border-radius:6px;
+    font-size:10.5px;font-weight:700;color:var(--text-muted);padding:1px 5px;
+  }
+  .topbar-actions{display:flex;align-items:center;gap:12px}
+  .topbar-btn{
+    width:36px;height:36px;border-radius:50%;background:#ffffff;border:1px solid var(--border);
+    display:grid;place-items:center;color:var(--text-secondary);position:relative;
+    box-shadow:var(--shadow-sm);
+  }
+  .user-avatar{
+    width:36px;height:36px;border-radius:50%;background:var(--primary);
+    color:#fff;font-weight:700;font-size:13.5px;display:grid;place-items:center;
+  }
+
+  /* ---- PIPELINE HEADER & CONTROLS (Image 3) ---- */
+  .pipeline-header{padding:20px 28px 12px;display:flex;flex-direction:column;gap:14px}
+  .ph-title-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .ph-title{font-size:20px;font-weight:800;color:var(--text-primary)}
+  .ph-sub{font-size:12.5px;color:var(--text-muted)}
+  .pipeline-selector{
+    background:#ffffff;border:1px solid var(--border);border-radius:999px;padding:6px 14px;
+    font-size:12.5px;font-weight:700;color:var(--text-primary);cursor:pointer;
+  }
+
+  .ph-toolbar{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .ph-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1}
+  .board-search{
+    position:relative;min-width:220px;
+  }
+  .board-search input{
+    background:#ffffff;border:1px solid var(--border);border-radius:999px;
+    padding:7px 14px 7px 32px;font-size:12.5px;outline:0;width:100%;
+  }
+  .board-search input:focus{border-color:var(--primary)}
+  .board-search .icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted)}
+
+  .team-avatars{display:flex;align-items:center;gap:4px}
+  .t-avatar{
+    width:28px;height:28px;border-radius:50%;color:#fff;font-size:11px;font-weight:800;
+    display:grid;place-items:center;cursor:pointer;
+  }
+  .t-avatar.a{background:#ea580c}
+  .t-avatar.j{background:#16a34a}
+
+  .btn-filter{
+    background:#ffffff;border:1px solid var(--border);border-radius:999px;
+    padding:6px 14px;font-size:12px;font-weight:700;color:var(--text-secondary);
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .btn-filter:hover{border-color:var(--primary);color:var(--primary)}
+
+  .view-mode-group{
+    display:inline-flex;background:#ffffff;border:1px solid var(--border);border-radius:999px;padding:3px;
+  }
+  .vm-btn{
+    padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
+    color:var(--text-secondary);display:inline-flex;align-items:center;gap:5px;
+  }
+  .vm-btn.active{background:var(--primary);color:#ffffff}
+
+  /* ---- KANBAN BOARD CONTAINER (Image 3) ---- */
+  .board-viewport{
+    flex:1;padding:8px 28px 40px;overflow-x:auto;display:flex;gap:16px;
+  }
+  .board-viewport::-webkit-scrollbar{height:8px}
+  .board-viewport::-webkit-scrollbar-thumb{background:#d8d2ea;border-radius:999px}
+
+  .kanban-col{
+    width:300px;min-width:300px;max-width:300px;display:flex;flex-direction:column;gap:12px;
+  }
+  .col-head{
+    background:#ffffff;border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+    box-shadow:var(--shadow-sm);
+  }
+  .col-title{
+    font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px;color:var(--text-primary);
+  }
+  .col-dot{width:8px;height:8px;border-radius:50%}
+  .col-dot.new{background:#0284c7}
+  .col-dot.contacted{background:#7c3aed}
+  .col-dot.meeting{background:#d97706}
+  .col-dot.proposal{background:#2563eb}
+  .col-dot.converted{background:#059669}
+  .col-dot.lost{background:#64748b}
+
+  .col-badge{
+    font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+    background:var(--bg-page);color:var(--text-secondary);
+  }
+  .col-val{font-size:11px;color:var(--text-muted);font-weight:600}
+
+  .cards-stack{display:flex;flex-direction:column;gap:12px;overflow-y:auto;padding-bottom:20px}
+
+  /* ---- KANBAN CARD (Image 3) ---- */
+  .k-card{
+    border-radius:var(--radius-md);padding:16px;color:#ffffff;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:10px;
+    position:relative;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .k-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+  .k-card.new{background:var(--col-new-bg)}
+  .k-card.contacted{background:var(--col-contacted-bg)}
+  .k-card.meeting{background:var(--col-meeting-bg)}
+  .k-card.proposal{background:var(--col-proposal-bg)}
+  .k-card.converted{background:var(--col-converted-bg)}
+  .k-card.lost{background:var(--col-lost-bg)}
+
+  .kc-top{display:flex;align-items:center;justify-content:space-between;font-size:10.5px;opacity:.85}
+  .kc-icons{display:flex;align-items:center;gap:8px}
+  .kc-icon-btn{
+    width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.2);
+    display:grid;place-items:center;color:#ffffff;font-size:11px;transition:background .15s;
+  }
+  .kc-icon-btn:hover{background:rgba(255,255,255,.35)}
+
+  .kc-title{font-size:15px;font-weight:800;line-height:1.2;letter-spacing:-.2px}
+  .kc-sub{font-size:12px;opacity:.9}
+  .kc-phone{font-size:12px;font-weight:600;opacity:.95}
+
+  .kc-bottom{
+    display:flex;align-items:center;justify-content:space-between;padding-top:4px;
+    border-top:1px solid rgba(255,255,255,.15);margin-top:2px;
+  }
+  .kc-source{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.85}
+  .kc-actions-right{display:flex;align-items:center;gap:6px}
+  .kc-next-btn{
+    width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);
+    display:grid;place-items:center;font-size:11px;color:#fff;
+  }
+  .kc-next-btn:hover{background:rgba(255,255,255,.45)}
+  .kc-avatar{
+    width:22px;height:22px;border-radius:50%;background:#ea580c;color:#fff;
+    font-size:10px;font-weight:800;display:grid;place-items:center;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="app-sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-box">NN</div>
+      <div class="logo-text">
+        <span class="logo-title">NextAutomate</span>
+        <span class="logo-sub">KAVERI INTERIORS</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-header">
+        <span>Overview</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-group-items">
+        <a href="leads.html" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </a>
+      </div>
+
+      <div class="nav-group-header">
+        <span>Leads</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-group-items">
+        <a href="leads-list.html" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+          <span>Leads</span>
+        </a>
+        <a href="leads-pipeline.html" class="nav-link active">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="5" height="14" rx="1.5"/></svg>
+          <span>Lead Pipeline</span>
+        </a>
+        <a href="leads-new.html" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          <span>Add Lead</span>
+        </a>
+      </div>
+
+      <div class="nav-group-header">
+        <span>Internal tasks</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-group-items">
+        <a href="leads.html#tasks" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>My Tasks</span>
+        </a>
+      </div>
+
+      <div class="nav-group-header">
+        <span>Staff</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-group-items">
+        <a href="leads-list.html" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Daily Logs</span>
+        </a>
+      </div>
+
+      <div class="nav-group-header">
+        <span>Marketing & Studio</span>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-group-items">
+        <a href="admin.html#gallery" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Gallery Manager</span>
+        </a>
+        <a href="admin.html#consultation" class="nav-link">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Consultation Rules</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="app-main">
+    
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="boardSearch" placeholder="Search leads in pipeline..." oninput="filterBoard()">
+        <span class="search-shortcut">⌘K</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button type="button" class="topbar-btn" onclick="syncSheet()" title="Sync live Google Sheet">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        </button>
+        <button type="button" class="topbar-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <div class="user-avatar">A</div>
+      </div>
+    </header>
+
+    <!-- PIPELINE HEADER (Image 3) -->
+    <div class="pipeline-header">
+      <div class="ph-title-row">
+        <div>
+          <h1 class="ph-title">Lead Pipeline</h1>
+          <p class="ph-sub">Track and manage your leads through each stage</p>
+        </div>
+        <select class="pipeline-selector">
+          <option>Primary Pipeline</option>
+          <option>Commercial Projects</option>
+          <option>Turnkey Interiors</option>
+        </select>
+      </div>
+
+      <div class="ph-toolbar">
+        <div class="ph-left">
+          <div class="board-search">
+            <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="innerSearch" placeholder="Search leads..." oninput="filterBoard()">
+          </div>
+
+          <div class="team-avatars">
+            <div class="t-avatar a" title="Abdu">A</div>
+            <div class="t-avatar j" title="Jamsheer">J</div>
+          </div>
+
+          <button type="button" class="btn-filter">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Filters
+          </button>
+
+          <button type="button" class="btn-filter">Columns 6/6</button>
+        </div>
+
+        <div>
+          <div class="view-mode-group">
+            <button type="button" class="vm-btn active">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>
+              Board
+            </button>
+            <a href="leads-list.html" class="vm-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              List
+            </a>
+            <button type="button" class="vm-btn">Compact</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KANBAN COLUMNS VIEWPORT (Image 3) -->
+    <div class="board-viewport" id="boardViewport">
+      
+      <!-- 1. New Lead -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot new"></span> New Lead</span>
+          <div>
+            <span class="col-badge" id="badgeNew">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackNew"></div>
+      </div>
+
+      <!-- 2. Contacted -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot contacted"></span> Contacted</span>
+          <div>
+            <span class="col-badge" id="badgeContacted">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackContacted"></div>
+      </div>
+
+      <!-- 3. Meeting Scheduled -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot meeting"></span> Meeting Scheduled</span>
+          <div>
+            <span class="col-badge" id="badgeMeeting">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackMeeting"></div>
+      </div>
+
+      <!-- 4. Proposal Sent -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot proposal"></span> Proposal Sent</span>
+          <div>
+            <span class="col-badge" id="badgeProposal">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackProposal"></div>
+      </div>
+
+      <!-- 5. Converted -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot converted"></span> Converted</span>
+          <div>
+            <span class="col-badge" id="badgeConverted">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackConverted"></div>
+      </div>
+
+      <!-- 6. Lost -->
+      <div class="kanban-col">
+        <div class="col-head">
+          <span class="col-title"><span class="col-dot lost"></span> Lost</span>
+          <div>
+            <span class="col-badge" id="badgeLost">0</span>
+            <span class="col-val">₹0</span>
+          </div>
+        </div>
+        <div class="cards-stack" id="stackLost"></div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+let allLeads = [];
+
+function esc(s){
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function loadPipeline(){
+  try {
+    const res = await fetch('/api/leads');
+    if(res.ok){
+      const data = await res.json();
+      if(Array.isArray(data)){
+        allLeads = data;
+        renderPipeline();
+        return;
+      }
+    }
+  } catch(e){}
+
+  try {
+    const res2 = await fetch('submissions.json');
+    if(res2.ok){
+      allLeads = await res2.json();
+      renderPipeline();
+    }
+  } catch(e){}
+}
+
+function formatDateShort(isoStr){
+  if(!isoStr) return 'Added recently';
+  try {
+    const d = new Date(isoStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `Added ${day}/${month}/${d.getFullYear()}`;
+  } catch(e){
+    return 'Added recently';
+  }
+}
+
+function renderPipeline(){
+  const query = (document.getElementById('boardSearch').value || document.getElementById('innerSearch').value || '').toLowerCase().trim();
+
+  const stacks = {
+    new: document.getElementById('stackNew'),
+    contacted: document.getElementById('stackContacted'),
+    meeting: document.getElementById('stackMeeting'),
+    proposal: document.getElementById('stackProposal'),
+    converted: document.getElementById('stackConverted'),
+    lost: document.getElementById('stackLost')
+  };
+
+  const counts = { new: 0, contacted: 0, meeting: 0, proposal: 0, converted: 0, lost: 0 };
+  Object.values(stacks).forEach(s => s.innerHTML = '');
+
+  allLeads.forEach(lead => {
+    const p = lead.payload || {};
+    const text = [p.name||'', p.phone||'', p.location||'', p.projectType||''].join(' ').toLowerCase();
+    if(query && !text.includes(query)) return;
+
+    // Normalize status into 6 stages
+    const rawSt = (lead.status || 'New').toLowerCase();
+    let stage = 'new';
+    if(rawSt.includes('contact')) stage = 'contacted';
+    else if(rawSt.includes('meeting') || rawSt.includes('site')) stage = 'meeting';
+    else if(rawSt.includes('proposal') || rawSt.includes('progress') || rawSt.includes('design')) stage = 'proposal';
+    else if(rawSt.includes('convert') || rawSt.includes('won')) stage = 'converted';
+    else if(rawSt.includes('lost')) stage = 'lost';
+
+    counts[stage]++;
+
+    const cardHtml = makeKanbanCard(lead, stage);
+    stacks[stage].insertAdjacentHTML('beforeend', cardHtml);
+  });
+
+  document.getElementById('badgeNew').textContent = counts.new;
+  document.getElementById('badgeContacted').textContent = counts.contacted;
+  document.getElementById('badgeMeeting').textContent = counts.meeting;
+  document.getElementById('badgeProposal').textContent = counts.proposal;
+  document.getElementById('badgeConverted').textContent = counts.converted;
+  document.getElementById('badgeLost').textContent = counts.lost;
+}
+
+function makeKanbanCard(lead, stage){
+  const p = lead.payload || {};
+  const dateStr = formatDateShort(lead.receivedAt);
+  const name = p.name || 'Anonymous Client';
+  const phone = p.phone || '';
+  const cleanPhone = phone.replace(/\D/g, '');
+  const num = cleanPhone.startsWith('91') && cleanPhone.length > 10 ? cleanPhone : '91' + cleanPhone.slice(-10);
+  const waUrl = `https://wa.me/${num}?text=${encodeURIComponent('Hi ' + name + ', from Kaveri Studio:')}`;
+  const source = p.formLabel || (lead.type === 'quote' ? 'Website' : 'Manual');
+
+  // Next stage arrow targets
+  const nextStageMap = {
+    new: 'Contacted',
+    contacted: 'Meeting Scheduled',
+    meeting: 'Proposal Sent',
+    proposal: 'Converted',
+    converted: 'Converted',
+    lost: 'New'
+  };
+  const targetNext = nextStageMap[stage];
+
+  return `
+    <div class="k-card ${stage}" onclick="openLeadModal('${esc(lead.id)}')">
+      <div class="kc-top">
+        <span>${esc(dateStr)}</span>
+        <div class="kc-icons" onclick="event.stopPropagation()">
+          ${phone ? `<a href="tel:${esc(phone)}" class="kc-icon-btn" title="Call">📞</a>` : ''}
+          ${phone ? `<a href="${esc(waUrl)}" target="_blank" class="kc-icon-btn" title="WhatsApp">💬</a>` : ''}
+          <button type="button" class="kc-icon-btn" onclick="advanceLead('${esc(lead.id)}', '${targetNext}')" title="Move to next stage">⋯</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="kc-title">${esc(name)}</div>
+        ${phone ? `<div class="kc-phone">${esc(phone)}</div>` : ''}
+        <div class="kc-sub">${esc(p.projectType || 'Interior Project')}${p.location ? ' · ' + esc(p.location) : ''}</div>
+      </div>
+
+      <div class="kc-bottom" onclick="event.stopPropagation()">
+        <span class="kc-source">${esc(source)}</span>
+        <div class="kc-actions-right">
+          ${stage !== 'converted' ? `
+            <button type="button" class="kc-next-btn" onclick="advanceLead('${esc(lead.id)}', '${targetNext}')" title="Advance to ${targetNext}">→</button>
+          ` : ''}
+          <div class="kc-avatar">A</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function advanceLead(id, nextStatus){
+  const lead = allLeads.find(l => l.id === id);
+  if(!lead) return;
+  lead.status = nextStatus;
+  renderPipeline();
+
+  try {
+    await fetch(`/api/leads/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: nextStatus })
+    });
+  } catch(e){}
+}
+
+function filterBoard(){
+  renderPipeline();
+}
+
+async function syncSheet(){
+  try {
+    const res = await fetch('/api/leads/sync', { method: 'POST' });
+    if(res.ok){
+      const data = await res.json();
+      if(data.leads){
+        allLeads = data.leads;
+        renderPipeline();
+        alert(`✓ Synced ${allLeads.length} leads from Google Sheets!`);
+      }
+    }
+  } catch(e){}
+}
+
+function openLeadModal(id){
+  const lead = allLeads.find(l => l.id === id);
+  if(!lead) return;
+  const p = lead.payload || {};
+  const msg = [
+    `Client: ${p.name}`,
+    `Phone: ${p.phone}`,
+    `Email: ${p.email || '—'}`,
+    `Location: ${p.location || '—'}`,
+    `Project: ${p.projectType || '—'}`,
+    `Budget: ${p.budget || '—'}`,
+    `Theme: ${p.designTheme || '—'}`,
+    `Notes: ${p.message || lead.notes || 'No message'}`
+  ].join('\n');
+  alert(msg);
+}
+
+loadPipeline();
+</script>
+</body>
+</html>

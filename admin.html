@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Studio Management · Kaveri Interiors</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5eee8;
+  --sidebar:#80563f;
+  --sidebar-deep:#704a36;
+  --card:#ddc8ad;
+  --card-light:#e6d4bf;
+  --paper:#fffaf5;
+  --ink:#30251f;
+  --muted:#79695e;
+  --line:rgba(91,63,45,.17);
+  --bronze:#956744;
+  --dark:#493126;
+  --green:#55795b;
+  --amber:#b77b39;
+  --blue:#627b91;
+  --purple:#80618b;
+  --shadow:0 3px 12px rgba(64,42,27,.045);
+  --gold:#b6854f;
+  --gold-deep:#956438;
+  --gold-soft:#f1e4d1;
+  --white:#fffdf9;
+  --ok:#2e7d32;
+  --ok-bg:#e8f5e9;
+  --warn:#d97706;
+  --warn-bg:#fef3c7;
+  --err:#b91c1c;
+  --err-bg:#fee2e2;
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"Inter",-apple-system,sans-serif;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
+
+/* ── SIDEBAR (Identical to leads.html / leads-list.html) ── */
+.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:var(--sidebar);color:#fff8f0;padding:25px 18px 17px;display:flex;flex-direction:column;z-index:100}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 8px 36px}
+.brand-mark{width:42px;height:42px;background:#ead8c4;color:var(--sidebar-deep);display:grid;place-items:center;border-radius:12px;font:700 25px Georgia,serif}
+.brand-name{font:600 18px Georgia,serif;letter-spacing:.1px}
+.brand-sub{font-size:9px;letter-spacing:2px;color:#f0d9c1;font-weight:700;margin-top:2px}
+.nav-label{font-size:10px;letter-spacing:1.7px;color:#e1c7ae;margin:12px 12px 10px;font-weight:700}
+.nav{display:grid;gap:8px}
+.nav a,.nav button{display:flex;align-items:center;gap:13px;padding:12px 13px;border-radius:9px;text-decoration:none;color:#f5e9dc;font-size:14px;transition:.15s;width:100%;text-align:left}
+.nav a:hover,.nav button:hover{background:#91664c}
+.nav a.active,.nav button.active{background:#ead8c4;color:#38261d;box-shadow:0 2px 6px #4d302533;font-weight:600}
+.nav-icon{width:19px;text-align:center;font-size:17px;flex-shrink:0}
+.count{margin-left:auto;background:#f4e5d3;color:#765039;border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700}
+.nav a.active .count,.nav button.active .count{background:#80563f;color:#f4e5d3}
+.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff35;padding:17px 5px 0;display:flex;align-items:center;gap:10px}
+.avatar{width:35px;height:35px;border-radius:50%;background:#ead8c4;color:#714d37;display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+.user-name{font-size:12px;font-weight:700}
+.user-role{font-size:10px;color:#e6d2bf}
+
+/* ── MAIN VIEWPORT ── */
+.main{margin-left:230px;padding:24px clamp(22px,3.2vw,46px) 100px;max-width:1400px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
+.heading{font-size:29px;line-height:1.15;font-weight:600;letter-spacing:-.7px;margin:0;color:#34251e}
+.top-actions{display:flex;align-items:center;gap:13px}
+.global-search{width:195px;position:relative}
+.global-search:before{content:'⌕';position:absolute;left:12px;top:5px;font-size:22px;color:#806b5c}
+.global-search input{width:100%;border:1px solid var(--line);background:#eadbca;border-radius:8px;padding:9px 12px 9px 34px;color:var(--ink);outline:none}
+.icon-btn{border:0;background:transparent;color:#6e4d39;font-size:20px;padding:5px;position:relative;cursor:pointer}
+.profile-btn{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:#6e4d39;padding:0;cursor:pointer}
+.profile-btn .avatar{width:36px;height:36px;border:2px solid #f9eee3}
+.mobile-menu{display:none;border:0;background:transparent;color:#684a37;font-size:22px}
+
+/* ── PAGE HEADER ── */
+.eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:800;color:#9a6b42;margin-bottom:4px}
+.page-title-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px;flex-wrap:wrap}
+.page-heading{font:600 28px/1.1 Georgia,serif;margin:0;color:#34251e}
+.page-description{margin:5px 0 0;color:#837366;font-size:13px}
+.page-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+
+/* ── BUTTONS ── */
+.btn{border:1px solid #c8b29b;background:#f7eee4;color:#513b2d;border-radius:8px;padding:9px 14px;font-size:11px;font-weight:650;display:inline-flex;align-items:center;gap:7px;cursor:pointer;transition:all .15s}
+.btn:hover{filter:brightness(.97)}
+.btn.primary,.btn-dark{background:#50372a;color:#fff8f1;border-color:#50372a}
+.btn.primary:hover,.btn-dark:hover{background:#3a271d}
+.btn-ghost{border:1px solid var(--line);background:var(--white);color:var(--ink)}
+.btn-ghost:hover{background:#ede3d7}
+.btn-sm{padding:6px 12px;font-size:11px;border-radius:8px}
+
+/* ── CARDS ── */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:22px;margin-bottom:20px;box-shadow:var(--shadow)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.card-head h2{font:600 19px Georgia,serif;line-height:1.25;color:var(--ink);margin:0}
+.hint{color:var(--muted);font-size:12.5px;margin-top:3px}
+
+/* ── FORMS & INPUTS ── */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.full{grid-column:1/-1}
+.field{display:grid;gap:5px}
+.field label{display:block;font-size:11.5px;font-weight:700;color:#5c483a;text-transform:uppercase;letter-spacing:.4px}
+.input{display:flex;align-items:center;background:#fff;border:1px solid #dfd0c0;border-radius:8px;transition:border-color .15s}
+.input:focus-within{border-color:var(--bronze);box-shadow:0 0 0 3px rgba(149,103,68,.12)}
+.input input,.input textarea,.input select{flex:1;min-width:0;width:100%;background:none;border:0;outline:0;padding:10px 12px;font-size:13px;color:var(--ink)}
+.input textarea{min-height:75px;resize:vertical}
+.opt{font-weight:400;color:var(--muted);font-size:11px;text-transform:none}
+
+/* ── GALLERY MANAGER STYLES ── */
+.label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.source-toggle{display:inline-flex;background:#ebe0d2;border-radius:999px;padding:3px;border:1px solid var(--line)}
+.source-toggle button{padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--muted);border:0;background:none;cursor:pointer;transition:all .15s}
+.source-toggle button.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+.dropzone{border:1.5px dashed #c4ad97;border-radius:12px;padding:22px 16px;text-align:center;background:#faf3eb;cursor:pointer;position:relative;transition:all .15s}
+.dropzone:hover,.dropzone.dragover{border-color:var(--bronze);background:#f4e8dc}
+.dropzone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-text{font-size:13px;color:var(--ink);margin-top:4px}
+.drop-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+.drop-preview{position:relative;border-radius:12px;overflow:hidden;background:#1a1715;margin-top:10px;border:1px solid var(--line);display:none}
+.drop-preview img{width:100%;max-height:220px;object-fit:cover;display:block}
+.drop-preview-remove{position:absolute;top:8px;right:8px;background:rgba(42,36,32,.75);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:17px;cursor:pointer;border:0}
+.drop-preview-remove:hover{background:var(--err)}
+.drop-preview-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;padding:8px 12px;font-size:11px;display:flex;justify-content:space-between}
+
+.form-actions{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+
+/* Gallery Filter Bar */
+.gal-filter-bar{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 0 10px}
+.gal-filter-bar::-webkit-scrollbar{display:none}
+.gal-filter-btn{border-radius:999px;border:1px solid #d8c8b6;background:#fff;padding:6px 14px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .15s;color:var(--muted);flex-shrink:0}
+.gal-filter-btn:hover{border-color:var(--bronze);color:var(--ink)}
+.gal-filter-btn.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* Gallery Cards Grid */
+.gal-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-top:14px}
+.gal-admin-card{background:#fff;border:1px solid #e3d5c6;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(64,42,27,.04);transition:transform .15s,box-shadow .15s}
+.gal-admin-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(64,42,27,.09)}
+.gal-admin-thumb{height:135px;position:relative;background-size:cover;background-position:center;background-color:#ece2d6;cursor:pointer}
+.gal-admin-badge{position:absolute;top:7px;left:7px;background:rgba(42,36,32,.85);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:6px;backdrop-filter:blur(3px)}
+.gal-admin-custom-badge{position:absolute;top:7px;right:7px;background:var(--green);color:#fff;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px}
+.gal-admin-body{padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.gal-admin-title{font-weight:650;font-size:13px;line-height:1.3;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal-admin-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal-admin-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #efe4d8;padding-top:8px;margin-top:10px}
+.gal-admin-del{color:var(--err);font-size:11px;font-weight:600;cursor:pointer;padding:3px 6px;border-radius:6px}
+.gal-admin-del:hover{background:var(--err-bg)}
+.gal-admin-view{color:var(--bronze);font-size:11px;font-weight:650}
+.gal-admin-view:hover{text-decoration:underline}
+
+/* ── CONSULTATION RULES WIZARD ── */
+.stepper{display:flex;list-style:none;margin:0 0 24px;padding:0;counter-reset:step}
+.stepper li{flex:1;position:relative}
+.stepper li::before{content:"";position:absolute;top:17px;left:-50%;right:50%;height:2px;background:#decbbe}
+.stepper li:first-child::before{display:none}
+.stepper li.done::before,.stepper li.on::before{background:var(--bronze)}
+.stepper button{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 4px}
+.stepper .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:#fff;border:2px solid #decbbe;color:var(--muted);transition:all .2s}
+.stepper .lbl{font-size:11.5px;font-weight:600;color:var(--muted);text-align:center;line-height:1.2}
+.stepper li.done .dot{background:#ead8c4;border-color:var(--bronze);color:var(--dark)}
+.stepper li.on .dot{background:var(--dark);border-color:var(--dark);color:#fff;box-shadow:0 0 0 4px rgba(73,49,38,.12)}
+.stepper li.on .lbl{color:var(--dark);font-weight:700}
+
+.status{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.toggle{position:relative;flex:0 0 52px;height:30px}
+.toggle input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:1;margin:0}
+.toggle span{position:absolute;inset:0;border-radius:999px;background:#d6cbbb;transition:background .2s}
+.toggle span::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.toggle input:checked+span{background:var(--green)}
+.toggle input:checked+span::after{transform:translateX(22px)}
+
+.day{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:16px 0;border-top:1px solid #efe4d8}
+.day:first-child{border-top:0;padding-top:0}
+.day-name{font-weight:650;padding-top:7px;color:var(--ink)}
+.day-name small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;background:#ede0d0;color:var(--ink);border-radius:999px;padding:0 4px 0 12px;font-size:12.5px;font-weight:600;height:32px}
+.chip button{width:24px;height:24px;border-radius:50%;font-size:16px;line-height:1;color:var(--muted);display:grid;place-items:center}
+.chip button:hover{background:rgba(168,68,46,.12);color:var(--err)}
+.closed{color:var(--muted);font-size:13px;font-style:italic}
+.adder{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.adder .input{width:140px}
+.day-tools{display:flex;gap:16px;margin-top:8px}
+
+.ov-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.ov{display:flex;align-items:center;gap:14px;background:#f7efe5;border-radius:12px;padding:12px 14px}
+.ov-date{flex:0 0 auto;text-align:center;background:#fff;border:1px solid #decbbe;border-radius:10px;width:52px;padding:4px 0}
+.ov-date b{display:block;font-family:var(--serif);font-size:20px}
+.ov-date span{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ov-body{flex:1;min-width:0}
+.ov .x{width:34px;height:34px;border-radius:50%;font-size:18px;color:var(--muted);flex:0 0 auto;display:grid;place-items:center}
+.ov .x:hover{background:var(--err-bg);color:var(--err)}
+
+.sum{display:flex;flex-direction:column;gap:12px}
+.sum-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #efe4d8}
+.sum-row:last-child{border-bottom:0}
+.sum-title{font-weight:600}
+.sum-val{color:var(--muted)}
+.sum-edit{color:var(--bronze);font-weight:650;font-size:12px}
+
+/* Sticky Bottom Bar for Consultation */
+.bar{position:fixed;left:230px;right:0;bottom:0;z-index:90;background:rgba(255,250,245,.95);backdrop-filter:blur(10px);border-top:1px solid #dfd0c0;padding:14px 32px calc(14px + env(safe-area-inset-bottom))}
+.bar-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.bar .msg{font-size:13px;color:var(--muted);flex:1}
+.bar .msg.ok{color:var(--green);font-weight:600}
+.bar .msg.err{color:var(--err);font-weight:600}
+.actions{display:flex;gap:10px;margin-left:auto}
+
+/* Lightbox Modal */
+.admin-modal{position:fixed;inset:0;background:rgba(42,36,32,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1100;padding:20px}
+.admin-modal-img{max-width:90vw;max-height:85vh;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.4);object-fit:contain}
+.admin-modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--dark);font-size:22px;border:0;display:grid;place-items:center;cursor:pointer}
+
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:900px){
+  .sidebar{width:230px;transform:translateX(-100%);transition:transform .22s;box-shadow:8px 0 30px rgba(42,36,32,.25)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:18px 15px 40px}
+  .mobile-menu{display:block}
+  .topbar{gap:10px;margin-bottom:18px}
+  .heading{font-size:24px}
+  .global-search{width:min(36vw,180px)}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .grid .full{grid-column:auto}
+  .gal-admin-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  .gal-admin-thumb{height:115px}
+  .bar{left:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+  .day{grid-template-columns:1fr;gap:6px}
+}
+@media(max-width:550px){
+  .global-search{display:none}
+  .heading{font-size:22px}
+  .stepper{gap:2px}
+  .stepper .dot{width:28px;height:28px;font-size:12px}
+  .stepper .lbl{font-size:9.5px;line-height:1.15}
+  .page-title-row{flex-direction:column;align-items:flex-start}
+  .page-actions{width:100%}
+  .page-actions .btn{flex:1;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR (Identical to leads.html, leads-list.html, leads-new.html) -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">K</div>
+    <div>
+      <div class="brand-name">Kaveri Interiors</div>
+      <div class="brand-sub">STUDIO ADMIN</div>
+    </div>
+  </div>
+
+  <div class="nav-label">LEADS &amp; INQUIRIES</div>
+  <nav class="nav">
+    <a href="leads.html"><span class="nav-icon">⌂</span>Dashboard</a>
+    <a href="leads-list.html"><span class="nav-icon">▤</span>All Leads <span class="count" id="sidebarLeadCount">73</span></a>
+    <a href="leads-new.html"><span class="nav-icon">＋</span>Add New Lead</a>
+  </nav>
+
+  <div class="nav-label">MANAGEMENT</div>
+  <nav class="nav">
+    <a href="#gallery" id="navItemGallery" class="active" onclick="switchSection('gallery')"><span class="nav-icon">▧</span>Gallery Manager <span class="count" id="galleryCountBadge">79</span></a>
+    <a href="#consultation" id="navItemConsultation" onclick="switchSection('consultation')"><span class="nav-icon">▦</span>Consultation Rules</a>
+  </nav>
+
+  <div class="nav-label">WEBSITE</div>
+  <nav class="nav">
+    <a href="index.html" target="_blank"><span class="nav-icon">⌂</span>Main Website ↗</a>
+    <a href="gallery.html" target="_blank"><span class="nav-icon">↗</span>Live Gallery ↗</a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="avatar">KI</div>
+    <div>
+      <div class="user-name">Kaveri Studio</div>
+      <div class="user-role">● Real Data</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="mobile-menu" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Open navigation">☰</button>
+      <h1 class="heading" id="topHeading">Gallery Manager</h1>
+    </div>
+    <div class="top-actions">
+      <div class="global-search">
+        <input id="globalSearch" placeholder="Search" aria-label="Search" oninput="if(currentSection==='gallery'){ $('galSearchInput').value=this.value; filterGalleryCards(); }">
+      </div>
+      <button class="icon-btn" onclick="refreshCurrentSection()" title="Refresh">↻</button>
+      <button class="profile-btn" aria-label="Studio profile">
+        <span class="avatar">KI</span>
+        <span style="font-size:11px">⌄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER ROW -->
+  <div class="page-title-row">
+    <div>
+      <div class="eyebrow" id="pageEyebrow">WEBSITE MEDIA</div>
+      <h1 class="page-heading" id="pageTitle">Gallery Manager</h1>
+      <p class="page-description" id="pageDesc">Upload, organize, and manage portfolio project photos.</p>
+    </div>
+    <div class="page-actions" id="pageActions">
+      <button type="button" class="btn" onclick="refreshCurrentSection()">↻ Refresh</button>
+      <a href="gallery.html" target="_blank" class="btn">View Live Gallery ↗</a>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SECTION 1: GALLERY MANAGER
+       ======================================================== -->
+  <section id="sectionGallery">
+    <!-- Upload Card -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Add image to gallery</h2>
+          <p class="hint">Upload a high resolution project photo or 3D render to the live gallery.</p>
+        </div>
+      </div>
+
+      <form id="galleryUploadForm" onsubmit="event.preventDefault(); submitGalleryImage();">
+        <div class="grid">
+          <!-- Room Category -->
+          <div class="field">
+            <label for="galCategory">Room Heading / Category</label>
+            <div class="input">
+              <select id="galCategory" onchange="handleCategoryChange()" required>
+                <option value="Kitchen">Kitchen</option>
+                <option value="Bedroom">Bedroom</option>
+                <option value="Living">Living</option>
+                <option value="Dining">Dining</option>
+                <option value="Partitions">Partitions</option>
+                <option value="Pooja Room">Pooja Room</option>
+                <option value="Balcony">Balcony</option>
+                <option value="Commercial">Commercial</option>
+                <option value="__NEW__">+ Custom Room...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Custom Category -->
+          <div class="field" id="newCategoryWrap" hidden>
+            <label for="newCategoryInput">Custom Room Name</label>
+            <div class="input">
+              <input type="text" id="newCategoryInput" placeholder="e.g. Foyer, Home Bar, Study">
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div class="field">
+            <label for="galTitle">Image Title / Card Heading</label>
+            <div class="input">
+              <input type="text" id="galTitle" placeholder="e.g. Mint Modular Kitchen" required>
+            </div>
+          </div>
+
+          <!-- Tag / Subtitle -->
+          <div class="field full">
+            <label for="galSubtitle">Subtitle / Tag Line <span class="opt">(optional)</span></label>
+            <div class="input">
+              <input type="text" id="galSubtitle" placeholder="e.g. Modular Kitchen · 3D Render, Italian Finish">
+            </div>
+          </div>
+
+          <!-- Image Source -->
+          <div class="field full">
+            <div class="label-row">
+              <label>Image File or URL</label>
+              <div class="source-toggle">
+                <button type="button" id="segImgFile" class="active" onclick="setImgSourceMode('file')">Upload File</button>
+                <button type="button" id="segImgUrl" onclick="setImgSourceMode('url')">Image URL</button>
+              </div>
+            </div>
+
+            <div id="dropzoneContainer">
+              <div class="dropzone" id="dropzone">
+                <input type="file" id="galFileInput" accept="image/*" onchange="onFileChosen(this.files)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--bronze);margin-bottom:6px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <div class="drop-text"><b>Choose an image</b> or drag &amp; drop here</div>
+                <div class="drop-sub">PNG, JPG, WEBP, AVIF up to 30 MB</div>
+              </div>
+
+              <div class="drop-preview" id="dropPreview">
+                <img id="previewImg" src="" alt="Preview">
+                <button type="button" class="drop-preview-remove" onclick="clearFileSelection()" title="Remove file">×</button>
+                <div class="drop-preview-bar">
+                  <span id="previewName"></span>
+                  <span id="previewSize"></span>
+                </div>
+              </div>
+            </div>
+
+            <div id="urlInputContainer" hidden>
+              <div class="input">
+                <input type="url" id="galUrlInput" placeholder="https://..." oninput="onUrlInput(this.value)">
+              </div>
+              <div class="drop-preview" id="urlPreview" style="margin-top:8px">
+                <img id="urlPreviewImg" src="" alt="URL Preview">
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload Actions -->
+          <div class="full form-actions">
+            <button type="submit" class="btn primary" id="btnUploadGallery">Add to gallery</button>
+            <button type="button" class="btn btn-ghost" onclick="resetGalleryForm()">Clear</button>
+            <a href="gallery.html" target="_blank" style="margin-left:auto;font-size:12px;color:var(--bronze);font-weight:600">View live gallery ↗</a>
+          </div>
+
+          <div class="full" id="galleryUploadNotice" style="display:none"></div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Existing Images Card -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Existing Gallery Images <span class="count" id="galCountHint" style="display:inline-block;padding:3px 9px;font-size:11px;border-radius:20px;background:#decbbe;color:#493126">0</span></h2>
+          <p class="hint">Filter by category or search to review and delete images.</p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="loadAdminGallery(true)">↻ Refresh</button>
+      </div>
+
+      <div class="gal-filter-bar" id="galFilterBar"></div>
+
+      <div class="input" style="margin:10px 0 16px">
+        <input type="text" id="galSearchInput" placeholder="Search gallery by title, tag, or room..." oninput="filterGalleryCards()">
+      </div>
+
+      <div class="gal-admin-grid" id="galAdminGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 2: CONSULTATION SETTINGS
+       ======================================================== -->
+  <section id="sectionConsultation" hidden>
+    <ol class="stepper" id="stepper">
+      <li><button type="button" onclick="goStep(0)"><span class="dot">1</span><span class="lbl">Fee &amp; rules</span></button></li>
+      <li><button type="button" onclick="goStep(1)"><span class="dot">2</span><span class="lbl">Weekly hours</span></button></li>
+      <li><button type="button" onclick="goStep(2)"><span class="dot">3</span><span class="lbl">Holidays</span></button></li>
+      <li><button type="button" onclick="goStep(3)"><span class="dot">4</span><span class="lbl">Review &amp; save</span></button></li>
+    </ol>
+
+    <div class="step" data-step="0">
+      <div class="card">
+        <div class="status">
+          <div>
+            <h2>Online bookings</h2>
+            <p class="hint">Turn off to temporarily hide booking options from the website.</p>
+          </div>
+          <label class="toggle" aria-label="Toggle bookings">
+            <input type="checkbox" id="enabled">
+            <span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div><h2>Fee &amp; booking rules</h2><p class="hint">Shown to clients when they pick "Consultation" in the quote form.</p></div></div>
+        <div class="grid">
+          <div class="field">
+            <label for="fee">Consultation fee</label>
+            <div class="input"><span style="padding:0 12px;color:var(--muted)">₹</span><input id="fee" type="number" min="0" step="100"></div>
+          </div>
+          <div class="field">
+            <label for="dur">Session length</label>
+            <div class="input"><input id="dur" type="number" min="15" step="15"><span style="padding:0 12px;color:var(--muted)">minutes</span></div>
+          </div>
+          <div class="field">
+            <label for="win">Bookable up to</label>
+            <div class="input"><input id="win" type="number" min="1" max="180"><span style="padding:0 12px;color:var(--muted)">days ahead</span></div>
+          </div>
+          <div class="field">
+            <label for="notice">Minimum notice</label>
+            <div class="input"><input id="notice" type="number" min="0" max="168"><span style="padding:0 12px;color:var(--muted)">hours</span></div>
+            <small style="color:var(--muted);font-size:11px">Slots sooner than this are hidden.</small>
+          </div>
+          <div class="field full">
+            <label for="pay">Payment link</label>
+            <div class="input"><input id="pay" type="url" placeholder="https://rzp.io/l/your-link"></div>
+            <small style="color:var(--muted);font-size:11px">Razorpay, Stripe or UPI link. Clients pay here to confirm slot.</small>
+          </div>
+          <div class="field full">
+            <label for="note">Message under the fee</label>
+            <div class="input"><input id="note" type="text" placeholder="e.g. Adjusted against project advance upon signing"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="1" hidden>
+      <div class="card">
+        <div class="card-head"><div><h2>Weekly hours</h2><p class="hint">Start times you're free each week (India time). Automatically syncs with Google Calendar.</p></div></div>
+        <div id="weekly"></div>
+      </div>
+    </div>
+
+    <div class="step" data-step="2" hidden>
+      <div class="card">
+        <div class="card-head"><div><h2>Holidays &amp; special days</h2><p class="hint">Close a date, or set custom times for one day.</p></div></div>
+        <div id="overrides"></div>
+        <div class="ov-new" style="border-top:1px solid #efe4d8;padding-top:16px;margin-top:16px">
+          <h3 style="font:600 15px Georgia,serif;margin-bottom:12px;color:var(--ink)">Add a date</h3>
+          <div class="grid">
+            <div class="field">
+              <label for="ovDate">Date</label>
+              <div class="input"><input id="ovDate" type="date"></div>
+            </div>
+            <div class="field">
+              <label>On this day</label>
+              <div class="source-toggle" style="width:100%;display:flex">
+                <button type="button" id="segClosed" class="active" style="flex:1" onclick="setOvMode('closed')">Closed</button>
+                <button type="button" id="segCustom" style="flex:1" onclick="setOvMode('custom')">Custom times</button>
+              </div>
+            </div>
+            <div class="field full" id="ovCustom" hidden>
+              <label for="ovTime">Times available</label>
+              <div class="chips" id="ovChips"></div>
+              <div class="adder">
+                <div class="input"><input type="time" id="ovTime" step="900"></div>
+                <button class="btn btn-ghost btn-sm" type="button" onclick="addOvTime()">+ Add time</button>
+              </div>
+            </div>
+            <div class="full"><button class="btn btn-ghost" type="button" onclick="addOverride()" style="width:100%">+ Add this date</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-step="3" hidden>
+      <div class="card">
+        <div class="card-head"><div><h2>Review &amp; save</h2><p class="hint">Check settings, then save to make them live instantly.</p></div></div>
+        <div class="sum" id="summary"></div>
+        <div id="warnings"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Sticky Bottom Bar for Consultation Wizard -->
+<div class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <span class="msg" id="saveMsg">Configure consultation rules</span>
+    <div class="actions">
+      <button class="btn btn-ghost" id="backBtn" type="button" onclick="goStep(step-1)" hidden>Back</button>
+      <button class="btn primary" id="nextBtn" type="button" onclick="next()">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox Modal -->
+<div class="admin-modal" id="adminLightbox" hidden onclick="closeAdminLightbox()">
+  <button type="button" class="admin-modal-close" onclick="closeAdminLightbox()">×</button>
+  <img class="admin-modal-img" id="adminLightboxImg" src="" alt="Full view" onclick="event.stopPropagation()">
+</div>
+
+<script src="js/assets.js"></script>
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwnVtWUmTDKFu-wWc1BAaSLC-EDDAt6dlc68g28Q_sbpIN5tFL3C1yqIdkIc6e0kDRs/exec";
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const ORDER = [1,2,3,4,5,6,0];
+const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+const $ = id => document.getElementById(id);
+
+let password = '';
+let settings = null;
+let dirty = false;
+let ovMode = 'closed';
+let ovTimes = [];
+let currentSection = 'gallery';
+let step = 0;
+const LAST = 3;
+
+/* Gallery state */
+let adminGalleryItems = [];
+let selectedFileData = null;
+let selectedFileName = '';
+let activeFilterCat = 'all';
+let imgSourceMode = 'file';
+
+/* ── NAVIGATION & SECTION SWITCHING ── */
+function switchSection(sec){
+  // If user clicks leads, redirect to leads.html
+  if(sec === 'leads'){
+    window.location.href = 'leads.html';
+    return;
+  }
+
+  currentSection = sec;
+  document.getElementById('sidebar').classList.remove('open');
+
+  try {
+    if(window.location.hash !== '#' + sec){
+      history.replaceState(null, '', '#' + sec);
+    }
+  }catch(_){}
+
+  $('navItemGallery').classList.toggle('active', sec === 'gallery');
+  $('navItemConsultation').classList.toggle('active', sec === 'consultation');
+
+  $('sectionGallery').hidden = sec !== 'gallery';
+  $('sectionConsultation').hidden = sec !== 'consultation';
+  $('bar').hidden = sec !== 'consultation';
+
+  if(sec === 'gallery'){
+    $('topHeading').textContent = 'Gallery Manager';
+    $('pageTitle').textContent = 'Gallery Manager';
+    $('pageEyebrow').textContent = 'WEBSITE MEDIA';
+    $('pageDesc').textContent = 'Upload, organize, and manage portfolio project photos.';
+    $('pageActions').innerHTML = `
+      <button type="button" class="btn" onclick="refreshCurrentSection()">↻ Refresh</button>
+      <a href="gallery.html" target="_blank" class="btn">View Live Gallery ↗</a>
+    `;
+    loadAdminGallery();
+  } else if(sec === 'consultation'){
+    $('topHeading').textContent = 'Consultation Rules';
+    $('pageTitle').textContent = 'Consultation Rules';
+    $('pageEyebrow').textContent = 'BOOKING SETTINGS';
+    $('pageDesc').textContent = 'Configure consultation fee, booking windows, weekly hours, and holidays.';
+    $('pageActions').innerHTML = `
+      <button type="button" class="btn" onclick="refreshCurrentSection()">↻ Refresh</button>
+      <a href="index.html#quote" target="_blank" class="btn">View Booking Form ↗</a>
+    `;
+    goStep(step);
+  }
+}
+
+function refreshCurrentSection(){
+  if(currentSection === 'gallery') loadAdminGallery(true);
+  else if(currentSection === 'consultation') location.reload();
+}
+
+/* ── GALLERY MANAGER ── */
+async function loadAdminGallery(forceRefresh){
+  try {
+    const res = await fetch('/api/gallery');
+    if(res.ok){
+      adminGalleryItems = await res.json();
+    } else {
+      throw new Error('API unavailable');
+    }
+  } catch(e) {
+    try {
+      const gRes = await fetch('gallery.json');
+      if(gRes.ok){
+        adminGalleryItems = await gRes.json();
+      } else {
+        const local = localStorage.getItem('ki_gallery_items');
+        if(local) adminGalleryItems = JSON.parse(local);
+      }
+    } catch(err){
+      const local = localStorage.getItem('ki_gallery_items');
+      if(local) adminGalleryItems = JSON.parse(local);
+    }
+  }
+  if(!Array.isArray(adminGalleryItems)) adminGalleryItems = [];
+  try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+
+  updateGalleryBadge();
+  populateCategoryDropdown();
+  renderCategoryFilterBar();
+  renderAdminGalleryGrid();
+}
+
+function updateGalleryBadge(){
+  const count = adminGalleryItems.length;
+  $('galCountHint').textContent = count;
+  $('galleryCountBadge').textContent = count;
+}
+
+function getUniqueCategories(){
+  const set = new Set();
+  adminGalleryItems.forEach(item => {
+    if(item && item.cat) set.add(item.cat.trim());
+  });
+  return Array.from(set);
+}
+
+function populateCategoryDropdown(){
+  const cats = ['Kitchen', 'Bedroom', 'Living', 'Dining', 'Partitions', 'Pooja Room', 'Balcony', 'Commercial'];
+  const existing = getUniqueCategories();
+  existing.forEach(c => {
+    if(!cats.includes(c)) cats.push(c);
+  });
+  const sel = $('galCategory');
+  const currentVal = sel.value;
+  sel.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('') +
+                  `<option value="__NEW__">+ Custom Room...</option>`;
+  if(cats.includes(currentVal)) sel.value = currentVal;
+}
+
+function handleCategoryChange(){
+  const isCustom = $('galCategory').value === '__NEW__';
+  $('newCategoryWrap').hidden = !isCustom;
+  if(isCustom) $('newCategoryInput').focus();
+}
+
+function setImgSourceMode(mode){
+  imgSourceMode = mode;
+  $('segImgFile').classList.toggle('active', mode === 'file');
+  $('segImgUrl').classList.toggle('active', mode === 'url');
+  $('dropzoneContainer').hidden = mode !== 'file';
+  $('urlInputContainer').hidden = mode !== 'url';
+}
+
+function onFileChosen(files){
+  if(!files || !files.length) return;
+  const file = files[0];
+  if(!file.type.startsWith('image/')){
+    alert('Please choose an image file (PNG, JPG, WEBP, etc.)');
+    return;
+  }
+  selectedFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    selectedFileData = e.target.result;
+    $('previewImg').src = selectedFileData;
+    $('previewName').textContent = file.name;
+    $('previewSize').textContent = formatBytes(file.size);
+    $('dropzone').style.display = 'none';
+    $('dropPreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearFileSelection(){
+  selectedFileData = null;
+  selectedFileName = '';
+  $('galFileInput').value = '';
+  $('previewImg').src = '';
+  $('dropPreview').style.display = 'none';
+  $('dropzone').style.display = 'block';
+}
+
+function onUrlInput(url){
+  const clean = url.trim();
+  if(clean && (clean.startsWith('http://') || clean.startsWith('https://') || clean.startsWith('data:'))){
+    $('urlPreviewImg').src = clean;
+    $('urlPreview').style.display = 'block';
+  } else {
+    $('urlPreview').style.display = 'none';
+  }
+}
+
+function formatBytes(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  const kb = bytes / 1024;
+  if(kb < 1024) return kb.toFixed(1) + ' KB';
+  return (kb / 1024).toFixed(1) + ' MB';
+}
+
+function resetGalleryForm(){
+  $('galleryUploadForm').reset();
+  clearFileSelection();
+  $('newCategoryWrap').hidden = true;
+  $('urlPreview').style.display = 'none';
+  setImgSourceMode('file');
+  const notice = $('galleryUploadNotice');
+  notice.style.display = 'none';
+}
+
+async function submitGalleryImage(){
+  const title = $('galTitle').value.trim();
+  if(!title){
+    alert('Please enter an image title / heading.');
+    $('galTitle').focus();
+    return;
+  }
+
+  let category = $('galCategory').value;
+  if(category === '__NEW__'){
+    category = $('newCategoryInput').value.trim();
+    if(!category){
+      alert('Please enter a name for the new room / heading.');
+      $('newCategoryInput').focus();
+      return;
+    }
+  }
+
+  const subtitle = $('galSubtitle').value.trim() || category;
+  const grad = 'si1';
+
+  let imageData = '';
+  if(imgSourceMode === 'file'){
+    if(!selectedFileData){
+      alert('Please select an image file to upload.');
+      return;
+    }
+    imageData = selectedFileData;
+  } else {
+    imageData = $('galUrlInput').value.trim();
+    if(!imageData){
+      alert('Please enter a valid image URL.');
+      return;
+    }
+  }
+
+  const btn = $('btnUploadGallery');
+  btn.disabled = true;
+  btn.textContent = 'Adding to gallery...';
+
+  try {
+    const payload = {
+      title,
+      subtitle,
+      category,
+      image: imageData,
+      fileName: selectedFileName,
+      grad
+    };
+
+    let result = null;
+    try {
+      const res = await fetch('/api/gallery/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if(res.ok){
+        result = await res.json();
+      }
+    } catch(apiErr){}
+
+    let newItem = null;
+    if(result && result.success){
+      adminGalleryItems = result.items || adminGalleryItems;
+      newItem = result.item;
+    } else {
+      newItem = {
+        id: 'gal_' + Date.now(),
+        t: title,
+        s: subtitle,
+        cat: category,
+        img: imageData,
+        grad: grad,
+        custom: true,
+        createdAt: new Date().toISOString()
+      };
+      const catIdx = adminGalleryItems.findIndex(x => x.cat.toLowerCase() === category.toLowerCase());
+      if(catIdx !== -1) adminGalleryItems.splice(catIdx, 0, newItem);
+      else adminGalleryItems.unshift(newItem);
+    }
+
+    try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+
+    updateGalleryBadge();
+    populateCategoryDropdown();
+    renderCategoryFilterBar();
+    renderAdminGalleryGrid();
+
+    const notice = $('galleryUploadNotice');
+    notice.style.display = 'block';
+    notice.innerHTML = `<div style="background:var(--ok-bg);color:var(--ok);padding:10px 14px;border-radius:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+      <span>✓ <b>${escapeHtml(title)}</b> added to gallery successfully!</span>
+      <a href="gallery.html" target="_blank" style="text-decoration:underline;color:inherit;font-weight:600">View live ↗</a>
+    </div>`;
+
+    resetGalleryForm();
+    setTimeout(() => { notice.style.display = 'none'; }, 4000);
+
+  } catch(err){
+    alert('Failed to upload image: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Add to gallery';
+  }
+}
+
+async function deleteGalleryItem(id){
+  const item = adminGalleryItems.find(x => x.id === id);
+  const title = item ? item.t : 'this image';
+  if(!confirm(`Delete "${title}" from the gallery?`)) return;
+
+  try {
+    await fetch(`/api/gallery/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  } catch(e){}
+
+  adminGalleryItems = adminGalleryItems.filter(x => x.id !== id);
+  try { localStorage.setItem('ki_gallery_items', JSON.stringify(adminGalleryItems)); } catch(e){}
+
+  updateGalleryBadge();
+  renderCategoryFilterBar();
+  renderAdminGalleryGrid();
+}
+
+function renderCategoryFilterBar(){
+  const cats = getUniqueCategories();
+  const bar = $('galFilterBar');
+  let html = `<button type="button" class="gal-filter-btn ${activeFilterCat==='all'?'active':''}" onclick="setFilterCategory('all')">All (${adminGalleryItems.length})</button>`;
+  cats.forEach(c => {
+    const count = adminGalleryItems.filter(x => x.cat.toLowerCase() === c.toLowerCase()).length;
+    html += `<button type="button" class="gal-filter-btn ${activeFilterCat.toLowerCase()===c.toLowerCase()?'active':''}" onclick="setFilterCategory('${escapeHtml(c)}')">${escapeHtml(c)} (${count})</button>`;
+  });
+  bar.innerHTML = html;
+}
+
+function setFilterCategory(cat){
+  activeFilterCat = cat;
+  renderCategoryFilterBar();
+  filterGalleryCards();
+}
+
+function filterGalleryCards(){
+  renderAdminGalleryGrid();
+}
+
+function renderAdminGalleryGrid(){
+  const q = ($('galSearchInput').value || '').trim().toLowerCase();
+  const grid = $('galAdminGrid');
+
+  let items = adminGalleryItems;
+  if(activeFilterCat !== 'all'){
+    items = items.filter(x => x.cat && x.cat.toLowerCase() === activeFilterCat.toLowerCase());
+  }
+
+  if(q){
+    items = items.filter(x => {
+      const matchT = x.t && x.t.toLowerCase().includes(q);
+      const matchS = x.s && x.s.toLowerCase().includes(q);
+      const matchC = x.cat && x.cat.toLowerCase().includes(q);
+      return matchT || matchS || matchC;
+    });
+  }
+
+  if(!items.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:32px;text-align:center;color:var(--muted)">No images found matching your filter.</div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(item => {
+    let imgSrc = item.img || '';
+    if(!imgSrc.startsWith('data:') && !imgSrc.startsWith('http://') && !imgSrc.startsWith('https://') && !imgSrc.startsWith('/')){
+      if(window.ASSETS && window.ASSETS[imgSrc]) imgSrc = window.ASSETS[imgSrc];
+      else imgSrc = 'assets/' + imgSrc + '.webp';
+    }
+
+    return `
+      <div class="gal-admin-card" id="galCard_${item.id}">
+        <div class="gal-admin-thumb" style="background-image:url('${escapeHtml(imgSrc)}')" onclick="openAdminLightbox('${escapeHtml(imgSrc)}')">
+          <span class="gal-admin-badge">${escapeHtml(item.cat || 'Room')}</span>
+          ${item.custom ? `<span class="gal-admin-custom-badge">Custom</span>` : ''}
+        </div>
+        <div class="gal-admin-body">
+          <div class="gal-admin-title" title="${escapeHtml(item.t)}">${escapeHtml(item.t)}</div>
+          <div class="gal-admin-sub" title="${escapeHtml(item.s)}">${escapeHtml(item.s || item.cat)}</div>
+          <div class="gal-admin-footer">
+            <a href="${escapeHtml(imgSrc)}" target="_blank" class="gal-admin-view" onclick="event.stopPropagation()">View ↗</a>
+            <button type="button" class="gal-admin-del" onclick="deleteGalleryItem('${item.id}')">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAdminLightbox(src){
+  $('adminLightboxImg').src = src;
+  $('adminLightbox').hidden = false;
+}
+function closeAdminLightbox(){
+  $('adminLightbox').hidden = true;
+  $('adminLightboxImg').src = '';
+}
+
+function escapeHtml(str){
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/* ── CONSULTATION RULES ── */
+async function call(action, extra){
+  const res = await fetch(ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({action, password, ...extra})
+  });
+  const data = await res.json().catch(() => ({ok:false, error:'Unexpected response from server.'}));
+  if(!data.ok) throw new Error(String(data.error || 'Request failed.').replace(/^Error: /,''));
+  return data.settings;
+}
+
+function setMsg(text, kind){ const el = $('saveMsg'); el.textContent = text; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+
+function render(){
+  const s = settings;
+  $('enabled').checked = !!s.enabled;
+  $('fee').value = s.fee; $('dur').value = s.durationMinutes;
+  $('win').value = s.bookingWindowDays; $('notice').value = s.minNoticeHours;
+  $('pay').value = s.paymentUrl || ''; $('note').value = s.note || '';
+  $('ovDate').min = new Date().toISOString().slice(0,10);
+  renderStatus(); renderWeekly(); renderOverrides(); renderOvChips();
+}
+
+function renderStatus(){
+  const on = $('enabled').checked;
+  $('saveMsg').textContent = on ? 'Consultations are LIVE on the website.' : 'Consultations are currently PAUSED.';
+  $('saveMsg').className = 'msg ' + (on ? 'ok' : 'err');
+}
+
+function renderWeekly(){
+  const w = settings.weekly || {};
+  $('weekly').innerHTML = ORDER.map(d => {
+    const times = (w[d] || []).slice().sort();
+    const chips = times.length ? times.map((t, i) => chip(t, `removeSlot(${d},${i})`)).join('') : '<span class="closed">Closed</span>';
+    return `<div class="day">
+      <div class="day-name">${DAYS[d]}<small>${times.length ? times.length + ' slots' : 'No slots'}</small></div>
+      <div>
+        <div class="chips">${chips}</div>
+        <div class="adder">
+          <div class="input"><input type="time" id="add_${d}" step="900"></div>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="addSlot(${d})">+ Add slot</button>
+        </div>
+        <div class="day-tools">
+          ${d===1 ? '<button class="btn btn-ghost btn-sm" type="button" onclick="copyToWeekdays(1)">Copy Monday to Mon–Fri</button>' : ''}
+          ${times.length ? `<button class="btn btn-ghost btn-sm" type="button" onclick="clearDay(${d})">Clear day</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderOverrides(){
+  const ovs = settings.overrides || {};
+  const dates = Object.keys(ovs).sort();
+  if(!dates.length){ $('overrides').innerHTML = '<div style="color:var(--muted);font-size:13px;padding:12px 0">No holidays or special days added.</div>'; return; }
+  $('overrides').innerHTML = '<div class="ov-list">' + dates.map(d => {
+    const val = ovs[d];
+    const isClosed = !Array.isArray(val) || !val.length;
+    const dateObj = new Date(d + 'T00:00:00');
+    const dayNum = dateObj.getDate();
+    const mon = dateObj.toLocaleDateString('en-US', {month:'short'});
+    const desc = isClosed ? 'Closed all day' : `${val.length} slots: ${val.map(to12).join(', ')}`;
+    return `<div class="ov">
+      <div class="ov-date"><b>${dayNum}</b><span>${mon}</span></div>
+      <div class="ov-body"><div style="font-weight:600;font-size:13.5px">${d}</div><div style="font-size:12px;color:var(--muted)">${desc}</div></div>
+      <button class="x" type="button" aria-label="Remove override for ${d}" onclick="removeOverride('${d}')">✕</button>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function renderOvChips(){
+  $('ovChips').innerHTML = ovTimes.length ? ovTimes.map((t, i) => chip(t, `removeOvTime(${i})`)).join('') : '<span class="closed">None added yet</span>';
+}
+
+function addSlot(d){
+  const inp = $('add_' + d);
+  if(!inp.value){ inp.focus(); return; }
+  if(!settings.weekly[d]) settings.weekly[d] = [];
+  if(addTime(settings.weekly[d], inp.value)){ inp.value = ''; markDirty(); renderWeekly(); }
+}
+function removeSlot(d,i){ settings.weekly[d].splice(i,1); markDirty(); renderWeekly(); }
+function clearDay(d){ settings.weekly[d] = []; markDirty(); renderWeekly(); }
+function copyToWeekdays(d){
+  const src = (settings.weekly[d] || []).slice();
+  [2,3,4,5].forEach(day => { settings.weekly[day] = src.slice(); });
+  markDirty(); renderWeekly();
+}
+function setOvMode(mode){
+  ovMode = mode;
+  $('segClosed').classList.toggle('active', mode==='closed');
+  $('segCustom').classList.toggle('active', mode==='custom');
+  $('ovCustom').hidden = mode !== 'custom';
+}
+function addOvTime(){ if(!$('ovTime').value){ $('ovTime').focus(); return; } addTime(ovTimes, $('ovTime').value); $('ovTime').value=''; renderOvChips(); }
+function removeOvTime(i){ ovTimes.splice(i,1); renderOvChips(); }
+function addOverride(){
+  const d = $('ovDate').value;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){ alert('Please pick a date first.'); $('ovDate').focus(); return; }
+  if(!settings.overrides) settings.overrides = {};
+  if(ovMode === 'closed') settings.overrides[d] = [];
+  else {
+    if(!ovTimes.length){ alert('Add at least one time for custom day.'); return; }
+    settings.overrides[d] = ovTimes.slice().sort();
+  }
+  $('ovDate').value = ''; ovTimes = []; renderOvChips(); setOvMode('closed');
+  markDirty(); renderOverrides();
+}
+function removeOverride(d){ delete settings.overrides[d]; markDirty(); renderOverrides(); }
+
+function goStep(n){
+  step = Math.max(0, Math.min(LAST, n));
+  document.querySelectorAll('#sectionConsultation .step').forEach((el, i) => { el.hidden = i !== step; });
+  document.querySelectorAll('#stepper li').forEach((li, i) => {
+    li.classList.toggle('done', i < step);
+    li.classList.toggle('on', i === step);
+  });
+  $('backBtn').hidden = step === 0;
+  $('nextBtn').textContent = step === LAST ? 'Save changes' : 'Next';
+  if(step === LAST) renderSummary();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function next(){ step===LAST ? save() : goStep(step+1); }
+
+function renderSummary(){
+  const on = $('enabled').checked;
+  const fee = $('fee').value;
+  const pay = $('pay').value.trim();
+  const days = Object.keys(settings.weekly || {}).filter(d => (settings.weekly[d]||[]).length);
+  const slots = Object.values(settings.weekly || {}).reduce((n, l) => n + (l?l.length:0), 0);
+  const special = Object.keys(settings.overrides || {}).length;
+  const row = (t, val, s, alert) => `
+    <div class="sum-row">
+      <div><div class="sum-title">${t}</div><div class="sum-val">${val}</div></div>
+      <button class="sum-edit" type="button" onclick="goStep(${s})">Edit</button>
+    </div>`;
+  $('summary').innerHTML =
+    row('Online bookings', on ? 'Open' : 'Paused', 0) +
+    row('Consultation fee', '₹' + fee + ' · ' + $('dur').value + ' min', 0) +
+    row('Booking window', `Up to ${$('win').value} days ahead · ${$('notice').value} h notice`, 0) +
+    row('Payment link', pay ? 'Added' : 'Not added', 0, on && !pay) +
+    row('Weekly hours', days.length ? `${slots} slots · ${days.map(d => DAYS[d].slice(0,3)).join(', ')}` : 'None', 1, on && !days.length) +
+    row('Holidays & special days', special ? special + (special>1?' dates':' date') : 'None', 2);
+  const warn = [];
+  if(on && !pay) warn.push('No payment link yet: clients will see the times but can’t pay to book.');
+  if(on && !days.length && !special) warn.push('No times are set, so clients won’t see any slots.');
+  $('warnings').innerHTML = warn.map(w => `<div style="background:var(--err-bg);color:var(--err);padding:10px 12px;border-radius:8px;font-size:12.5px;margin-top:10px">${w}</div>`).join('');
+}
+
+function markDirty(){ dirty = true; setMsg('Unsaved changes', 'dirty'); }
+['enabled','fee','dur','win','notice','pay','note'].forEach(id => {
+  const el = $(id);
+  if(el) el.addEventListener('input', markDirty);
+});
+
+async function save(){
+  const out = {
+    ...settings,
+    enabled: $('enabled').checked,
+    fee: Number($('fee').value),
+    durationMinutes: Number($('dur').value),
+    bookingWindowDays: Number($('win').value),
+    minNoticeHours: Number($('notice').value),
+    paymentUrl: $('pay').value.trim(),
+    note: $('note').value.trim()
+  };
+  const btn = $('nextBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+  try{
+    settings = await call('adminSave', {settings: out});
+    dirty = false; render(); renderSummary();
+    setMsg('Saved — live on the website now', 'ok');
+  }catch(err){
+    setMsg(err.message, 'err');
+  }finally{ btn.disabled = false; btn.textContent = step===LAST ? 'Save changes' : 'Next'; }
+}
+
+function to12(t){
+  const [h,m] = t.split(':').map(Number);
+  return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+function chip(t, onRemove){ return `<span class="chip">${to12(t)}<button type="button" aria-label="Remove ${to12(t)}" onclick="${onRemove}">×</button></span>`; }
+function addTime(list, t){ if(TIME_RE.test(t) && !list.includes(t)){ list.push(t); list.sort(); return true; } return false; }
+
+/* ── BOOTSTRAP ── */
+function handleHashRoute(){
+  const hash = window.location.hash;
+  if(hash === '#consultation'){
+    switchSection('consultation');
+  } else {
+    // Default to gallery manager
+    switchSection('gallery');
+  }
+}
+
+// Drag & Drop
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = $('dropzone');
+  if(dz){
+    ['dragenter', 'dragover'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(n => dz.addEventListener(n, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); }));
+    dz.addEventListener('drop', e => {
+      if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+        onFileChosen(e.dataTransfer.files);
+      }
+    });
+  }
+});
+
+// Update sidebar leads count from API
+(async()=>{
+  try{
+    const r = await fetch('/api/leads');
+    if(r.ok){
+      const d = await r.json();
+      $('sidebarLeadCount').textContent = Array.isArray(d) ? d.length : (d.leads||[]).length;
+    }
+  }catch(e){}
+})();
+
+// Listen for hash changes
+window.addEventListener('hashchange', handleHashRoute);
+
+// Run initial route
+handleHashRoute();
+
+// Preload consultation settings in background
+try{
+  call('adminLoad').then(s => {
+    if(s){
+      settings = s;
+      render();
+    }
+  }).catch(() => {});
+}catch(_){}
+</script>
+</body>
+</html>

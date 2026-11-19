@@ -1,4 +1,10 @@
 {
   "buildCommand": "node scripts/build-pages.js",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
+  ]
 }

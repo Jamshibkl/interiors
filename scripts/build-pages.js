@@ -27,7 +27,7 @@ function copyFolderRecursiveSync(src, dest) {
 
 function copyStatics() {
   // copy top-level static folders/files that the site expects
-  const statics = ['css', 'js', 'assets', 'favicon.png', 'apple-touch-icon.png', 'index.html'];
+  const statics = ['css', 'js', 'assets', 'favicon.png', 'apple-touch-icon.png', 'index.html', 'admin.html', 'leads.html', 'leads-list.html', 'leads-new.html', 'gallery.json', 'submissions.json'];
   statics.forEach(s => {
     const src = path.join(process.cwd(), s);
     const dest = path.join(process.cwd(), OUT_DIR, path.basename(s));
@@ -148,7 +148,7 @@ const quoteModal = `
       </select>
     </div>
     <div id="qConsultationWrap" hidden>
-      <div class="consultation-note"><b>Consultation fee: ₹2,500</b><span>Choose a time when Kaveri is available. Payment is required before your slot is confirmed.</span></div>
+      <div class="consultation-note"><b id="qFee">Consultation fee: ₹2,500</b><span id="qFeeNote">Choose a time when Kaveri is available. Payment is required before your slot is confirmed.</span></div>
       <div class="field"><label for="qDate">Preferred date</label><input id="qDate" type="date" onchange="consultationDateChanged()"></div>
       <div class="field"><label for="qTime">Available time</label><select id="qTime"><option value="">Choose a date first...</option></select></div>
     </div>
